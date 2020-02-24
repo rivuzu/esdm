@@ -28,55 +28,50 @@ class _PushUpState extends State<PushUp> {
 
   @override
   void dispose() {
-    _timer.cancel();
     super.dispose();
+    _timer.cancel();
   }
 
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Push Up'),
-          backgroundColor: Colors.black,
-        ),
-        body: new Center(
-          child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return new Center(
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new Text(
+            "$_start",
+            style: new TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 160.0,
+              fontFamily: 'Roboto',
+            ),
+          ),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              new Text(
-                "$_start",
-                style: new TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 160.0,
-                  fontFamily: 'Roboto',
+              new RaisedButton(
+                padding: const EdgeInsets.all(8.0),
+                textColor: Colors.white,
+                color: Colors.blue,
+                onPressed: () {
+                  startTimer();
+                },
+                child: new Text("Start"),
+              ),
+              new RaisedButton(
+                onPressed: () {
+                  dispose();
+                },
+                textColor: Colors.white,
+                color: Colors.red,
+                padding: const EdgeInsets.all(8.0),
+                child: new Text(
+                  "Stop",
                 ),
               ),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  new RaisedButton(
-                    padding: const EdgeInsets.all(8.0),
-                    textColor: Colors.white,
-                    color: Colors.blue,
-                    onPressed: () {
-                      startTimer();
-                    },
-                    child: new Text("Start"),
-                  ),
-                  new RaisedButton(
-                    onPressed: () {
-                      dispose();
-                    },
-                    textColor: Colors.white,
-                    color: Colors.red,
-                    padding: const EdgeInsets.all(8.0),
-                    child: new Text(
-                      "Stop",
-                    ),
-                  ),
-                ],
-              )
             ],
-          ),
-        ));
+          )
+        ],
+      ),
+    );
   }
 }

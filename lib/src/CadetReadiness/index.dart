@@ -1,3 +1,10 @@
+import 'package:esdm/src/CadetReadiness/lari12.dart';
+import 'package:esdm/src/CadetReadiness/lari8.dart';
+import 'package:esdm/src/CadetReadiness/pullup.dart';
+import 'package:esdm/src/CadetReadiness/pushup.dart';
+import 'package:esdm/src/CadetReadiness/renang.dart';
+import 'package:esdm/src/CadetReadiness/situp.dart';
+import 'package:esdm/src/CadetReadiness/testkesehatan.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -15,8 +22,8 @@ class _CadetReadinessState extends State<CadetReadiness> {
   var titleTest = [
     "Push Up",
     "Sit Up",
-    "Renang",
     "Pull Up",
+    "Renang",
     "Lari 8",
     "Lari 12",
     "Test Kesehatan"
@@ -61,8 +68,18 @@ class _CadetReadinessState extends State<CadetReadiness> {
     );
   }
 
-  Widget pushUp() {
-    return new Text("asdsad");
+  List<Widget> getWidget() {
+    List<Widget> cadetWidget = [
+      PushUp(),
+      SitUp(),
+      PullUp(),
+      Renang(),
+      Lari8(),
+      Lari12(),
+      TestKesehatan()
+    ];
+
+    return cadetWidget;
   }
 
   @override
@@ -77,10 +94,10 @@ class _CadetReadinessState extends State<CadetReadiness> {
       items: titleTest.map((i) {
         return Builder(
           builder: (BuildContext context) {
-            return Container(
+            return new Container(
               width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(color: Colors.amber),
+              margin: new EdgeInsets.symmetric(horizontal: 5.0),
+              decoration: new BoxDecoration(color: Colors.amber),
               child: new Text(
                 i,
                 style: TextStyle(
@@ -102,19 +119,13 @@ class _CadetReadinessState extends State<CadetReadiness> {
       onPageChanged: (index) {
         title.jumpToPage(index);
       },
-      items: titleTest.map((i) {
+      items: getWidget().map((i) {
         return Builder(
           builder: (BuildContext context) {
             return Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.symmetric(horizontal: 5.0),
-              child: new Text(
-                i,
-                style: TextStyle(
-                  fontSize: 16.0,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              child: i,
               alignment: Alignment.center,
             );
           },
@@ -128,150 +139,6 @@ class _CadetReadinessState extends State<CadetReadiness> {
           children: <Widget>[
             new Container(margin: new EdgeInsets.only(top: 20), child: title),
             new Container(margin: new EdgeInsets.only(top: 20), child: body),
-
-            // new Container(
-            //   margin: new EdgeInsets.all(20.0),
-            //   // child: new FlutterLogo(size: 100.0, colors: Colors.blue),
-            // ),
-            // new Container(
-            //   margin: new EdgeInsets.only(left: 16.0, right: 16.0),
-            //   child: new Column(
-            //     children: <Widget>[
-            //       visibilityPushUp ? new Row(
-            //         crossAxisAlignment: CrossAxisAlignment.end,
-            //         children: <Widget>[
-
-            //           new Expanded(
-            //             flex: 11,
-            //             child:   RaisedButton(
-            //               onPressed: () {
-            //                 startTimer();
-            //               },
-            //               child: Text("start"),
-            //             ),
-            //           ),
-            //           new SizedBox(height: 24.0),
-            //           Text("$_start"),
-            //           new Expanded(
-            //             flex: 1,
-            //             child: new IconButton(
-            //               color: Colors.grey[400],
-            //               icon: const Icon(Icons.cancel, size: 22.0,),
-            //               onPressed: () {
-            //                 _changed(false, "PushUp");
-            //               },
-            //             ),
-            //           ),
-            //         ],
-            //       ) : new Container(),
-
-            //       visibilitySitUp ? new Row(
-            //         children: <Widget>[
-            //           new Expanded(
-            //             flex: 11,
-            //             child: new TextField(
-            //               maxLines: 1,
-            //               style: Theme.of(context).textTheme.title,
-            //               decoration: new InputDecoration(
-            //                 labelText: "SitUp",
-            //                 isDense: true
-            //               ),
-            //             ),
-            //           ),
-            //           new Expanded(
-            //             flex: 1,
-            //             child: new IconButton(
-            //               color: Colors.grey[400],
-            //               icon: const Icon(Icons.cancel, size: 22.0,),
-            //               onPressed: () {
-            //                 _changed(false, "SitUp");
-            //               },
-            //             ),
-            //           ),
-            //         ],
-            //       ) : new Container(),
-            //     ],
-            //   )
-            // ),
-            // new Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: <Widget>[
-            //     new InkWell(
-            //       onTap: () {
-            //         visibilityPushUp ? null : _changed(true, "PushUp");
-            //       },
-            //       child: new Container(
-            //         margin: new EdgeInsets.only(top: 16.0),
-            //         child: new Column(
-            //           children: <Widget>[
-            //             new Icon(Icons.comment, color: visibilityPushUp ? Colors.grey[400] : Colors.grey[600]),
-            //             new Container(
-            //               margin: const EdgeInsets.only(top: 8.0),
-            //               child: new Text(
-            //                 "Sit Up",
-            //                 style: new TextStyle(
-            //                   fontSize: 12.0,
-            //                   fontWeight: FontWeight.w400,
-            //                   color: visibilityPushUp ? Colors.grey[400] : Colors.grey[600],
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       )
-            //     ),
-            //     new SizedBox(width: 24.0),
-            //     new InkWell(
-            //       onTap: () {
-            //         visibilitySitUp ? null : _changed(true, "tag");
-            //       },
-            //       child: new Container(
-            //         margin: new EdgeInsets.only(top: 16.0),
-            //         child: new Column(
-            //           children: <Widget>[
-            //             new Icon(Icons.local_offer, color: visibilitySitUp ? Colors.grey[400] : Colors.grey[600]),
-            //             new Container(
-            //               margin: const EdgeInsets.only(top: 8.0),
-            //               child: new Text(
-            //                 "Push Up",
-            //                 style: new TextStyle(
-            //                   fontSize: 12.0,
-            //                   fontWeight: FontWeight.w400,
-            //                   color: visibilitySitUp ? Colors.grey[400] : Colors.grey[600],
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       )
-            //     ),
-            //     new SizedBox(width: 24.0),
-            //     new InkWell(
-            //       onTap: () {
-            //         visibilitySitUp ? null : _changed(true, "tag");
-            //       },
-            //       child: new Container(
-            //         margin: new EdgeInsets.only(top: 16.0),
-            //         child: new Column(
-            //           children: <Widget>[
-            //             new Icon(Icons.local_offer, color: visibilitySitUp ? Colors.grey[400] : Colors.grey[600]),
-            //             new Container(
-            //               margin: const EdgeInsets.only(top: 8.0),
-            //               child: new Text(
-            //                 "Push Up",
-            //                 style: new TextStyle(
-            //                   fontSize: 12.0,
-            //                   fontWeight: FontWeight.w400,
-            //                   color: visibilitySitUp ? Colors.grey[400] : Colors.grey[600],
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       )
-            //     ),
-            //   ],
-            // )
           ],
         ));
   }
