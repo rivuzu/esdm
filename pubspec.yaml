@@ -25,6 +25,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   carousel_slider: ^1.3.0
+  google_maps_flutter: ^0.5.24+1
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +41,7 @@ flutter:
     - lib/assets/img/sdmpolri.jpeg
     - lib/assets/img/metrojaya.jpeg
     - lib/assets/img/pmj.png
+    - lib/assets/img/dummy_googlemaps.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
