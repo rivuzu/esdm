@@ -97,7 +97,7 @@ class _CadetReadinessState extends State<CadetReadiness> {
             return new Container(
               width: MediaQuery.of(context).size.width,
               margin: new EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: new BoxDecoration(color: Colors.amber),
+              decoration: new BoxDecoration(color: Colors.black),
               child: new Text(
                 i,
                 style: TextStyle(
@@ -134,7 +134,10 @@ class _CadetReadinessState extends State<CadetReadiness> {
     );
 
     return new Scaffold(
-        appBar: new AppBar(backgroundColor: new Color(0xFF26C6DA)),
+        appBar: new AppBar(
+          title: new Text('Cadet Readiness'),
+          backgroundColor: Colors.black,
+        ),
         body: new ListView(
           children: <Widget>[
             new Container(margin: new EdgeInsets.only(top: 20), child: title),
