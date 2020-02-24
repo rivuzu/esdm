@@ -15,6 +15,9 @@ List<StaggeredTile> _staggeredTiles = const <StaggeredTile>[
   const StaggeredTile.count(2, 2),
   const StaggeredTile.count(2, 2),
   const StaggeredTile.count(2, 2),
+  const StaggeredTile.count(2, 2),
+  const StaggeredTile.count(2, 2),
+  const StaggeredTile.count(4, 1),
 ];
 
 List<Widget> _tiles = const <Widget>[
@@ -40,6 +43,24 @@ List<Widget> _tiles = const <Widget>[
       Colors.black,
       Text(
         'Renang',
+        style: TextStyle(color: Colors.white),
+      )),
+  const _GridMenu(
+      Colors.black,
+      Text(
+        'Lari 8',
+        style: TextStyle(color: Colors.white),
+      )),
+  const _GridMenu(
+      Colors.black,
+      Text(
+        'Lari 12',
+        style: TextStyle(color: Colors.white),
+      )),
+  const _GridMenu(
+      Colors.black,
+      Text(
+        'Test Kesehatan',
         style: TextStyle(color: Colors.white),
       )),
 ];
@@ -110,11 +131,11 @@ class _PushUp extends StatelessWidget {
       color: backgroundColor,
       child: new InkWell(
         onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PushUp()),
-              );
-            },
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PushUp()),
+          );
+        },
         child: new Center(
           child: new Padding(
             padding: const EdgeInsets.all(4.0),
@@ -148,11 +169,11 @@ class _SitUp extends StatelessWidget {
       color: backgroundColor,
       child: new InkWell(
         onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SitUp()),
-              );
-            },
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SitUp()),
+          );
+        },
         child: new Center(
           child: new Padding(
             padding: const EdgeInsets.all(4.0),
