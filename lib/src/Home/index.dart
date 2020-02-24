@@ -29,7 +29,6 @@ List<Widget> _tiles = const <Widget>[
   const _GridMenu(Colors.brown, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
   const _GridMenu(Colors.red, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
 
-
 ];
 
 class Home extends StatefulWidget {

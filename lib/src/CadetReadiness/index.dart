@@ -65,8 +65,6 @@ class _CadetReadinessState extends State<CadetReadiness> {
     return new Text("asdsad");
   }
 
-  // List<Widget> bodyData = [pushUp(),pushUp()]
-
   @override
   Widget build(BuildContext context) {
     title = CarouselSlider(
