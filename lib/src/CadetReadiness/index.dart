@@ -101,7 +101,8 @@ class _CadetReadinessState extends State<CadetReadiness> {
               child: new Text(
                 i,
                 style: TextStyle(
-                  fontSize: 16.0,
+                  fontSize: 20.0,
+                  color: Colors.white
                 ),
                 textAlign: TextAlign.center,
               ),
