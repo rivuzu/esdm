@@ -131,9 +131,23 @@ class _KalkulatorPangkatState extends State<KalkulatorPangkat> {
     return items;
   }
  
-  onChangeDropdownItem(JenisUKP selectedJenisUKP) {
+  onChangeJenisUKP(JenisUKP selectedJenisUKP) {
     setState(() {
       _selectedJenisUKP = selectedJenisUKP;
+    });
+  }
+
+  
+  onChangePangkat(Pangkat selectedPangkat) {
+    setState(() {
+      _selectedPangkat   = selectedPangkat;
+    });
+  }
+
+  
+  onChangeDikbang(Dikbang selectedDikbang) {
+    setState(() {
+      _selectedDikbang = selectedDikbang;
     });
   }
 
@@ -162,10 +176,14 @@ class _KalkulatorPangkatState extends State<KalkulatorPangkat> {
      
 
      return new MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.brown
+      ),
       debugShowCheckedModeBanner: false,
       home: new Scaffold(
         appBar: new AppBar(
           title: new Text("Kalkulator Pangkat"),
+      
         ),
         body: new Container(
           child: Center(
@@ -173,37 +191,49 @@ class _KalkulatorPangkatState extends State<KalkulatorPangkat> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                SizedBox(
+                  height: 10.0,
+                ),
                 DropdownButton(
                         value: _selectedJenisUKP,
                         items: _dropdownJenisUKP,
-                        onChanged: onChangeDropdownItem,
+                        onChanged: onChangeJenisUKP,
                       ),
                 SizedBox(
-                  height: 10.0,
+                  height: 15.0,
                 ),
                 DropdownButton(
                   value: _selectedPangkat,
-                  items: _dropdownPangkat, onChanged: (Pangkat value) {  },
+                  items: _dropdownPangkat, 
+                  onChanged: onChangePangkat,
                 ),
                 SizedBox(
-                  height: 10.0,
+                  height: 15.0,
                 ),
                 DropdownButton(
                   value: _selectedDikbang,
-                  items: _dropdownDikbang, onChanged: (Dikbang value) {  },
+                  items: _dropdownDikbang, 
+                  onChanged: onChangeDikbang,
                 ),
                 SizedBox(
-                  height: 10.0,
+                  height: 15.0,
                 ),
                 Text("TMT PANGKAT"),
                 RaisedButton(
                   onPressed: () => _selectDate(context),
                   child: Text('PILIH TANGGAL'),
+                  color: Colors.brown,
+                  textColor: Colors.white,
+                ),
+                SizedBox(
+                  height: 20.0,
                 ),
                 Text("TMT PERWIRA"),
                 RaisedButton(
                   onPressed: () => _selectDate(context),
                   child: Text('PILIH TANGGAL'),
+                  color: Colors.brown,
+                  textColor: Colors.white,
                 ),
                 SizedBox(
                   height: 20.0,
@@ -211,6 +241,8 @@ class _KalkulatorPangkatState extends State<KalkulatorPangkat> {
                 RaisedButton(
                   onPressed: () => {},
                   child: Text('CHECK'),
+                  color: Colors.brown,
+                  textColor: Colors.white,
                 ),
               ],
             ),
