@@ -19,7 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_staggered_grid_view:
+  flutter_rounded_date_picker: 1.0.0
+  flutter_staggered_grid_view: 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -41,7 +42,8 @@ flutter:
     - lib/assets/img/sdmpolri.jpeg
     - lib/assets/img/metrojaya.jpeg
     - lib/assets/img/pmj.png
-    - lib/assets/img/dummy_googlemaps.jpg
+    - lib/assets/img/naik_pangkat.png
+    - lib/assets/img/mutasi.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

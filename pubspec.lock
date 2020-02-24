@@ -76,6 +76,7 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+<<<<<<< HEAD
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -83,6 +84,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.6"
+=======
+  flutter_rounded_date_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_rounded_date_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+>>>>>>> 4d7fc6c556a81192e170d896a74afaa706ed449d
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:
