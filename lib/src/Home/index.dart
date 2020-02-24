@@ -16,31 +16,29 @@ List<StaggeredTile> _staggeredTiles = const <StaggeredTile>[
 ];
 
 List<Widget> _tiles = const <Widget>[
-  const _Example02Tile(Colors.white),
-  const _Example03Tile(Colors.black),
+  const _PMJImage(Colors.white),
+  const _SDMImage(Colors.black),
 
   //GRID MENU
 
-  // const _Example01Tile(Colors.black, Icons.widgets, Text('Catpers', style: TextStyle(color: Colors.white),)),
-  // const _Example01Tile(Colors.grey, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
-  // const _Example01Tile(Colors.grey, Icons.markunread, Text('Disposisi', style: TextStyle(color: Colors.white),)),
-  // const _Example01Tile(Colors.black, Icons.chat, Text('EMC2', style: TextStyle(color: Colors.white),)),
-  // const _Example01Tile(Colors.black, Icons.directions_run, Text('Cadet Readiness', style: TextStyle(color: Colors.white),)),
-  // const _Example01Tile(Colors.grey, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
+  //BLACK AND GREY
 
-  const _Example01Tile(Colors.green, Icons.widgets, Text('Catpers', style: TextStyle(color: Colors.white),)),
-  const _Example01Tile(Colors.amber, Icons.directions_run, Text('Cadet Readiness', style: TextStyle(color: Colors.white),)),
-  const _Example01Tile(Colors.black, Icons.chat, Text('EMC2', style: TextStyle(color: Colors.white),)),
-  const _Example01Tile(Colors.deepOrange, Icons.markunread, Text('Disposisi', style: TextStyle(color: Colors.white),)),
-  const _Example01Tile(Colors.brown, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
-  const _Example01Tile(Colors.red, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
+  // const _GridMenu(Colors.black, Icons.widgets, Text('Catpers', style: TextStyle(color: Colors.white),)),
+  // const _GridMenu(Colors.grey, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
+  // const _GridMenu(Colors.grey, Icons.markunread, Text('Disposisi', style: TextStyle(color: Colors.white),)),
+  // const _GridMenu(Colors.black, Icons.chat, Text('EMC2', style: TextStyle(color: Colors.white),)),
+  // const _GridMenu(Colors.black, Icons.directions_run, Text('Cadet Readiness', style: TextStyle(color: Colors.white),)),
+  // const _GridMenu(Colors.grey, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
 
-  // const _Example01Tile(Colors.green, Icons.widgets, Text('Catpers', style: TextStyle(color: Colors.white),)),
-  // const _Example01Tile(Colors.amber, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
-  // const _Example01Tile(Colors.black, Icons.markunread, Text('Disposisi', style: TextStyle(color: Colors.white),)),
-  // const _Example01Tile(Colors.deepOrange, Icons.chat, Text('EMC2', style: TextStyle(color: Colors.white),)),
-  // const _Example01Tile(Colors.brown, Icons.directions_run, Text('Cadet Readiness', style: TextStyle(color: Colors.white),)),
-  // const _Example01Tile(Colors.red, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
+  // MIX COLOR
+
+  const _GridMenu(Colors.green, Icons.widgets, Text('Catpers', style: TextStyle(color: Colors.white),)),
+  const _GridMenu(Colors.amber, Icons.directions_run, Text('Cadet Readiness', style: TextStyle(color: Colors.white),)),
+  const _GridMenu(Colors.black, Icons.chat, Text('EMC2', style: TextStyle(color: Colors.white),)),
+  const _GridMenu(Colors.deepOrange, Icons.markunread, Text('Disposisi', style: TextStyle(color: Colors.white),)),
+  const _GridMenu(Colors.brown, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
+  const _GridMenu(Colors.red, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
+
 
 ];
 
@@ -70,8 +68,8 @@ class _HomeState extends State<Home> {
   }
 }
 
-class _Example02Tile extends StatelessWidget{
-  const _Example02Tile(this.backgroundColor);
+class _PMJImage extends StatelessWidget{
+  const _PMJImage(this.backgroundColor);
 
   final Color backgroundColor;
 
@@ -89,8 +87,8 @@ class _Example02Tile extends StatelessWidget{
   }
 }
 
-class _Example03Tile extends StatelessWidget{
-  const _Example03Tile(this.backgroundColor);
+class _SDMImage extends StatelessWidget{
+  const _SDMImage(this.backgroundColor);
 
   final Color backgroundColor;
 
@@ -108,8 +106,8 @@ class _Example03Tile extends StatelessWidget{
   }
 }
 
-class _Example01Tile extends StatelessWidget {
-  const _Example01Tile(this.backgroundColor, this.iconData, this.textGrid);
+class _GridMenu extends StatelessWidget {
+  const _GridMenu(this.backgroundColor, this.iconData, this.textGrid);
 
   final Color backgroundColor;
   final IconData iconData;
