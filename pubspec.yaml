@@ -1,5 +1,5 @@
-name: esdm
-description: A new Flutter project.
+name: eSDM
+description: Biro SDM Polda Metro Jaya
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -36,10 +36,10 @@ dev_dependencies:
 flutter_icons:
   ios: true
   android: true
-  image_path_ios: "lib/assets/launcher/esdm.png"
-  image_path_android: "lib/assets/launcher/esdm.png"
-  adaptive_icon_background: "lib/assets/launcher/esdm.png"
-  adaptive_icon_foreground: "lib/assets/launcher/esdm.png"
+  image_path_ios: "lib/assets/launcher/sdm.png"
+  image_path_android: "lib/assets/launcher/sdm.png"
+  adaptive_icon_background: "lib/assets/launcher/sdm.png"
+  adaptive_icon_foreground: "lib/assets/launcher/sdm.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -53,8 +53,11 @@ flutter:
     - lib/assets/img/naik_pangkat.png
     - lib/assets/img/mutasi.png
     - lib/assets/img/emc2.jpeg
-    - lib/assets/img/disposisi.jpeg
-    - lib/assets/img/pangkat.jpeg
+    - lib/assets/img/disposisi.png
+    - lib/assets/img/pangkat.png
+    - lib/assets/img/tryout.png
+    - lib/assets/img/catpers.png
+    - lib/assets/img/cadet.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

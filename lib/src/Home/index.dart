@@ -123,24 +123,9 @@ class _CadetReadiness extends StatelessWidget {
         child: new Center(
           child: new Padding(
             padding: const EdgeInsets.all(4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    //text
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(iconData, color: Colors.white, size: 40.0,),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: textGrid
-                      )
-                  ],
-                )
-              ],
+            child: FittedBox(
+              child: Image.asset('lib/assets/img/cadet.png'),
+              fit: BoxFit.fitHeight,
             ),
           ),
         ),
@@ -170,7 +155,7 @@ class _KalkulatorPangkat extends StatelessWidget {
             },
         child: 
           FittedBox(
-            child: Image.asset('lib/assets/img/pangkat.jpeg'),
+            child: Image.asset('lib/assets/img/pangkat.png'),
             fit: BoxFit.fitHeight,
           ),
         // new Center(
@@ -248,29 +233,9 @@ class _Catpers extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => Catpers()),
               );
             },
-        child: new Center(
-          child: new Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    //text
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(iconData, color: Colors.white, size: 40.0,),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: textGrid
-                      )
-                  ],
-                )
-              ],
-            ),
-          ),
+        child:  FittedBox(
+            child: Image.asset('lib/assets/img/catpers.png'),
+            fit: BoxFit.fitHeight,
         ),
       ),
     );
@@ -296,27 +261,9 @@ class _TryoutPSI extends StatelessWidget {
               );
             },
         child: new Center(
-          child: new Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    //text
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(iconData, color: Colors.white, size: 40.0,),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: textGrid
-                      )
-                  ],
-                )
-              ],
-            ),
+          child:  FittedBox(
+            child: Image.asset('lib/assets/img/tryout.png'),
+            fit: BoxFit.fitHeight,
           ),
         ),
       ),
@@ -344,7 +291,7 @@ class _Disposisi extends StatelessWidget {
               );
             },
         child: FittedBox(
-          child: Image.asset('lib/assets/img/disposisi.jpeg'),
+          child: Image.asset('lib/assets/img/disposisi.png'),
           fit: BoxFit.fitHeight,
         ),
       ),
