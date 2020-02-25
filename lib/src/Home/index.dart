@@ -27,12 +27,12 @@ List<Widget> _tiles = const <Widget>[
 
   //GRID MENU
 
-  const _Catpers(Colors.green, Icons.widgets, Text('Catpers', style: TextStyle(color: Colors.white),)),
-  const _CadetReadiness(Colors.amber, Icons.directions_run, Text('Cadet Readiness', style: TextStyle(color: Colors.white),)),
-  const _EMC(Colors.black, Icons.chat, Text('EMC2', style: TextStyle(color: Colors.white),)),
-  const _Disposisi(Colors.deepOrange, Icons.markunread, Text('Disposisi', style: TextStyle(color: Colors.white),)),
-  const _KalkulatorPangkat(Colors.teal, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
-  const _TryoutPSI(Colors.deepOrange, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
+  const _Catpers(Colors.deepOrange, Icons.widgets, Text('Catpers', style: TextStyle(color: Colors.white),)),
+  const _CadetReadiness(Colors.green, Icons.directions_run, Text('Cadet Readiness', style: TextStyle(color: Colors.white),)),
+  const _EMC(Colors.brown, Icons.chat, Text('EMC2', style: TextStyle(color: Colors.white),)),
+  const _Disposisi(Colors.amber, Icons.markunread, Text('Disposisi', style: TextStyle(color: Colors.white),)),
+  const _KalkulatorPangkat(Colors.orange, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
+  const _TryoutPSI(Colors.blue, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
 
 
 ];
@@ -72,6 +72,7 @@ class _PMJImage extends StatelessWidget{
   Widget build(BuildContext context) {
     return new Card(
       color: backgroundColor,
+      elevation: 5.0,
       child: new InkWell(
         onTap: () {},
         child: new SizedBox(
@@ -91,6 +92,7 @@ class _SDMImage extends StatelessWidget{
   Widget build(BuildContext context) {
     return new Card(
       color: backgroundColor,
+      elevation: 5.0,
       child: new InkWell(
         onTap: () {},
         child: new SizedBox(
@@ -113,6 +115,7 @@ class _CadetReadiness extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Card(
       color: backgroundColor,
+      elevation: 5.0,
       child: new InkWell(
         onTap: () {
               Navigator.push(
@@ -122,7 +125,7 @@ class _CadetReadiness extends StatelessWidget {
             },
         child: FittedBox(
               child: Image.asset('lib/assets/img/cadet.png'),
-              fit: BoxFit.fill,
+              fit: BoxFit.fitHeight,
             ),
       ),
     );
@@ -141,6 +144,7 @@ class _KalkulatorPangkat extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Card(
       color: backgroundColor,
+      elevation: 5.0,
       child: new InkWell(
         onTap: () {
               Navigator.push(
@@ -193,6 +197,7 @@ class _EMC extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Card(
       color: backgroundColor,
+      elevation: 5.0,
       child: new InkWell(
         onTap: () {
               Navigator.push(
@@ -202,8 +207,8 @@ class _EMC extends StatelessWidget {
             },
         child: 
           FittedBox(
-            child: Image.asset('lib/assets/img/emc2.jpeg'),
-            fit: BoxFit.fill,
+            child: Image.asset('lib/assets/img/emc2.png'),
+            fit: BoxFit.fitHeight,
           ),
       ),
     );
@@ -221,6 +226,7 @@ class _Catpers extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Card(
       color: backgroundColor,
+      elevation: 5.0,
       child: new InkWell(
         onTap: () {
               Navigator.push(
@@ -248,6 +254,7 @@ class _TryoutPSI extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Card(
       color: backgroundColor,
+      elevation: 5.0,
       child: new InkWell(
         onTap: () {
               Navigator.push(
@@ -258,7 +265,7 @@ class _TryoutPSI extends StatelessWidget {
         child: new Center(
           child:  FittedBox(
             child: Image.asset('lib/assets/img/tryout.png'),
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.fill,
           ),
         ),
       ),
@@ -278,6 +285,7 @@ class _Disposisi extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Card(
       color: backgroundColor,
+      elevation: 5.0,
       child: new InkWell(
         onTap: () {
               Navigator.push(
