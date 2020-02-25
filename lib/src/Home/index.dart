@@ -31,8 +31,8 @@ List<Widget> _tiles = const <Widget>[
   const _CadetReadiness(Colors.amber, Icons.directions_run, Text('Cadet Readiness', style: TextStyle(color: Colors.white),)),
   const _EMC(Colors.black, Icons.chat, Text('EMC2', style: TextStyle(color: Colors.white),)),
   const _Disposisi(Colors.deepOrange, Icons.markunread, Text('Disposisi', style: TextStyle(color: Colors.white),)),
-  const _KalkulatorPangkat(Colors.brown, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
-  const _TryoutPSI(Colors.red, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
+  const _KalkulatorPangkat(Colors.lightGreen, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
+  const _TryoutPSI(Colors.deepOrange, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
 
 
 ];
@@ -101,47 +101,6 @@ class _SDMImage extends StatelessWidget{
   }
 }
 
-class _GridMenu extends StatelessWidget {
-  const _GridMenu(this.backgroundColor, this.iconData, this.textGrid);
-
-  final Color backgroundColor;
-  final IconData iconData;
-  final Text textGrid;
-
-  @override
-  Widget build(BuildContext context) {
-    return new Card(
-      color: backgroundColor,
-      child: new InkWell(
-        onTap: () {},
-        child: new Center(
-          child: new Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    //text
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(iconData, color: Colors.white, size: 40.0,),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: textGrid
-                      )
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class _CadetReadiness extends StatelessWidget {
   const _CadetReadiness(this.backgroundColor, this.iconData, this.textGrid);
@@ -209,30 +168,35 @@ class _KalkulatorPangkat extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => KalkulatorPangkat()),
               );
             },
-        child: new Center(
-          child: new Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    //text
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(iconData, color: Colors.white, size: 40.0,),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: textGrid
-                      )
-                  ],
-                )
-              ],
-            ),
+        child: 
+          FittedBox(
+            child: Image.asset('lib/assets/img/pangkat.jpeg'),
+            fit: BoxFit.fitHeight,
           ),
-        ),
+        // new Center(
+        //   child: new Padding(
+        //     padding: const EdgeInsets.all(4.0),
+        //     child: Row(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: <Widget>[
+        //         Column(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: <Widget>[
+        //             //text
+        //             Padding(
+        //               padding: const EdgeInsets.all(4.0),
+        //               child: Icon(iconData, color: Colors.white, size: 40.0,),
+        //             ),
+        //             Padding(
+        //               padding: const EdgeInsets.all(4.0),
+        //               child: textGrid
+        //               )
+        //           ],
+        //         )
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }
@@ -256,30 +220,11 @@ class _EMC extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => EMC()),
               );
             },
-        child: new Center(
-          child: new Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    //text
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(iconData, color: Colors.white, size: 40.0,),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: textGrid
-                      )
-                  ],
-                )
-              ],
-            ),
+        child: 
+          FittedBox(
+            child: Image.asset('lib/assets/img/emc2.jpeg'),
+            fit: BoxFit.fitHeight,
           ),
-        ),
       ),
     );
   }
@@ -398,30 +343,30 @@ class _Disposisi extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => Disposisi()),
               );
             },
-        child: new Center(
-          child: new Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    //text
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Icon(iconData, color: Colors.white, size: 40.0,),
+        child: FittedBox(
+                      child: Image.asset('lib/assets/img/disposisi.jpeg'),
+                      fit: BoxFit.fitHeight,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: textGrid
-                      )
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
+          //new Center(
+          // child: new Padding(
+          //   padding: const EdgeInsets.all(4.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: <Widget>[
+          //       Column(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: <Widget>[
+          //           //text
+          //           Padding(
+          //             padding: const EdgeInsets.all(4.0),
+          //             child: textGrid
+          //             )
+          //         ],
+          //       )
+          //     ],
+          //   ),
+          // ),
+        //),
       ),
     );
 

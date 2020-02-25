@@ -44,6 +44,9 @@ flutter:
     - lib/assets/img/pmj.png
     - lib/assets/img/naik_pangkat.png
     - lib/assets/img/mutasi.png
+    - lib/assets/img/emc2.jpeg
+    - lib/assets/img/disposisi.jpeg
+    - lib/assets/img/pangkat.jpeg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
