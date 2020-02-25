@@ -31,7 +31,7 @@ List<Widget> _tiles = const <Widget>[
   const _CadetReadiness(Colors.amber, Icons.directions_run, Text('Cadet Readiness', style: TextStyle(color: Colors.white),)),
   const _EMC(Colors.black, Icons.chat, Text('EMC2', style: TextStyle(color: Colors.white),)),
   const _Disposisi(Colors.deepOrange, Icons.markunread, Text('Disposisi', style: TextStyle(color: Colors.white),)),
-  const _KalkulatorPangkat(Colors.lightGreen, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
+  const _KalkulatorPangkat(Colors.teal, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
   const _TryoutPSI(Colors.deepOrange, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
 
 
@@ -344,29 +344,9 @@ class _Disposisi extends StatelessWidget {
               );
             },
         child: FittedBox(
-                      child: Image.asset('lib/assets/img/disposisi.jpeg'),
-                      fit: BoxFit.fitHeight,
-                    ),
-          //new Center(
-          // child: new Padding(
-          //   padding: const EdgeInsets.all(4.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: <Widget>[
-          //       Column(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: <Widget>[
-          //           //text
-          //           Padding(
-          //             padding: const EdgeInsets.all(4.0),
-          //             child: textGrid
-          //             )
-          //         ],
-          //       )
-          //     ],
-          //   ),
-          // ),
-        //),
+          child: Image.asset('lib/assets/img/disposisi.jpeg'),
+          fit: BoxFit.fitHeight,
+        ),
       ),
     );
 

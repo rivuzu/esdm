@@ -29,9 +29,17 @@ dependencies:
   google_maps_flutter: ^0.5.24+1
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.7.0"
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "lib/assets/launcher/esdm.png"
+  image_path_android: "lib/assets/launcher/esdm.png"
+  adaptive_icon_background: "lib/assets/launcher/esdm.png"
+  adaptive_icon_foreground: "lib/assets/launcher/esdm.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
