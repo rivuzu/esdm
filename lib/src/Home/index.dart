@@ -120,15 +120,10 @@ class _CadetReadiness extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => CadetReadiness()),
               );
             },
-        child: new Center(
-          child: new Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: FittedBox(
+        child: FittedBox(
               child: Image.asset('lib/assets/img/cadet.png'),
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.fill,
             ),
-          ),
-        ),
       ),
     );
   }
@@ -208,7 +203,7 @@ class _EMC extends StatelessWidget {
         child: 
           FittedBox(
             child: Image.asset('lib/assets/img/emc2.jpeg'),
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.fill,
           ),
       ),
     );
@@ -235,7 +230,7 @@ class _Catpers extends StatelessWidget {
             },
         child:  FittedBox(
             child: Image.asset('lib/assets/img/catpers.png'),
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.fitWidth,
         ),
       ),
     );
@@ -263,7 +258,7 @@ class _TryoutPSI extends StatelessWidget {
         child: new Center(
           child:  FittedBox(
             child: Image.asset('lib/assets/img/tryout.png'),
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.fitWidth,
           ),
         ),
       ),
@@ -292,7 +287,7 @@ class _Disposisi extends StatelessWidget {
             },
         child: FittedBox(
           child: Image.asset('lib/assets/img/disposisi.png'),
-          fit: BoxFit.fitHeight,
+          fit: BoxFit.fill,
         ),
       ),
     );
