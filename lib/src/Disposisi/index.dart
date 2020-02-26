@@ -35,7 +35,7 @@ class _DisposisiState extends State<Disposisi>{
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,18 +63,42 @@ class _DisposisiState extends State<Disposisi>{
                         ),
                       ],
                     ),
+
                     Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                      child: FlatButton(
-                        onPressed: (){},
-                        color: Colors.deepOrange,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        child: Text("Disposisi", style: TextStyle(color: Colors.white)),
+                      child: Column(
+                        children: <Widget>[
+                          FlatButton(
+                            onPressed: (){},
+                            color: Colors.yellow[800],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Text("Detail", style: TextStyle(color: Colors.white)),
+                          ),
+                          FlatButton(
+                            onPressed: (){},
+                            color: Colors.deepOrange,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Text("Disposisi", style: TextStyle(color: Colors.white)),
+                          ),
+                        ],
                       ),
                     ),
+
+                    // Container(
+                    //   alignment: Alignment.center,
+                    //   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                    //   child: FlatButton(
+                    //     onPressed: (){},
+                    //     color: Colors.deepOrange,
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(20.0),
+                    //     ),
+                    //     child: Text("Disposisi", style: TextStyle(color: Colors.white)),
+                    //   ),
+                    // ),
 
                   ],
                 ),
@@ -84,13 +108,13 @@ class _DisposisiState extends State<Disposisi>{
         ),
         
 
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          backgroundColor: Colors.deepOrange,
-          onPressed: (){
+        // floatingActionButton: FloatingActionButton(
+        //   child: Icon(Icons.add),
+        //   backgroundColor: Colors.deepOrange,
+        //   onPressed: (){
 
-          },
-        ),
+        //   },
+        // ),
 
     );
   }
