@@ -16,6 +16,7 @@ class _KonselorProfileState extends State<KonselorProfile> {
             "Profil Konselor",
             style: TextStyle(fontSize: 18.0),
           ),
+          backgroundColor: Colors.green,
         ),
         backgroundColor: Colors.grey[300],
         body: SafeArea(
@@ -25,6 +26,7 @@ class _KonselorProfileState extends State<KonselorProfile> {
               children: <Widget>[
                 CircleAvatar(
                   radius: 80,
+                  backgroundColor: Colors.green,
                   // backgroundImage: AssetImage('images/protocoder.png'),
                   child: Icon(Icons.person, size: 80.0,),
                 ),

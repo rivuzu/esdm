@@ -49,17 +49,6 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
       appBar: AppBar(
         title: Text('Konsultasi Psikologi'),
         backgroundColor: Colors.green,
-        actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.shopping_cart, color: Colors.white),
-            onPressed: () {
-              Navigator.of(context).pushNamed("/Cart");
-            },
-          ),
-          new Padding(
-            padding: EdgeInsets.only(right: 10.0),
-          ),
-        ],
       ),
       body: new Column(
         children: <Widget>[

@@ -30,7 +30,7 @@ class _PesanState extends State<Pesan> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Konsultasi Psikologi'),
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.green,
       ),
       body: ListView.builder(
         itemCount: 5,
