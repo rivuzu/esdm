@@ -2,7 +2,7 @@ import 'package:esdm/src/CadetReadiness/index.dart';
 import 'package:esdm/src/KalkulatorPangkat/index.dart';
 import 'package:esdm/src/EMC/index.dart';
 import 'package:esdm/src/Catpers/index.dart';
-import 'package:esdm/src/TryoutPSI/index.dart';
+import 'package:esdm/src/KonsulPSI/index.dart';
 import 'package:esdm/src/Disposisi/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -32,7 +32,7 @@ List<Widget> _tiles = const <Widget>[
   const _EMC(Colors.brown, Icons.chat, Text('EMC2', style: TextStyle(color: Colors.white),)),
   const _Disposisi(Colors.amber, Icons.markunread, Text('Disposisi', style: TextStyle(color: Colors.white),)),
   const _KalkulatorPangkat(Colors.orange, Icons.keyboard_arrow_up, Text('Kalkulator Pangkat', style: TextStyle(color: Colors.white),)),
-  const _TryoutPSI(Colors.blue, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
+  const _KonsulPSI(Colors.green, Icons.note, Text('Tryout Psi', style: TextStyle(color: Colors.white),)),
 
 
 ];
@@ -243,8 +243,8 @@ class _Catpers extends StatelessWidget {
   }
 }
 
-class _TryoutPSI extends StatelessWidget {
-  const _TryoutPSI(this.backgroundColor, this.iconData, this.textGrid);
+class _KonsulPSI extends StatelessWidget {
+  const _KonsulPSI(this.backgroundColor, this.iconData, this.textGrid);
 
   final Color backgroundColor;
   final IconData iconData;
@@ -259,12 +259,12 @@ class _TryoutPSI extends StatelessWidget {
         onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TryoutPSI()),
+                MaterialPageRoute(builder: (context) => Pesan()),
               );
             },
         child: new Center(
           child:  FittedBox(
-            child: Image.asset('lib/assets/img/tryout.png'),
+            child: Image.asset('lib/assets/img/konsultasi.png'),
             fit: BoxFit.fill,
           ),
         ),
