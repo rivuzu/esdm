@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:esdm/src/Config/config_konsultasi.dart';
+import 'package:esdm/src/Helper/capital_word.dart';
 import 'package:esdm/src/Model/konsultasi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -207,13 +208,13 @@ class Msg extends StatelessWidget {
             children: <Widget>[
               new Container(
                 margin: const EdgeInsets.only(right: 18.0),
-                child: new CircleAvatar(child: new Text(this.sender[0])),
+                child: new CircleAvatar(child: new Text(this.sender[0].toUpperCase())),
               ),
               new Expanded(
                 child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    new Text(this.sender,
+                    new Text(CapitalWord.AllWordsCapitilize(this.sender),
                         style: Theme.of(context).textTheme.subhead),
                     new Container(
                       margin: const EdgeInsets.only(top: 6.0),
@@ -240,7 +241,7 @@ class Msg extends StatelessWidget {
                 child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    new Text(this.sender,
+                    new Text(CapitalWord.AllWordsCapitilize(this.sender),
                         style: Theme.of(context).textTheme.subhead,textAlign: TextAlign.left,),
                     new Container(
                       margin: const EdgeInsets.only(top: 6.0),
@@ -252,7 +253,7 @@ class Msg extends StatelessWidget {
 
               new Container(
                 margin: const EdgeInsets.only(left:  18.0),
-                child: new CircleAvatar(child: new Text(this.sender[0])),
+                child: new CircleAvatar(child: new Text(this.sender[0].toUpperCase())),
               ),
             ],
           ),
