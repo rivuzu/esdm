@@ -1,3 +1,5 @@
+import 'package:esdm/src/Catpers/listnama.dart';
+import 'package:esdm/src/Catpers/listsubmit.dart';
 import 'package:flutter/material.dart';
 
 class Catpers extends StatefulWidget {
@@ -6,65 +8,155 @@ class Catpers extends StatefulWidget {
 }
 
 class _CatpersState extends State<Catpers> {
-  var items = ["Adi Mansyur", "Adi Muhammad", "Adi Setiawan", "Adi Teguh", "Aditya Radit", "Adib Pratama", "Adit Reza"];
-  var colors = [Colors.red, Colors.red, Colors.green, Colors.red, Colors.green, Colors.green, Colors.red];
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Catpers'),
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.deepOrange,
       ),
       body: Column(
         children: <Widget>[
-          Container(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TextField(
-                // controller: _textFieldController,
-                decoration: InputDecoration(
-                  hintText: "Cari Nama",
-                  //add icon outside input field
-                  icon: Icon(Icons.person),
-                  //add icon to the beginning of text field
-                  //prefixIcon: Icon(Icons.person),
-                  //can also add icon to the end of the textfiled
-                  //suffixIcon: Icon(Icons.remove_red_eye),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {},
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: Material(
+                  // <----------------------------- Outer Material
+                  shadowColor: Colors.grey[50],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.0)),
+                  elevation: 6.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: AlignmentDirectional.bottomStart,
+                        end: AlignmentDirectional.topEnd,
+                        colors: [
+                          Colors.orange,
+                          Colors.pink,
+                        ],
+                      ),
+                    ),
+                    child: Material(
+                      // <------------------------- Inner Material
+                      type: MaterialType.transparency,
+                      elevation: 6.0,
+                      color: Colors.transparent,
+                      shadowColor: Colors.grey[50],
+                      child: InkWell(
+                        //<------------------------- InkWell
+                        splashColor: Colors.white30,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ListNama()),
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(16.0),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.account_circle,
+                                size: 40.0,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 20.0,
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Text(
+                                    "Daftar Nama",
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-          Expanded(
-            child: ListView.separated(
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        items[index],
-                        style: TextStyle(fontSize: 20.0),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {},
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: Material(
+                  // <----------------------------- Outer Material
+                  shadowColor: Colors.grey[50],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.0)),
+                  elevation: 6.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: AlignmentDirectional.bottomStart,
+                        end: AlignmentDirectional.topEnd,
+                        colors: [
+                          Colors.orange,
+                          Colors.pink,
+                        ],
                       ),
-                      Container(
-                        width: 20.0,
-                        height: 20.0,
-                        decoration: new BoxDecoration(
-                          color: colors[index],
-                          shape: BoxShape.circle,
+                    ),
+                    child: Material(
+                      // <------------------------- Inner Material
+                      type: MaterialType.transparency,
+                      elevation: 6.0,
+                      color: Colors.transparent,
+                      shadowColor: Colors.grey[50],
+                      child: InkWell(
+                        //<------------------------- InkWell
+                        splashColor: Colors.white30,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ListSubmit()),
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(16.0),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.warning,
+                                size: 40.0,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 20.0,
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Text(
+                                    "Catat Pelanggaran",
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return Divider(
-                  color: Colors.grey,
-                );
-              },
-              itemCount: items.length,
+                ),
+              ),
             ),
           ),
         ],
