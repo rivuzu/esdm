@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:esdm/src/Config/config_konsultasi.dart';
+import 'package:esdm/src/Helper/capital_word.dart';
+import 'package:esdm/src/Model/konsultasi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_pubnub/pubnub.dart';
 
 final ThemeData iOSTheme = new ThemeData(
   primarySwatch: Colors.red,
@@ -40,9 +46,21 @@ class Chat extends StatefulWidget {
 }
 
 class ChatWindow extends State<Chat> with TickerProviderStateMixin {
+  final PubNub _client = PubNub(PubNubConfig(ConfigKonsultasi.PublishKey, ConfigKonsultasi.SubscribeKey));
+  Konsultasi _konsultasi = new Konsultasi();
   final List<Msg> _message = <Msg>[];
   final TextEditingController _textController = new TextEditingController();
   bool _isWriting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    try{
+      getChat();
+    }catch (exception) {
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -124,10 +142,12 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
       _isWriting = false;
     });
     Msg msg = new Msg(
+      sender:defaultUserName,
       txt: txt,
       animationController: new AnimationController(
           vsync: this, duration: new Duration(milliseconds: 800)),
     );
+    _client.publish(([ConfigKonsultasi.Channel]), {'sender':defaultUserName,'message': txt});
     setState(() {
       _message.insert(0, msg);
     });
@@ -141,44 +161,104 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
     }
     super.dispose();
   }
+
+  void getChat(){
+    _client.history(ConfigKonsultasi.Channel, 100).then((items) {
+      if (items != null && items.isNotEmpty) {
+        for(var data in items){
+          print("LAST ITEM TOKEN : $data");
+          _konsultasi = new Konsultasi.fromJson(json.decode(data));
+
+          Msg msg = new Msg(
+            sender:_konsultasi.message.sender,
+            txt: _konsultasi.message.message,
+            animationController: new AnimationController(
+                vsync: this, duration: new Duration(milliseconds: 800)),
+          );
+          json.decode(data);
+          setState(() {
+            _message.insert(0, msg);
+          });
+          msg.animationController.forward();
+        }
+      } else {
+        print('No items');
+      }
+    });
+  }
 }
 
 class Msg extends StatelessWidget {
-  Msg({this.txt, this.animationController});
+  Msg({this.sender,this.txt, this.animationController});
+  final String sender;
   final String txt;
   final AnimationController animationController;
 
   @override
   Widget build(BuildContext context) {
-    return new SizeTransition(
-      sizeFactor: new CurvedAnimation(
-          parent: animationController, curve: Curves.easeOut),
-      axisAlignment: 0.0,
-      child: new Container(
-        margin: const EdgeInsets.symmetric(vertical: 8.0),
-        child: new Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Container(
-              margin: const EdgeInsets.only(right: 18.0),
-              child: new CircleAvatar(child: new Text(defaultUserName[0])),
-            ),
-            new Expanded(
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Text(defaultUserName,
-                      style: Theme.of(context).textTheme.subhead),
-                  new Container(
-                    margin: const EdgeInsets.only(top: 6.0),
-                    child: new Text(txt),
-                  )
-                ],
+    if(this.sender != defaultUserName){
+      return new SizeTransition(
+        sizeFactor: new CurvedAnimation(
+            parent: animationController, curve: Curves.easeOut),
+        axisAlignment: 0.0,
+        child: new Container(
+          margin: const EdgeInsets.symmetric(vertical: 8.0),
+          child: new Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Container(
+                margin: const EdgeInsets.only(right: 18.0),
+                child: new CircleAvatar(child: new Text(this.sender[0].toUpperCase())),
               ),
-            )
-          ],
+              new Expanded(
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new Text(CapitalWord.AllWordsCapitilize(this.sender),
+                        style: Theme.of(context).textTheme.subhead),
+                    new Container(
+                      margin: const EdgeInsets.only(top: 6.0),
+                      child: new Text(txt),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }else{
+      return new SizeTransition(
+        sizeFactor: new CurvedAnimation(
+            parent: animationController, curve: Curves.easeOut),
+        axisAlignment: 0.0,
+        child: new Container(
+          margin: const EdgeInsets.symmetric(vertical: 8.0),
+          child: new Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Expanded(
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    new Text(CapitalWord.AllWordsCapitilize(this.sender),
+                        style: Theme.of(context).textTheme.subhead,textAlign: TextAlign.left,),
+                    new Container(
+                      margin: const EdgeInsets.only(top: 6.0),
+                      child: new Text(txt,textAlign: TextAlign.left),
+                    )
+                  ],
+                ),
+              ),
+
+              new Container(
+                margin: const EdgeInsets.only(left:  18.0),
+                child: new CircleAvatar(child: new Text(this.sender[0].toUpperCase())),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 }
