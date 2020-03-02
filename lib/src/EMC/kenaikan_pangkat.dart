@@ -1,6 +1,8 @@
 import 'package:esdm/src/Home/index.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:esdm/config/storage.dart';
+import 'package:intl/intl.dart';
 
 class KenaikanPangkat extends StatefulWidget{
   @override 
@@ -82,7 +84,7 @@ Widget build(BuildContext context) {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(left: 15, right: 15),
-                            child: Text(_dateTime == null? 'Nothing has been picked yet': ( _dateTime)),
+                            child: Text(_dateTime == null? 'Nothing has been picked yet': new DateFormat(Storage.DATADATEFORMATDDMMMYYYY).format( _dateTime)),
                           ),
 
                        new Theme(
@@ -99,7 +101,7 @@ Widget build(BuildContext context) {
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime(2001),
-                                    lastDate: DateTime.now()
+                                    lastDate: DateTime(2220),
                                 ).then((date){
                                     setState(() {
                                       _dateTime = date;
@@ -109,22 +111,6 @@ Widget build(BuildContext context) {
                           ),
                         ),
                       ),
-//                          RaisedButton(
-//                            padding: EdgeInsets.only(left: 0),
-//                            child: Icon(Icons.date_range),
-//                            onPressed: (){
-//                              showDatePicker(
-//                                  context: context,
-//                                  initialDate: DateTime.now(),
-//                                  firstDate: DateTime(2001),
-//                                  lastDate: DateTime.now()
-//                              ).then((date){
-//                                setState(() {
-//                                  _dateTime = date;
-//                                });
-//                              });
-//                            },
-//                          )
                         ],
                       ),
                   new TextFormField(

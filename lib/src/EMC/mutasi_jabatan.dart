@@ -1,6 +1,8 @@
 import 'package:esdm/src/Home/index.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dart:async';
+import 'package:esdm/config/storage.dart';
 
 class MutasiJabatan extends StatefulWidget{
   @override 
@@ -8,32 +10,8 @@ class MutasiJabatan extends StatefulWidget{
 }
 
 class _MutasiJabatanState extends State<MutasiJabatan>{
-  Timer _timer;
-int _start = 0;
 
 DateTime _dateTime;
-
-void startTimer() {
-  const oneSec = const Duration(seconds: 1);
-  _timer = new Timer.periodic(
-    oneSec,
-    (Timer timer) => setState(
-      () {
-        if (_start < 0) {
-          timer.cancel();
-        } else {
-          _start = _start + 1;
-        }
-      },
-    ),
-  );
-}
-
-@override
-void dispose() {
-  _timer.cancel();
-  super.dispose();
-}
 
 Widget build(BuildContext context) {
   return new Scaffold(
@@ -78,11 +56,11 @@ Widget build(BuildContext context) {
                       const Divider(
                         height: 16.0,
                       ),
-                      new Row(
+                       new Row(
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(left: 15, right: 15),
-                            child: Text(_dateTime == null? 'Nothing has been picked yet': ( _dateTime)),
+                            child: Text(_dateTime == null? 'Nothing has been picked yet': new DateFormat(Storage.DATADATEFORMATDDMMMYYYY).format( _dateTime)),
                           ),
 
                        new Theme(
@@ -99,7 +77,7 @@ Widget build(BuildContext context) {
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime(2001),
-                                    lastDate: DateTime.now()
+                                    lastDate: DateTime(2220),
                                 ).then((date){
                                     setState(() {
                                       _dateTime = date;
@@ -109,22 +87,6 @@ Widget build(BuildContext context) {
                           ),
                         ),
                       ),
-//                          RaisedButton(
-//                            padding: EdgeInsets.only(left: 0),
-//                            child: Icon(Icons.date_range),
-//                            onPressed: (){
-//                              showDatePicker(
-//                                  context: context,
-//                                  initialDate: DateTime.now(),
-//                                  firstDate: DateTime(2001),
-//                                  lastDate: DateTime.now()
-//                              ).then((date){
-//                                setState(() {
-//                                  _dateTime = date;
-//                                });
-//                              });
-//                            },
-//                          )
                         ],
                       ),
                   new TextFormField(
