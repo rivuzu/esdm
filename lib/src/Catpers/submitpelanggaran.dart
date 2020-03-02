@@ -89,6 +89,10 @@ class _FormPelanggaranState extends State<FormPelanggaran> {
                 ),
               ),
               Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text("Form dimana untuk mengadukan personil beserta pelanggarannya.", style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),),
+              ),
+              Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   color: Colors.white,
@@ -96,6 +100,10 @@ class _FormPelanggaranState extends State<FormPelanggaran> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left:16.0, right: 16.0, top: 16.0, bottom: 5.0),
+                        child: Text("Pengaduan Atas Nama : " + "Deno Fambar", style: TextStyle(fontSize: 15.0),),
+                      ),
                       Form(
                         key: formKey,
                         child: Column(
@@ -145,10 +153,6 @@ class _FormPelanggaranState extends State<FormPelanggaran> {
                                 onPressed: _saveForm,
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.all(16),
-                              child: Text(_pelanggaranResult),
-                            )
                           ],
                         ),
                       ),
