@@ -1,5 +1,6 @@
 import 'package:esdm/src/Home/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'package:esdm/config/storage.dart';
@@ -47,6 +48,10 @@ Widget build(BuildContext context) {
                     ),
                   ),
                   new TextFormField(
+                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      WhitelistingTextInputFormatter.digitsOnly
+                                    ],
                     decoration: const InputDecoration(
                       labelText: 'No HP',
                     ),
