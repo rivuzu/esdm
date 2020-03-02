@@ -22,7 +22,7 @@ class _DetailState extends State<Detail>{
   Widget build(BuildContext context){
     return new Scaffold(
       appBar: new AppBar(
-          title: new Text('Detail'),
+          title: new Text('Detail File'),
           backgroundColor: Colors.deepOrange,
         ),
       
