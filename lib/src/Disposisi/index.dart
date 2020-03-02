@@ -1,7 +1,8 @@
 import 'package:esdm/src/Disposisi/detail.dart';
+import 'package:esdm/src/Disposisi/disposisi.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'detail.dart';
+import 'disposisi.dart';
 
 class Disposisi extends StatefulWidget{
   @override 
@@ -9,24 +10,24 @@ class Disposisi extends StatefulWidget{
 }
 
 class _DisposisiState extends State<Disposisi>{
-  List<String> tujuan = ["SUBBAG RENMIN","BAG DALPRES","BAG BINKAR","BAG WATPERS","BAG PSI"];
-  String _tujuan = "SUBBAG RENMIN";
+  // List<String> tujuan = ["SUBBAG RENMIN","BAG DALPRES","BAG BINKAR","BAG WATPERS","BAG PSI"];
+  // String _tujuan = "SUBBAG RENMIN";
 
   List name = ["Khailla","Deno","Ipul","Gusti","Juan"];
   List date = ["25-02-2020","25-02-2020","25-02-2020","25-02-2020","25-02-2020"];
   List about = ["Pengaduan","Pemberitahuan","Saran","Kritik","Motivasi"];
 
-  void pilihTujuan(String value){
-    setState(() {
-     _tujuan = value;
-    });
-  }
+  // void pilihTujuan(String value){
+  //   setState(() {
+  //    _tujuan = value;
+  //   });
+  // }
 
   @override 
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Disposisi'),
+          title: new Text('List Disposisi'),
           backgroundColor: Colors.deepOrange,
         ),
 
@@ -92,36 +93,9 @@ class _DisposisiState extends State<Disposisi>{
                           ),
                           FlatButton(
                             onPressed: (){
-                              Alert(
-                                context: context,
-                                title: "Lanjutkan ke.",
-                                content: Column(
-                                  children: <Widget>[
-                                    new DropdownButton(
-                                      onChanged: (String value){
-                                        pilihTujuan(value);
-                                      },
-                                      value: _tujuan,
-                                      isExpanded: true,
-                                      items: tujuan.map((String value){
-                                        return new DropdownMenuItem(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                    )
-                                  ],
-                                ),
-                                buttons: [
-                                  DialogButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: Text(
-                                      "Forward",
-                                      style: TextStyle(color: Colors.white, fontSize: 20),
-                                    ),
-                                    color: Colors.deepOrange,
-                                  )
-                                ]).show();
+                              Navigator.push(context, 
+                              MaterialPageRoute(builder: (context)=>TujuanDisposisi()),
+                              );
                             },
                             color: Colors.deepOrange,
                             shape: RoundedRectangleBorder(
