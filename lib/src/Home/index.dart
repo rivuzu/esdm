@@ -49,6 +49,15 @@ class _HomeState extends State<Home> {
         appBar: new AppBar(
           title: new Text('Dashboard E-SDM'),
           backgroundColor: Colors.black,
+          actions: <Widget>[
+            FlatButton(
+              onPressed: (){
+
+              },
+              child: Text("Logout", style: TextStyle(color: Colors.white,fontSize: 20.0),),
+              color: Colors.red,
+            )
+          ],
         ),
         body: new Padding(
             padding: const EdgeInsets.only(top: 12.0),
