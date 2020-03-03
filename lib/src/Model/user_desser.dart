@@ -8,6 +8,7 @@ class UserDesser extends DesSer<User>{
   @override
   User deserialize(String s) {
     var map = json.decode(s);
+    print(map);
     return new User(
         map['id_user'] as String,
         map['email'] as String,
@@ -19,7 +20,7 @@ class UserDesser extends DesSer<User>{
         map['no_hp'] as String,
         map['jabatan_id'] as int,
         map['jabatan_parent_id'] as int,
-        map['jabatan_child_ids'] as List<int>
+        map['jabatan_child_ids'].cast<int>()
     );
   }
 
