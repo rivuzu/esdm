@@ -1,3 +1,5 @@
+import 'package:esdm/src/Config/config_message.dart';
+import 'package:esdm/src/EMC/index.dart';
 import 'package:esdm/src/Model/KenaikanDesSer.dart';
 import 'package:esdm/src/Model/KenaikanPangkat.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:esdm/src/Home/index.dart';
 import 'package:pref_dessert/pref_dessert.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class KenaikanPangkat extends StatefulWidget{
   @override 
@@ -16,15 +19,42 @@ class KenaikanPangkat extends StatefulWidget{
 class _KenaikanPangkatState extends State<KenaikanPangkat>{
 
 var repo = new FuturePreferencesRepository<NaikPangkat>(new KenaikanDesSer()); 
+  
   TextEditingController _namaController = TextEditingController();
   TextEditingController _nrpController = TextEditingController();
   TextEditingController _nomorController = TextEditingController();
-  TextEditingController _laporanController = TextEditingController();
   TextEditingController _keluhanController = TextEditingController();
+  DateTime _dateTime;
 
+@override
+void initState(){
+  super.initState();
+  try {
+    loadDataKenaikanPangkat(Storage.KENAIKANID);
+  } catch (exception) {
+    
+  }
+}
 
-DateTime _dateTime;
+loadDataKenaikanPangkat(String kenaikanid)async{
+  try {
+    repo.findAll().then((naik){
+      if (naik.length > 0) {
+        repo.findOne(naik.length - 1).then((naikPangkat){
+          if (naikPangkat != null) {
+            setState(() => _namaController.text = naikPangkat.Nama);
+            setState(() => _nrpController.text = naikPangkat.NRP);
+            setState(() => _nomorController.text = naikPangkat.Nomor.toString());
+            setState(() => _dateTime = DateTime.parse(naikPangkat.Laporan));
+            setState(() => _keluhanController.text = naikPangkat.Keluhan);
+          }
+        });
+      }
+    });
+  } catch (exception) {
 
+  }
+}
 
 Widget build(BuildContext context) {
   return new Scaffold(
@@ -53,11 +83,13 @@ Widget build(BuildContext context) {
                     decoration: const InputDecoration(
                       labelText: 'Nama',
                     ),
+                    controller: _namaController,
                   ),
                   new TextFormField(
                     decoration: const InputDecoration(
                       labelText: 'Pangkat/NRP',
                     ),
+                    controller: _nrpController,
                   ),
                   new TextFormField(
                     keyboardType: TextInputType.number,
@@ -67,6 +99,7 @@ Widget build(BuildContext context) {
                     decoration: const InputDecoration(
                       labelText: 'No HP',
                     ),
+                    controller: _nomorController,
                   ),
                   SizedBox(height: 10.0,),
                       new Text('Tanggal Laporan', style: TextStyle(fontSize: 15),),
@@ -110,6 +143,7 @@ Widget build(BuildContext context) {
                     decoration: const InputDecoration(
                       labelText: 'Sampaikan Keluhan Anda di Sini',
                     ),
+                    controller: _keluhanController,
                   ),
                 ],
               ))),
@@ -137,10 +171,8 @@ Widget build(BuildContext context) {
                   child: Container(
                     height: 50,
                     child: RaisedButton(
-                      onPressed: () { Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      );
+                      onPressed: () { 
+                        savePangkat();
                       },
                       color: Colors.black,
                       child: Text('Submit',style: TextStyle(color: Colors.white)),
@@ -151,6 +183,31 @@ Widget build(BuildContext context) {
             ),
           ),
   );
+}
+void savePangkat(){
+  repo.save(new NaikPangkat(
+  _namaController.text, 
+  _nrpController.text, 
+  int.parse(_nomorController.text),
+  _dateTime.toString(),
+  _keluhanController.text)).then((naik){
+    if(naik != null){
+      Alert(context: context,title: ConfigMessage.DATATITLEMESSAGESUCCSESS,type: AlertType.success, desc: 'Berhasil Di ubah',
+            buttons: [
+              DialogButton(
+                child: Text(
+                    ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
+                ),
+                onPressed: () => Navigator.pop(context),
+                color: Colors.black,  
+              ),
+            ],).show();
+    }
+  });
+  Navigator.push(
+           context,
+           MaterialPageRoute(builder: (context) => EMC()),
+         );
 }
 }
 
