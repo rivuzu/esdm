@@ -2,7 +2,10 @@ import 'package:esdm/src/Config/config_message.dart';
 import 'package:esdm/src/Config/config_user.dart';
 import 'package:esdm/src/Helper/add_user.dart';
 import 'package:esdm/src/Home/index.dart';
+import 'package:esdm/src/Model/user.dart';
+import 'package:esdm/src/Model/user_desser.dart';
 import 'package:flutter/material.dart';
+import 'package:pref_dessert/pref_dessert.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Login extends StatefulWidget {
@@ -16,7 +19,7 @@ class _LoginState extends State<Login> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final formKey = new GlobalKey<FormState>();
-
+  var repoUser = new FuturePreferencesRepository<User>(new UserDesser());
 
   AddUser addUser = new AddUser();
 
@@ -45,6 +48,34 @@ class _LoginState extends State<Login> {
   }
 
   cekLogin(String username,String password){
+    for(var item in addUser.ShowData()){
+      print("Username : "+item.email);
+      print("Password : "+item.password);
+       if(username.trim() == item.email && password.trim() == item.password){
+          repoUser.removeAll();
+          repoUser.save(
+              new User(
+                  item.id_user,
+                  item.email,
+                  item.password,
+                  item.nama,
+                  item.role,
+                  item.pangkat,
+                  item.nrp,
+                  item.no_hp,
+                  item.jabatan_id,
+                  item.jabatan_parent_id,
+                  item.jabatan_child_ids
+              )
+          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Home()),
+          );
+          return "";
+        }
+    }
+
     print("Username : "+username);
     print("Password : "+password);
     if(username.trim() == ""){
@@ -58,6 +89,7 @@ class _LoginState extends State<Login> {
             color: Colors.black,
           ),
         ],).show();
+      return "";
     }else if(password.trim() == ""){
       Alert(context: context, title: ConfigMessage.DataTitleMessageWarning,type: AlertType.warning, desc: ConfigMessage.DataTextMessagePasswordEmpty,
         buttons: [
@@ -69,28 +101,20 @@ class _LoginState extends State<Login> {
             color: Colors.black,
           ),
         ],).show();
-    }
-    for(var item in addUser.ShowData()){
-      print("Username : "+item.email);
-      print("Password : "+item.password);
-       if(username.trim() == item.email && password.trim() == item.password){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
-          return "";
-        }
-    }
-    Alert(context: context, title: ConfigMessage.DataTitleMessageWarning,type: AlertType.warning, desc: ConfigMessage.DataTextMessageUsernameOrPasswordError,
-      buttons: [
-        DialogButton(
-          child: Text(
-              ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
+      return "";
+    }else{
+      Alert(context: context, title: ConfigMessage.DataTitleMessageWarning,type: AlertType.warning, desc: ConfigMessage.DataTextMessageUsernameOrPasswordError,
+        buttons: [
+          DialogButton(
+            child: Text(
+                ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
+            ),
+            onPressed: () => Navigator.pop(context),
+            color: Colors.black,
           ),
-          onPressed: () => Navigator.pop(context),
-          color: Colors.black,
-        ),
-      ],).show();
+        ],).show();
+      return "";
+    }
   }
 
   void validateAndSubmit() {

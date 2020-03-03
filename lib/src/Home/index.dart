@@ -4,8 +4,12 @@ import 'package:esdm/src/EMC/index.dart';
 import 'package:esdm/src/Catpers/index.dart';
 import 'package:esdm/src/KonsulPSI/index.dart';
 import 'package:esdm/src/Disposisi/index.dart';
+import 'package:esdm/src/Login/index.dart';
+import 'package:esdm/src/Model/user.dart';
+import 'package:esdm/src/Model/user_desser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:pref_dessert/pref_dessert.dart';
 
 List<StaggeredTile> _staggeredTiles = const <StaggeredTile>[
   const StaggeredTile.count(2, 2),
@@ -43,6 +47,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var repoUser = new FuturePreferencesRepository<User>(new UserDesser());
+  bersihPreference(){
+    repoUser.removeAll();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -52,7 +61,11 @@ class _HomeState extends State<Home> {
           actions: <Widget>[
             FlatButton(
               onPressed: (){
-
+                bersihPreference();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
               },
               child: Text("Logout", style: TextStyle(color: Colors.white,fontSize: 20.0),),
               color: Colors.red,
