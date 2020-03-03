@@ -1,8 +1,14 @@
 import 'package:esdm/src/Disposisi/detail.dart';
 import 'package:esdm/src/Disposisi/disposisi.dart';
+import 'package:esdm/src/Helper/show_indexdisposisi.dart';
 import 'package:flutter/material.dart';
+import 'package:pref_dessert/pref_dessert.dart';
 import 'detail.dart';
 import 'disposisi.dart';
+import 'package:esdm/src/Model/indexDisposisi_desser.dart';
+import 'package:esdm/src/Model/indexDisposisi.dart';
+import 'package:esdm/src/Config/config_indexdisposisi.dart';
+import 'dart:convert';
 
 class Disposisi extends StatefulWidget{
   @override 
@@ -16,14 +22,54 @@ class _DisposisiState extends State<Disposisi>{
   List name = ["Khailla","Deno","Ipul","Gusti","Juan"];
   List date = ["25-02-2020","25-02-2020","25-02-2020","25-02-2020","25-02-2020"];
   List about = ["Pengaduan","Pemberitahuan","Saran","Kritik","Motivasi"];
+  List<IndexDisposisi> dataJson = new List();
+  ShowIndexDisposisi showIndexDisposisi = new ShowIndexDisposisi();
 
   // void pilihTujuan(String value){
   //   setState(() {
   //    _tujuan = value;
   //   });
   // }
+  var repoIndexDisposisi = new FuturePreferencesRepository<IndexDisposisi>(new IndexDisposisiDesser());
 
   @override 
+
+  void initState(){
+    super.initState();
+    try{
+
+    _loadListView();
+
+    }catch (exception) {
+
+    }
+
+  }
+
+  _loadListView() async{
+
+    repoIndexDisposisi.removeAll();
+
+    // ConfigIndexDisposisi.getData(showIndexDisposisi);
+    //   for (var data in showIndexDisposisi.ShowData()) {
+    //   repoIndexDisposisi.save(IndexDisposisi(
+    //     data.nama,
+    //     data.tanggal,
+    //     data.keperluan
+    //   )).then((data){
+
+    //   });
+    // }
+
+    repoIndexDisposisi.findAll().then((val){
+      for (var item in val) {
+        dataJson.add(item);
+      }
+    });
+      
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
@@ -32,7 +78,7 @@ class _DisposisiState extends State<Disposisi>{
         ),
 
         body: ListView.builder(
-          itemCount: 5,
+          itemCount: dataJson.length,
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) => Container(
             width: MediaQuery.of(context).size.width,
@@ -66,11 +112,11 @@ class _DisposisiState extends State<Disposisi>{
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Dari : "+name[index], style: TextStyle(color: Colors.black,fontSize: 
+                            Text("Dari : "+dataJson[index].nama, style: TextStyle(color: Colors.black,fontSize: 
                             18.0, fontWeight: FontWeight.bold)),
                             SizedBox(height: 5.0),
-                            Text("Tanggal : "+date[index], style: TextStyle(color: Colors.grey[600])),
-                            Text("Prihal : "+about[index], style: TextStyle(color: Colors.grey[600])),
+                            Text("Tanggal : "+dataJson[index].tanggal.toString(), style: TextStyle(color: Colors.grey[600])),
+                            Text("Prihal : "+dataJson[index].keperluan, style: TextStyle(color: Colors.grey[600])),
                           ],
                         ),
                       ],
@@ -138,4 +184,5 @@ class _DisposisiState extends State<Disposisi>{
 
     );
   }
+
 }
