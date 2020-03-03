@@ -15,13 +15,13 @@ class _PesanState extends State<Pesan> {
     "PENATA PUJI RAHAYU, S. Psi",
     "PENATA WORONINGROEM, S. Psi"
   ];
-  List status = ["Online", "Online", "Offline", "Online", "Offline"];
+  List status = ["Online", "Online", "Online", "Online", "Online"];
   var statusColor = [
     Colors.green,
     Colors.green,
-    Colors.red,
     Colors.green,
-    Colors.red
+    Colors.green,
+    Colors.green
   ];
   List recent = ["Baik, silahkan", "", "", "", ""];
 

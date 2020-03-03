@@ -1,5 +1,9 @@
+import 'package:esdm/src/Config/config_message.dart';
+import 'package:esdm/src/Config/config_user.dart';
+import 'package:esdm/src/Helper/add_user.dart';
 import 'package:esdm/src/Home/index.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -9,13 +13,27 @@ class Login extends StatefulWidget {
 enum FormType { login, register }
 
 class _LoginState extends State<Login> {
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   final formKey = new GlobalKey<FormState>();
+
+
+  AddUser addUser = new AddUser();
 
   String _email;
   String _password;
   FormType _formType = FormType.login;
 
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+
+  @override
+  void initState() {
+    super.initState();
+    try{
+      ConfigUser.getData(addUser);
+    }catch (exception) {
+    }
+  }
 
   bool validateAndSave() {
     final form = formKey.currentState;
@@ -24,6 +42,55 @@ class _LoginState extends State<Login> {
       return true;
     }
     return false;
+  }
+
+  cekLogin(String username,String password){
+    print("Username : "+username);
+    print("Password : "+password);
+    if(username.trim() == ""){
+      Alert(context: context, title: ConfigMessage.DataTitleMessageWarning,type: AlertType.warning, desc: ConfigMessage.DataTextMessageUsernameEmpty,
+        buttons: [
+          DialogButton(
+            child: Text(
+                ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
+            ),
+            onPressed: () => Navigator.pop(context),
+            color: Colors.black,
+          ),
+        ],).show();
+    }else if(password.trim() == ""){
+      Alert(context: context, title: ConfigMessage.DataTitleMessageWarning,type: AlertType.warning, desc: ConfigMessage.DataTextMessagePasswordEmpty,
+        buttons: [
+          DialogButton(
+            child: Text(
+                ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
+            ),
+            onPressed: () => Navigator.pop(context),
+            color: Colors.black,
+          ),
+        ],).show();
+    }
+    for(var item in addUser.ShowData()){
+      print("Username : "+item.email);
+      print("Password : "+item.password);
+       if(username.trim() == item.email && password.trim() == item.password){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Home()),
+          );
+          return "";
+        }
+    }
+    Alert(context: context, title: ConfigMessage.DataTitleMessageWarning,type: AlertType.warning, desc: ConfigMessage.DataTextMessageUsernameOrPasswordError,
+      buttons: [
+        DialogButton(
+          child: Text(
+              ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Colors.black,
+        ),
+      ],).show();
   }
 
   void validateAndSubmit() {
@@ -74,6 +141,7 @@ class _LoginState extends State<Login> {
         height: 45.0,
       ),
       new TextFormField(
+        controller: _usernameController,
         obscureText: false,
         style: style,
         decoration: InputDecoration(
@@ -87,6 +155,7 @@ class _LoginState extends State<Login> {
         height: 25.0,
       ),
       new TextFormField(
+        controller: _passwordController,
         obscureText: true,
         style: style,
         decoration: InputDecoration(
@@ -114,10 +183,7 @@ class _LoginState extends State<Login> {
             minWidth: MediaQuery.of(context).size.width,
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Home()),
-              );
+              cekLogin(_usernameController.text.trim(),_passwordController.text.trim());
             },
             child: Text("Login",
                 textAlign: TextAlign.center,

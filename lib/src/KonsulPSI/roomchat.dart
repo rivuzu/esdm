@@ -20,6 +20,7 @@ final ThemeData androidTheme = new ThemeData(
 );
 
 const String defaultUserName = "Aldi Firmansyah";
+const String defaultUserId = "1";
 
 class ChatRoom extends StatefulWidget {
   @override
@@ -56,10 +57,12 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     try{
+      setState(() {
+        ConfigKonsultasi.ChannelChat = ConfigKonsultasi.ChannelPasien + '-' + ConfigKonsultasi.ChannelDokter;
+      });
       getChat();
     }catch (exception) {
     }
-
   }
   @override
   Widget build(BuildContext context) {
@@ -147,7 +150,9 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
       animationController: new AnimationController(
           vsync: this, duration: new Duration(milliseconds: 800)),
     );
-    _client.publish(([ConfigKonsultasi.Channel]), {'sender':defaultUserName,'message': txt});
+    _client.publish(([ConfigKonsultasi.ChannelChat]), {'sender':defaultUserName,'message': txt});
+    _client.publish(([ConfigKonsultasi.ChannelPasien]), {'sender':defaultUserName,'message': txt});
+    _client.publish(([ConfigKonsultasi.ChannelDokter]), {'sender':defaultUserName,'message': txt});
     setState(() {
       _message.insert(0, msg);
     });
@@ -163,7 +168,7 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
   }
 
   void getChat(){
-    _client.history(ConfigKonsultasi.Channel, 100).then((items) {
+    _client.history(ConfigKonsultasi.ChannelChat, 100).then((items) {
       if (items != null && items.isNotEmpty) {
         for(var data in items){
           print("LAST ITEM TOKEN : $data");
