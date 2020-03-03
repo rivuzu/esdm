@@ -3,4 +3,6 @@ class Storage {
   static String DATADATEFORMATDDMMMYYYY = 'dd MMM yyyy';
   static String DATADATEFORMATDDMMYYYY = 'dd/MM/yyyy';
 
+  static String KENAIKANPANGKAT = 'kenaikanpangkat';
+
 }

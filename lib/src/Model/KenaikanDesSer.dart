@@ -1,7 +1,7 @@
 import 'package:pref_dessert/pref_dessert.dart';
 import 'dart:convert';
-import 'package:esdm/config/storage.dart';
-import 'KenaikanPangkat.dart';
+import 'package:esdm/src/Config/storage.dart';
+import 'package:esdm/src/Model/KenaikanPangkat.dart';
 
 class KenaikanDesSer extends DesSer<NaikPangkat>{
   

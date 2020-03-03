@@ -1,8 +1,8 @@
-import 'package:esdm/model/KenaikanDesSer.dart';
-import 'package:esdm/model/KenaikanPangkat.dart';
+import 'package:esdm/src/Model/KenaikanDesSer.dart';
+import 'package:esdm/src/Model/KenaikanPangkat.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:esdm/config/storage.dart';
+import 'package:esdm/src/Config/storage.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:esdm/src/Home/index.dart';
