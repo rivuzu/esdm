@@ -4,5 +4,7 @@ class Storage {
   static String DATADATEFORMATDDMMYYYY = 'dd/MM/yyyy';
 
   static String KENAIKANPANGKAT = 'kenaikanpangkat';
+  static String ROLEPASIEN = "Pasien";
+  static String ROLEDOKTER = "Dokter";
 
 }
