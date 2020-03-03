@@ -1,9 +1,11 @@
-import 'package:esdm/src/Home/index.dart';
+import 'package:esdm/model/KenaikanDesSer.dart';
+import 'package:esdm/model/KenaikanPangkat.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:esdm/config/storage.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:esdm/src/Home/index.dart';
 import 'package:pref_dessert/pref_dessert.dart';
 
 class KenaikanPangkat extends StatefulWidget{
@@ -13,7 +15,13 @@ class KenaikanPangkat extends StatefulWidget{
 
 class _KenaikanPangkatState extends State<KenaikanPangkat>{
 
-// var repo = new FuturePreferencesRepository<KenaikanPangkat>(new KenaikanDesSer());
+var repo = new FuturePreferencesRepository<NaikPangkat>(new KenaikanDesSer()); 
+  TextEditingController _namaController = TextEditingController();
+  TextEditingController _nrpController = TextEditingController();
+  TextEditingController _nomorController = TextEditingController();
+  TextEditingController _laporanController = TextEditingController();
+  TextEditingController _keluhanController = TextEditingController();
+
 
 DateTime _dateTime;
 
