@@ -18,15 +18,11 @@ List<StaggeredTile> _staggeredTiles = const <StaggeredTile>[
 List<Widget> _tiles = const <Widget>[
   const _KenaikanPangkat(
       Colors.black,
-      Text(
-        'Kenaikan Pangkat',
-        style: TextStyle(color: Colors.white, fontSize: 25),
+      Text('Kenaikan Pangkat',style: TextStyle(color: Colors.white, fontSize: 25),
       )),
   const _MutasiJabatan(
       Colors.black,
-      Text(
-        'Mutasi Jabatan',
-        style: TextStyle(color: Colors.white, fontSize: 25),
+      Text('Mutasi Jabatan',style: TextStyle(color: Colors.white, fontSize: 25),
       )),
 ];
 

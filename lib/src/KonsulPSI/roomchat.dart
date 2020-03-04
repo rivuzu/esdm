@@ -1,12 +1,16 @@
 import 'dart:convert';
 
 import 'package:esdm/src/Config/config_konsultasi.dart';
+import 'package:esdm/src/Config/storage.dart';
 import 'package:esdm/src/Helper/capital_word.dart';
 import 'package:esdm/src/Model/konsultasi.dart';
+import 'package:esdm/src/Model/user.dart';
+import 'package:esdm/src/Model/user_desser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_pubnub/pubnub.dart';
+import 'package:pref_dessert/pref_dessert.dart';
 
 final ThemeData iOSTheme = new ThemeData(
   primarySwatch: Colors.red,
@@ -19,8 +23,9 @@ final ThemeData androidTheme = new ThemeData(
   accentColor: Colors.green,
 );
 
-const String defaultUserName = "Aldi Firmansyah";
-const String defaultUserId = "1";
+String defaultUserName = "Aldi Firmansyah";
+String defaultUserId = "1";
+String defaultRole = "Pasien";
 
 class ChatRoom extends StatefulWidget {
   @override
@@ -43,6 +48,9 @@ class _ChatRoomState extends State<ChatRoom> {
 
 class Chat extends StatefulWidget {
   @override
+  final id_dokter;
+  final role;
+  Chat({this.id_dokter,this.role});
   State createState() => new ChatWindow();
 }
 
@@ -52,15 +60,44 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
   final List<Msg> _message = <Msg>[];
   final TextEditingController _textController = new TextEditingController();
   bool _isWriting = false;
+  var repoUser = new FuturePreferencesRepository<User>(new UserDesser());
 
   @override
   void initState() {
     super.initState();
     try{
+      repoUser.findAll().then((val){
+        if(val.length > 0){
+          repoUser.findOne(val.length - 1).then((data) {
+            if (data != null) {
+              if(data.role == Storage.ROLEPASIEN){
+                setState(() {  ConfigKonsultasi.ChannelPasien = data.id_user; });
+              }else{
+                setState(() {  ConfigKonsultasi.ChannelDokter = data.id_user; });
+              }
+              setState(() { defaultUserName = data.nama; });
+              setState(() { defaultUserId = data.id_user; });
+              setState(() { defaultRole = data.role; });
+            }
+          });
+        }
+      });
+      if(widget.role == Storage.ROLEPASIEN){
+        setState(() { ConfigKonsultasi.ChannelPasien = widget.id_dokter; });
+      }else{
+        setState(() { ConfigKonsultasi.ChannelDokter = widget.id_dokter; });
+      }
       setState(() {
         ConfigKonsultasi.ChannelChat = ConfigKonsultasi.ChannelPasien + '-' + ConfigKonsultasi.ChannelDokter;
       });
       getChat();
+
+      print("ChannelChat : "+ConfigKonsultasi.ChannelChat );
+      print("ChannelPasien : "+ConfigKonsultasi.ChannelPasien );
+      print("ChannelDokter : "+ConfigKonsultasi.ChannelDokter );
+      print("defaultUserId : "+defaultUserId );
+      print("defaultRole : "+defaultRole );
+      print("defaultUserName : "+defaultRole );
     }catch (exception) {
     }
   }
@@ -150,9 +187,9 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
       animationController: new AnimationController(
           vsync: this, duration: new Duration(milliseconds: 800)),
     );
-    _client.publish(([ConfigKonsultasi.ChannelChat]), {'sender':defaultUserName,'message': txt});
-    _client.publish(([ConfigKonsultasi.ChannelPasien]), {'sender':defaultUserName,'message': txt});
-    _client.publish(([ConfigKonsultasi.ChannelDokter]), {'sender':defaultUserName,'message': txt});
+    _client.publish(([ConfigKonsultasi.ChannelChat]), {'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
+    _client.publish(([ConfigKonsultasi.ChannelPasien]), {'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
+    _client.publish(([ConfigKonsultasi.ChannelDokter]), {'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
     setState(() {
       _message.insert(0, msg);
     });
@@ -180,7 +217,7 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
             animationController: new AnimationController(
                 vsync: this, duration: new Duration(milliseconds: 800)),
           );
-          json.decode(data);
+//          json.decode(data);
           setState(() {
             _message.insert(0, msg);
           });
