@@ -11,7 +11,7 @@ class MutasiDesSer extends DesSer<NaikPangkat>{
       return new NaikPangkat(
         map['Nama'] as String,
         map['NRP'] as String,
-        map['Nomor'] as int,
+        map['Nomor'] as String,
         map['Laporan'] as String,
         map['Keluhan'] as String,
         );
