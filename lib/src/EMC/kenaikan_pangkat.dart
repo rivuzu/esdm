@@ -1,7 +1,11 @@
 import 'package:esdm/src/Config/config_message.dart';
+import 'package:esdm/src/Config/config_user.dart';
 import 'package:esdm/src/EMC/index.dart';
+import 'package:esdm/src/Helper/add_user.dart';
 import 'package:esdm/src/Model/KenaikanDesSer.dart';
 import 'package:esdm/src/Model/KenaikanPangkat.dart';
+import 'package:esdm/src/Model/user.dart';
+import 'package:esdm/src/Model/user_desser.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:esdm/src/Config/storage.dart';
@@ -18,7 +22,8 @@ class KenaikanPangkat extends StatefulWidget{
 
 class _KenaikanPangkatState extends State<KenaikanPangkat>{
 
-var repo = new FuturePreferencesRepository<NaikPangkat>(new KenaikanDesSer()); 
+var user = new FuturePreferencesRepository<User>(new UserDesser()); 
+var pangkat = new FuturePreferencesRepository<NaikPangkat>(new KenaikanDesSer()); 
   
   TextEditingController _namaController = TextEditingController();
   TextEditingController _nrpController = TextEditingController();
@@ -26,27 +31,26 @@ var repo = new FuturePreferencesRepository<NaikPangkat>(new KenaikanDesSer());
   TextEditingController _keluhanController = TextEditingController();
   DateTime _dateTime;
 
+  AddUser addUser = new AddUser();
+
 @override
 void initState(){
   super.initState();
-  try {
-    loadDataKenaikanPangkat(Storage.KENAIKANID);
-  } catch (exception) {
-    
-  }
+ try{
+    loadDataKenaikanPangkat();
+    }catch (exception) {
+    }
 }
 
-loadDataKenaikanPangkat(String kenaikanid)async{
+loadDataKenaikanPangkat()async{
   try {
-    repo.findAll().then((naik){
+    user.findAll().then((naik){
       if (naik.length > 0) {
-        repo.findOne(naik.length - 1).then((naikPangkat){
+        user.findOne(naik.length - 1).then((naikPangkat){
           if (naikPangkat != null) {
-            setState(() => _namaController.text = naikPangkat.Nama);
-            setState(() => _nrpController.text = naikPangkat.NRP);
-            setState(() => _nomorController.text = naikPangkat.Nomor.toString());
-            setState(() => _dateTime = DateTime.parse(naikPangkat.Laporan));
-            setState(() => _keluhanController.text = naikPangkat.Keluhan);
+            setState(() => _namaController.text = naikPangkat.nama);
+            setState(() => _nrpController.text = naikPangkat.pangkat);
+            setState(() => _nomorController.text = naikPangkat.no_hp);
           }
         });
       }
@@ -68,7 +72,7 @@ Widget build(BuildContext context) {
           child: new Form(
               autovalidate: true,
               child: new ListView(
-                padding: const EdgeInsets.only(top:20, ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: <Widget>[
                 SizedBox(
                   height: 150.0,
@@ -79,19 +83,19 @@ Widget build(BuildContext context) {
                       const Divider(
                         height: 16.0,
                       ),
-                  new TextFormField(
+                  new TextField(
                     decoration: const InputDecoration(
                       labelText: 'Nama',
                     ),
                     controller: _namaController,
                   ),
-                  new TextFormField(
+                  new TextField(
                     decoration: const InputDecoration(
                       labelText: 'Pangkat/NRP',
                     ),
                     controller: _nrpController,
                   ),
-                  new TextFormField(
+                  new TextField(
                     keyboardType: TextInputType.number,
                                     inputFormatters: <TextInputFormatter>[
                                       WhitelistingTextInputFormatter.digitsOnly
@@ -139,7 +143,7 @@ Widget build(BuildContext context) {
                       ),
                         ],
                       ),
-                  new TextFormField(
+                  new TextField(
                     decoration: const InputDecoration(
                       labelText: 'Sampaikan Keluhan Anda di Sini',
                     ),
@@ -185,10 +189,10 @@ Widget build(BuildContext context) {
   );
 }
 void savePangkat(){
-  repo.save(new NaikPangkat(
+  pangkat.save(new NaikPangkat(
   _namaController.text, 
   _nrpController.text, 
-  int.parse(_nomorController.text),
+  _nomorController.text,
   _dateTime.toString(),
   _keluhanController.text)).then((naik){
     if(naik != null){
