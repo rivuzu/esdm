@@ -1,5 +1,11 @@
+import 'package:esdm/src/Model/catpers_desser.dart';
 import 'package:flutter/material.dart';
+import 'package:pref_dessert/pref_dessert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:esdm/src/Model/catpers_desser.dart';
+import 'package:esdm/src/Model/catpers.dart';
+import 'package:esdm/src/Config/config_catpers.dart';
+import 'package:esdm/src/Helper/show_catpers.dart';
 
 class ListNama extends StatefulWidget {
   @override
@@ -7,28 +13,53 @@ class ListNama extends StatefulWidget {
 }
 
 class _ListNamaState extends State<ListNama> {
-  var items = ["Adi Mansyur", "Adi Muhammad", "Adi Setiawan", "Adi Teguh", "Aditya Radit", "Adib Pratama", "Adit Reza"];
-  var colors = [Colors.red, Colors.red, Colors.green, Colors.red, Colors.green, Colors.green, Colors.red];
+  var items = [
+    "Adi Mansyur",
+    "Adi Muhammad",
+    "Adi Setiawan",
+    "Adi Teguh",
+    "Aditya Radit",
+    "Adib Pratama",
+    "Adit Reza"
+  ];
+  var colors = [
+    Colors.red,
+    Colors.green,
+    Colors.red,
+    Colors.green,
+    Colors.green
+  ];
   // final List<String> litems = myStringList;
-  
-  _writeData() async{
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('my_string_list_key', ["Adi Mansyur", "Adi Muhammad", "Adi Setiawan", "Adi Teguh", "Aditya Radit", "Adib Pratama", "Adit Reza", "Adit Geiza", "Adib Rasyid"]);
-  }
+  ShowCatpers showCatpers = new ShowCatpers();
+  List<Catpers> dataJson = new List();
+  var repoCatpers =
+      new FuturePreferencesRepository<Catpers>(new CatpersDesser());
 
-  _getData() async{
-    final prefs = await SharedPreferences.getInstance();
-    final myStringList = prefs.getStringList('my_string_list_key') ?? [];
-    print(myStringList);
-    return myStringList;
+  _loadListView() async {
+    // repoCatpers.removeAll();
+
+    ConfigCatpers.getData(showCatpers);
+    for (var data in showCatpers.ShowData()) {
+      repoCatpers
+          .save(Catpers(
+            data.nama,
+            data.warna,
+          ))
+          .then((data) {});
+    }
+
+    repoCatpers.findAll().then((val) {
+      for (var item in val) {
+        dataJson.add(item);
+      }
+    });
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _writeData();
-    _getData();
+    _loadListView();
   }
 
   @override
@@ -66,7 +97,7 @@ class _ListNamaState extends State<ListNama> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        items[index],
+                        dataJson[index].nama,
                         style: TextStyle(fontSize: 20.0),
                       ),
                       Container(
@@ -86,7 +117,7 @@ class _ListNamaState extends State<ListNama> {
                   color: Colors.grey,
                 );
               },
-              itemCount: items.length,
+              itemCount: dataJson.length,
             ),
           ),
         ],
