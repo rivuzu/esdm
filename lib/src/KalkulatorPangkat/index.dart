@@ -1,3 +1,4 @@
+import 'package:esdm/src/Home/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 
@@ -9,7 +10,7 @@ class JenisUKP {
  
   static List<JenisUKP> getJenisUKP() {
     return <JenisUKP>[
-      JenisUKP(0, '-- JENIS UKP --'),
+      JenisUKP(0, '-- PILIH JENIS UKP --'),
       JenisUKP(1, 'REGULER'),
       JenisUKP(2, 'PENGABDIAN')
     ];
@@ -26,7 +27,7 @@ class Pangkat {
  
   static List<Pangkat> getPangkat() {
     return <Pangkat>[
-      Pangkat(0, '-- PANGKAT --'),
+      Pangkat(0, '-- PILIH PANGKAT --'),
       Pangkat(1, 'BRIGJEN POL'),
       Pangkat(2, 'KOMBES POL'),
       Pangkat(3, 'AKBP'),
@@ -47,7 +48,7 @@ class Dikbang {
  
   static List<Dikbang> getDikbang() {
     return <Dikbang>[
-      Dikbang(0, '-- DIKBANG --'),
+      Dikbang(0, '-- PILIH DIKBANG --'),
       Dikbang(1, 'SESPIMMEN'),
       Dikbang(2, 'STIK'),
       Dikbang(3, 'S2 NON AKREDITASI B'),
@@ -176,78 +177,142 @@ class _KalkulatorPangkatState extends State<KalkulatorPangkat> {
      
 
      return new MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.brown
-      ),
+      
       debugShowCheckedModeBanner: false,
+      
       home: new Scaffold(
         appBar: new AppBar(
-          title: new Text("Kalkulator Pangkat"),
-      
+          title: new Text('Kalkulator Pangkat'),
+          backgroundColor: Colors.brown,
         ),
         body: new Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                SizedBox(
-                  height: 10.0,
-                ),
-                DropdownButton(
+               
+                new Column(
+                  children: <Widget>[
+                    new FormField(builder: (FormFieldState state) {
+                      return InputDecorator(
+                        decoration: InputDecoration(
+                          labelText: 'Jenis UKP',
+                        ),
+                      child: DropdownButton(
                         value: _selectedJenisUKP,
                         items: _dropdownJenisUKP,
                         onChanged: onChangeJenisUKP,
                       ),
-                SizedBox(
-                  height: 15.0,
+                      );
+                    },
+                    )]
                 ),
-                DropdownButton(
-                  value: _selectedPangkat,
-                  items: _dropdownPangkat, 
-                  onChanged: onChangePangkat,
+
+                new Column(
+                  children: <Widget>[
+                    new FormField(builder: (FormFieldState state) {
+                      return InputDecorator(
+                        decoration: InputDecoration(
+                          labelText: 'Pangkat',
+                        ),
+                      child: DropdownButton(
+                          value: _selectedPangkat,
+                          items: _dropdownPangkat, 
+                          onChanged: onChangePangkat,
+                        ),
+                      );
+                    },
+                    )]
                 ),
-                SizedBox(
-                  height: 15.0,
+
+                new Column(
+                  children: <Widget>[
+                    new FormField(builder: (FormFieldState state) {
+                      return InputDecorator(
+                        decoration: InputDecoration(
+                          labelText: 'Dikbang',
+                        ),
+                        child:  DropdownButton(
+                        value: _selectedDikbang,
+                        items: _dropdownDikbang, 
+                        onChanged: onChangeDikbang,
+                      ),
+                      );
+                    },
+                    )]
                 ),
-                DropdownButton(
-                  value: _selectedDikbang,
-                  items: _dropdownDikbang, 
-                  onChanged: onChangeDikbang,
-                ),
+
                 SizedBox(
                   height: 15.0,
                 ),
                 Text("TMT PANGKAT"),
-                RaisedButton(
-                  onPressed: () => _selectDate(context),
-                  child: Text('PILIH TANGGAL'),
-                  color: Colors.brown,
-                  textColor: Colors.white,
-                ),
                 SizedBox(
-                  height: 20.0,
+                  height: 10.0,
+                ),
+                new Column(
+                  children: <Widget>[
+                    ButtonTheme(
+                      minWidth: 500.0,
+                      height: 50.0,
+                      child: RaisedButton(
+                        onPressed: () => _selectDate(context),
+                        child: Text('PILIH TANGGAL'),
+                        color: Colors.brown,
+                        textColor: Colors.white,
+                      ),
+                    ),
+                    ]
+                ),
+                
+                SizedBox(
+                  height: 15.0,
                 ),
                 Text("TMT PERWIRA"),
-                RaisedButton(
-                  onPressed: () => _selectDate(context),
-                  child: Text('PILIH TANGGAL'),
-                  color: Colors.brown,
-                  textColor: Colors.white,
-                ),
                 SizedBox(
-                  height: 20.0,
+                  height: 10.0,
                 ),
-                RaisedButton(
-                  onPressed: () => {},
-                  child: Text('CHECK'),
-                  color: Colors.brown,
-                  textColor: Colors.white,
+                new Column(
+                  children: <Widget>[
+                    ButtonTheme(
+                      minWidth: 500.0,
+                      height: 50.0,
+                      child: RaisedButton(
+                        onPressed: () => _selectDate(context),
+                        child: Text('PILIH TANGGAL'),
+                        color: Colors.brown,
+                        textColor: Colors.white,
+                      ),
+                    ),
+                    ]
                 ),
               ],
             ),
           ),
         ),
+        bottomNavigationBar: Container(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 10,
+                  child: Container(
+                    height: 50,
+                    child:  RaisedButton(
+                      onPressed: () { Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Home()),
+                      );
+                      },
+                      color: Colors.brown,
+                      child: Text("Check",style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
       ),
     );
   }
