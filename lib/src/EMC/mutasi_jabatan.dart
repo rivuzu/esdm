@@ -3,6 +3,8 @@ import 'package:esdm/src/EMC/index.dart';
 import 'package:esdm/src/Home/index.dart';
 import 'package:esdm/src/Model/KenaikanPangkat.dart';
 import 'package:esdm/src/Model/MutasiDesSer.dart';
+import 'package:esdm/src/Model/user.dart';
+import 'package:esdm/src/Model/user_desser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +21,7 @@ class MutasiJabatan extends StatefulWidget{
 class _MutasiJabatanState extends State<MutasiJabatan>{
 
 var repo = new FuturePreferencesRepository<NaikPangkat>(new MutasiDesSer()); 
+var user = new FuturePreferencesRepository<User>(new UserDesser());
 
   TextEditingController _namaController = TextEditingController();
   TextEditingController _nrpController = TextEditingController();
@@ -38,15 +41,13 @@ void initState(){
 
 loadDataMutasiJabatan(String kenaikanid)async{
   try {
-    repo.findAll().then((naik){
+    user.findAll().then((naik){
       if (naik.length > 0) {
-        repo.findOne(naik.length - 1).then((naikPangkat){
+        user.findOne(naik.length - 1).then((naikPangkat){
           if (naikPangkat != null) {
-            setState(() => _namaController.text = naikPangkat.Nama);
-            setState(() => _nrpController.text = naikPangkat.NRP);
-            setState(() => _nomorController.text = naikPangkat.Nomor.toString());
-            setState(() => _dateTime = DateTime.parse(naikPangkat.Laporan));
-            setState(() => _keluhanController.text = naikPangkat.Keluhan);
+            setState(() => _namaController.text = naikPangkat.nama);
+            setState(() => _nrpController.text = naikPangkat.pangkat);
+            setState(() => _nomorController.text = naikPangkat.no_hp);
           }
         });
       }
@@ -61,14 +62,14 @@ Widget build(BuildContext context) {
     appBar: new AppBar(
           title: new Text('Mutasi Jabatan'),
           backgroundColor: Colors.black,
-        ),
+        ),  
     body: new SafeArea(
           top: false,
           bottom: false,
           child: new Form(
               autovalidate: true,
               child: new ListView(
-                padding: const EdgeInsets.only(top:20, ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: <Widget>[
                 SizedBox(
                   height: 150.0,
@@ -79,19 +80,19 @@ Widget build(BuildContext context) {
                       const Divider(
                         height: 16.0,
                       ),
-                  new TextFormField(
+                  new TextField(
                     decoration: const InputDecoration(
                       labelText: 'Nama',
                     ),
                     controller: _namaController,
                   ),
-                  new TextFormField(
+                  new TextField(
                     decoration: const InputDecoration(
                       labelText: 'Pangkat/NRP',
                     ),
                     controller: _nrpController,
                   ),
-                  new TextFormField(
+                  new TextField(
                     keyboardType: TextInputType.number,
                                     inputFormatters: <TextInputFormatter>[
                                       WhitelistingTextInputFormatter.digitsOnly
@@ -139,7 +140,7 @@ Widget build(BuildContext context) {
                       ),
                         ],
                       ),
-                  new TextFormField(
+                  new TextField(
                     decoration: const InputDecoration(
                       labelText: 'Sampaikan Keluhan Anda di Sini',
                     ),
@@ -156,10 +157,8 @@ Widget build(BuildContext context) {
                   child: Container(
                     height: 50,
                     child:  RaisedButton(
-                      onPressed: () { Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      );
+                      onPressed: () { 
+                        removeAll();
                       },
                       color: Colors.grey,
                       child: Text("Reset",style: TextStyle(color: Colors.black)),
@@ -184,11 +183,15 @@ Widget build(BuildContext context) {
           ),
   );
 }
+
+void removeAll(){
+  user.removeAll();
+}
 void saveMutasi(){
   repo.save(new NaikPangkat(
   _namaController.text, 
   _nrpController.text, 
-  int.parse(_nomorController.text),
+  _nomorController.text,
   _dateTime.toString(),
   _keluhanController.text)).then((mutasi){
     if(mutasi != null){
