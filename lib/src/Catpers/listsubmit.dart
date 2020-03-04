@@ -57,6 +57,8 @@ class _ListSubmitState extends State<ListSubmit> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
+                    print(colors[index]);
+                    colors[index] = Colors.red;
                     Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => FormPelanggaran()),

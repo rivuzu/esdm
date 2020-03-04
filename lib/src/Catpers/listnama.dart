@@ -9,7 +9,7 @@ class ListNama extends StatefulWidget {
 class _ListNamaState extends State<ListNama> {
   var items = ["Adi Mansyur", "Adi Muhammad", "Adi Setiawan", "Adi Teguh", "Aditya Radit", "Adib Pratama", "Adit Reza"];
   var colors = [Colors.red, Colors.red, Colors.green, Colors.red, Colors.green, Colors.green, Colors.red];
-  // List<String> litems = myStringList;
+  // final List<String> litems = myStringList;
   
   _writeData() async{
     final prefs = await SharedPreferences.getInstance();
