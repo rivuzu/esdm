@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class KonselorProfile extends StatefulWidget {
   @override
+  final nama;
+  KonselorProfile({this.nama});
   _KonselorProfileState createState() => _KonselorProfileState();
 }
 
@@ -32,7 +34,7 @@ class _KonselorProfileState extends State<KonselorProfile> {
                 ),
                 SizedBox(height: 20.0,),
                 Text(
-                  'AKBP R SAJARWO SAPUTRO, Psi',
+                  widget.nama,
                   style: TextStyle(
                     fontFamily: 'SourceSansPro',
                     fontSize: 25,
