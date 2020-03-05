@@ -36,34 +36,57 @@ class _ListNamaState extends State<ListNama> {
       new FuturePreferencesRepository<Catpers>(new CatpersDesser());
 
   _loadListView() async {
-    // repoCatpers.removeAll();
+    repoCatpers.removeAll();
 
     ConfigCatpers.getData(showCatpers);
     for (var data in showCatpers.ShowData()) {
-      repoCatpers
-          .save(Catpers(
-            data.nama,
-            data.warna,
-          ))
-          .then((data) {});
+      await _save(data);
     }
 
-    repoCatpers.findAll().then((val) {
+    repoCatpers.findAll().then((val) async {
       for (var item in val) {
-        dataJson.add(item);
+        await _get(item);
       }
     });
+  }
+
+  Future _save(data) async {
+    repoCatpers
+        .save(Catpers(
+          data.nama,
+          data.warna,
+        ))
+        .then((data) {});
+    print("data");
+    print(data);
+  }
+
+  Future _get(item) async {
+    setState(() {
+      dataJson.add(item);
+    });
+    print("item");
+    print(item);
   }
 
   @override
   void initState() {
     // TODO: implement initState
+    // _loadListView();
     super.initState();
-    _loadListView();
+  }
+
+  @override
+  Future<void> didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    await _loadListView();
+    print("didChangeDependencies");
   }
 
   @override
   Widget build(BuildContext context) {
+    print("ASELOLE");
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('List Nama'),
@@ -104,7 +127,7 @@ class _ListNamaState extends State<ListNama> {
                         width: 20.0,
                         height: 20.0,
                         decoration: new BoxDecoration(
-                          color: colors[index],
+                          color: Colors.green,
                           shape: BoxShape.circle,
                         ),
                       ),
