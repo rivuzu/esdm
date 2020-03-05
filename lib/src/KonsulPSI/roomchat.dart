@@ -23,9 +23,12 @@ final ThemeData androidTheme = new ThemeData(
   accentColor: Colors.green,
 );
 
-String defaultUserName = "Aldi Firmansyah";
-String defaultUserId = "1";
-String defaultRole = "Pasien";
+
+String defaultUserName = "";
+String defaultDokterName = "";
+String defaultPasienName = "";
+String defaultUserId = "";
+String defaultRole = "";
 
 class ChatRoom extends StatefulWidget {
   @override
@@ -50,7 +53,8 @@ class Chat extends StatefulWidget {
   @override
   final id_dokter;
   final role;
-  Chat({this.id_dokter,this.role});
+  final name;
+  Chat({this.id_dokter,this.role,this.name});
   State createState() => new ChatWindow();
 }
 
@@ -72,8 +76,10 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
             if (data != null) {
               if(data.role == Storage.ROLEPASIEN){
                 setState(() {  ConfigKonsultasi.ChannelPasien = data.id_user; });
+                setState(() { defaultPasienName  = data.nama; });
               }else{
                 setState(() {  ConfigKonsultasi.ChannelDokter = data.id_user; });
+                setState(() { defaultDokterName  = data.nama; });
               }
               setState(() { defaultUserName = data.nama; });
               setState(() { defaultUserId = data.id_user; });
@@ -84,20 +90,24 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
       });
       if(widget.role == Storage.ROLEPASIEN){
         setState(() { ConfigKonsultasi.ChannelPasien = widget.id_dokter; });
+        setState(() { defaultPasienName  = widget.name; });
       }else{
         setState(() { ConfigKonsultasi.ChannelDokter = widget.id_dokter; });
+        setState(() { defaultDokterName   = widget.name; });
       }
       setState(() {
         ConfigKonsultasi.ChannelChat = ConfigKonsultasi.ChannelPasien + '-' + ConfigKonsultasi.ChannelDokter;
       });
       getChat();
-
       print("ChannelChat : "+ConfigKonsultasi.ChannelChat );
       print("ChannelPasien : "+ConfigKonsultasi.ChannelPasien );
       print("ChannelDokter : "+ConfigKonsultasi.ChannelDokter );
       print("defaultUserId : "+defaultUserId );
       print("defaultRole : "+defaultRole );
-      print("defaultUserName : "+defaultRole );
+      print("widget.role : "+widget.role );
+      print("defaultUserName : "+defaultUserName );
+      print("defaultDokterName  : "+defaultDokterName  );
+      print("defaultPasienName  : "+defaultPasienName  );
     }catch (exception) {
     }
   }
@@ -187,9 +197,9 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
       animationController: new AnimationController(
           vsync: this, duration: new Duration(milliseconds: 800)),
     );
-    _client.publish(([ConfigKonsultasi.ChannelChat]), {'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
-    _client.publish(([ConfigKonsultasi.ChannelPasien]), {'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
-    _client.publish(([ConfigKonsultasi.ChannelDokter]), {'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
+    _client.publish(([ConfigKonsultasi.ChannelChat]), {'pasien_name':defaultPasienName ,'dokter_name':defaultDokterName,'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
+    _client.publish(([ConfigKonsultasi.ChannelPasien]), {'pasien_name':defaultPasienName ,'dokter_name':defaultDokterName,'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
+    _client.publish(([ConfigKonsultasi.ChannelDokter]), {'pasien_name':defaultPasienName ,'dokter_name':defaultDokterName,'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
     setState(() {
       _message.insert(0, msg);
     });
