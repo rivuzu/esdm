@@ -53,7 +53,7 @@ class _TujuanDisposisiState extends State<TujuanDisposisi>{
   }
   
   simpanTujuan() async {
-    super.initState();
+    Navigator.pop(context, false);
   }
 
   @override
