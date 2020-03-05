@@ -54,6 +54,7 @@ class _FormPelanggaranState extends State<FormPelanggaran> {
   }
 
   _saveForm() {
+    Navigator.pop(context, false);
     var form = formKey.currentState;
     if (form.validate()) {
       form.save();

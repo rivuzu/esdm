@@ -9,6 +9,8 @@ import 'package:esdm/src/Model/indexDisposisi_desser.dart';
 import 'package:esdm/src/Model/indexDisposisi.dart';
 import 'package:esdm/src/Config/config_indexdisposisi.dart';
 import 'dart:convert';
+import 'package:esdm/src/Model/user_desser.dart';
+import 'package:esdm/src/Model/user.dart';
 
 class Disposisi extends StatefulWidget{
   @override 
@@ -30,6 +32,7 @@ class _DisposisiState extends State<Disposisi>{
   //    _tujuan = value;
   //   });
   // }
+  var repoUser = new FuturePreferencesRepository<User>(new UserDesser());
   var repoIndexDisposisi = new FuturePreferencesRepository<IndexDisposisi>(new IndexDisposisiDesser());
 
   @override 
@@ -38,35 +41,29 @@ class _DisposisiState extends State<Disposisi>{
     super.initState();
     try{
 
-    _loadListView();
+    loadDataLogin();
+    print("DATA" + loadDataLogin());
 
-    }catch (exception) {
+    }catch (exception){
 
     }
-
   }
 
-  _loadListView() async{
+  loadDataLogin() async{
+    try{
+      repoUser.findAll().then((val){
+        if (val.length > 0) {
+          repoUser.findOne(val.length - 1).then((data){
+            setState(() => data.nama);
+            setState(() => data.jabatan_id);
+            setState(() => data.jabatan_parent_id);
+            setState(() => data.jabatan_child_ids);
+          });
+        }
+      });
+    }catch (exception){
 
-    repoIndexDisposisi.removeAll();
-
-    // ConfigIndexDisposisi.getData(showIndexDisposisi);
-    //   for (var data in showIndexDisposisi.ShowData()) {
-    //   repoIndexDisposisi.save(IndexDisposisi(
-    //     data.nama,
-    //     data.tanggal,
-    //     data.keperluan
-    //   )).then((data){
-
-    //   });
-    // }
-
-    repoIndexDisposisi.findAll().then((val){
-      for (var item in val) {
-        dataJson.add(item);
-      }
-    });
-      
+    }
   }
 
   @override
@@ -78,7 +75,7 @@ class _DisposisiState extends State<Disposisi>{
         ),
 
         body: ListView.builder(
-          itemCount: dataJson.length,
+          itemCount: 5,
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) => Container(
             width: MediaQuery.of(context).size.width,
@@ -112,11 +109,11 @@ class _DisposisiState extends State<Disposisi>{
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Dari : "+dataJson[index].nama, style: TextStyle(color: Colors.black,fontSize: 
+                            Text("Dari : "+name[index], style: TextStyle(color: Colors.black,fontSize: 
                             18.0, fontWeight: FontWeight.bold)),
                             SizedBox(height: 5.0),
-                            Text("Tanggal : "+dataJson[index].tanggal.toString(), style: TextStyle(color: Colors.grey[600])),
-                            Text("Prihal : "+dataJson[index].keperluan, style: TextStyle(color: Colors.grey[600])),
+                            Text("Tanggal : "+date[index].toString(), style: TextStyle(color: Colors.grey[600])),
+                            Text("Prihal : "+about[index], style: TextStyle(color: Colors.grey[600])),
                           ],
                         ),
                       ],
