@@ -22,8 +22,9 @@ class KenaikanPangkat extends StatefulWidget{
 
 class _KenaikanPangkatState extends State<KenaikanPangkat>{
 
-var user = new FuturePreferencesRepository<User>(new UserDesser()); 
-var pangkat = new FuturePreferencesRepository<NaikPangkat>(new KenaikanDesSer()); 
+  List<KenaikanDesSer> _listPangkat = new List();
+  var user = new FuturePreferencesRepository<User>(new UserDesser()); 
+  var pangkat = new FuturePreferencesRepository<NaikPangkat>(new KenaikanDesSer()); 
   
   TextEditingController _namaController = TextEditingController();
   TextEditingController _nrpController = TextEditingController();
@@ -44,21 +45,48 @@ void initState(){
 
 loadDataKenaikanPangkat()async{
   try {
-     pangkat.findAll().then((naik1){
-            if (naik1.length > 0) {
-              pangkat.findOne(naik1.length - 1).then((naikPangkat1){
-                if (naikPangkat1 != null) {
-                  setState(() => _namaController.text = naikPangkat1.Nama);
-                  setState(() => _nrpController.text = naikPangkat1.NRP);
-                  setState(() => _nomorController.text = naikPangkat1.Nomor);
-                  setState(() => _dateTime = DateTime.parse(naikPangkat1.Laporan.toString()));
-                  setState(() => _keluhanController.text = naikPangkat1.Keluhan);
-                }
-              });
-            }
-          }); 
-          print(_namaController.text + _nrpController.text + _nomorController.text);
-        
+    pangkat.findAll().then((naik){
+      if (naik.length > 0) {
+        for(var pangkat in naik){
+          setState(() => _namaController.text = pangkat.Nama);
+          setState(() => _nrpController.text = pangkat.NRP);
+            setState(() => _nomorController.text = pangkat.Nomor);
+            setState(() => _dateTime = DateTime.parse(pangkat.Laporan.toString()));
+            setState(() => _keluhanController.text = pangkat.Keluhan);
+        }
+        pangkat.findOne(naik.length - 1).then((naikPangkat){
+          if (naikPangkat != null) {
+            setState(() => _namaController.text = naikPangkat.Nama);
+            setState(() => _nrpController.text = naikPangkat.NRP);
+            setState(() => _nomorController.text = naikPangkat.Nomor);
+            setState(() => _dateTime = DateTime.parse(naikPangkat.Laporan.toString()));
+            setState(() => _keluhanController.text = naikPangkat.Keluhan);
+          }
+        });
+      }
+    
+      //   pangkat.findOne(naik.length - 1).then((naikPangkat){
+      //     if (naikPangkat != null) {
+      //       setState(() => _namaController.text = naikPangkat.nama);
+      //       setState(() => _nrpController.text = naikPangkat.pangkat);
+      //       setState(() => _nomorController.text = naikPangkat.no_hp);
+      //     }else pangkat.findAll().then((naik1){
+      //       if (naik1.length > 0) {
+      //         pangkat.findOne(naik1.length - 1).then((naikPangkat1){
+      //           if (naikPangkat1 != null) {
+      //             setState(() => _namaController.text = naikPangkat1.Nama);
+      //             setState(() => _nrpController.text = naikPangkat1.NRP);
+      //             setState(() => _nomorController.text = naikPangkat1.Nomor);
+      //             setState(() => _dateTime = DateTime.parse(naikPangkat1.Laporan.toString()));
+      //             setState(() => _keluhanController.text = naikPangkat1.Keluhan);
+      //           }
+      //         });
+      //       }
+      //     }); 
+      //     print(_namaController.text + _nrpController.text + _nomorController.text);
+      //   });
+      // }
+    });
   } catch (exception) {
 
   }

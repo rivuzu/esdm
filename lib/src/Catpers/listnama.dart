@@ -32,8 +32,7 @@ class _ListNamaState extends State<ListNama> {
   // final List<String> litems = myStringList;
   ShowCatpers showCatpers = new ShowCatpers();
   List<Catpers> dataJson = new List();
-  var repoCatpers =
-      new FuturePreferencesRepository<Catpers>(new CatpersDesser());
+  var repoCatpers = new FuturePreferencesRepository<Catpers>(new CatpersDesser());
 
   _loadListView() async {
     // repoCatpers.removeAll();
