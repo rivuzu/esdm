@@ -44,17 +44,21 @@ void initState(){
 
 loadDataKenaikanPangkat()async{
   try {
-    user.findAll().then((naik){
-      if (naik.length > 0) {
-        user.findOne(naik.length - 1).then((naikPangkat){
-          if (naikPangkat != null) {
-            setState(() => _namaController.text = naikPangkat.nama);
-            setState(() => _nrpController.text = naikPangkat.pangkat);
-            setState(() => _nomorController.text = naikPangkat.no_hp);
-          }
-        });
-      }
-    });
+     pangkat.findAll().then((naik1){
+            if (naik1.length > 0) {
+              pangkat.findOne(naik1.length - 1).then((naikPangkat1){
+                if (naikPangkat1 != null) {
+                  setState(() => _namaController.text = naikPangkat1.Nama);
+                  setState(() => _nrpController.text = naikPangkat1.NRP);
+                  setState(() => _nomorController.text = naikPangkat1.Nomor);
+                  setState(() => _dateTime = DateTime.parse(naikPangkat1.Laporan.toString()));
+                  setState(() => _keluhanController.text = naikPangkat1.Keluhan);
+                }
+              });
+            }
+          }); 
+          print(_namaController.text + _nrpController.text + _nomorController.text);
+        
   } catch (exception) {
 
   }
@@ -206,6 +210,7 @@ void savePangkat(){
                 color: Colors.black,  
               ),
             ],).show();
+            print(_dateTime.toString() + ',' + _keluhanController.text);
     }
   });
   Navigator.push(
