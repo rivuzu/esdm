@@ -35,6 +35,7 @@ class _PesanState extends State<Pesan> {
     Colors.green,
     Colors.green
   ];
+  String roleLogin = "";
   AddUser addUser = new AddUser();
   Konsultasi _konsultasi = new Konsultasi();
   List<KonsultasiMessage> _listKonsultasiHistory = new List();
@@ -49,6 +50,7 @@ class _PesanState extends State<Pesan> {
     try{
       ConfigUser.getData(addUser);
       getListChatAll();
+//      deleteDuplicate(_listKonsultasi,"Masuk 1");
     }catch (exception) {
     }
   }
@@ -56,61 +58,79 @@ class _PesanState extends State<Pesan> {
   getListChatAll() async{
     repoUser.findAll().then((val){
       if(val.length > 0){
-        repoUser.findOne(val.length - 1).then((data){
+        repoUser.findOne(val.length - 1).then((data) async {
             if(data != null){
-                for(var item in addUser.ShowData()){
-                  if(data.role == Storage.ROLEPASIEN){
-                    if(item.role == Storage.ROLEDOKTER){
-                      KonsultasiMessage message = new KonsultasiMessage(
-                        message : "",
-                        sender : item.nama,
-                        id_sender : item.id_user,
-                        id_chat : data.id_user +'-'+ item.id_user,
-                        role : item.role,
-                      );
-                      KonsultasiMessage message2 = new KonsultasiMessage(
-                        message : "",
-                        sender : item.nama,
-                        id_sender : item.id_user,
-                        id_chat : "",
-                        role : item.role,
-                      );
-                      setState(() {
-                        _listKonsultasi.insert(0, message);
-                      });
-                      setState(() {
-                        _listKonsultasiHistory.insert(0, message2);
-                      });
+              setState(() { roleLogin = data.role; });
+             await _client.history(data.id_user, 100).then((items) async {
+                if (items != null && items.isNotEmpty) {
+                     for(var data in items){
+                         await dataHistoriKonsultasi(data);
                     }
-                  }
+                } else {
+                  print('No items');
                 }
+              });
 
-                _client.history(data.id_user, 100).then((items) {
-                  if (items != null && items.isNotEmpty) {
-                    for(var data in items){
-                      _konsultasi = new Konsultasi.fromJson(json.decode(data));
-                      KonsultasiMessage message = new KonsultasiMessage(
-                        message : _konsultasi.message.message,
-                        sender : _konsultasi.message.sender,
-                        id_sender : _konsultasi.message.id_sender,
-                        id_chat : _konsultasi.message.id_chat,
-                        role : _konsultasi.message.role,
-                      );
-                      setState(() {
-                        _listKonsultasi.insert(0, message);
-                      });
-                      setState(() {
-                        _listKonsultasiHistory.insert(0, message);
-                      });
-                    }
-                  } else {
-                    print('No items');
-                  }
-                });
+                for(var item in addUser.ShowData()){
+                  await dataDefaultDokter(data,item);
+                }
+               await deleteDuplicate(_listKonsultasi,"masuk 6");
+
             }
         });
       }
     });
+  }
+
+  Future dataHistoriKonsultasi(var data) async{
+    _konsultasi = new Konsultasi.fromJson(json.decode(data));
+    KonsultasiMessage message = new KonsultasiMessage(
+      message : _konsultasi.message.message,
+      sender : _konsultasi.message.sender,
+      id_sender : _konsultasi.message.id_sender,
+      id_chat : _konsultasi.message.id_chat,
+      pasien_name: _konsultasi.message.pasien_name,
+      dokter_name: _konsultasi.message.dokter_name,
+      role : _konsultasi.message.role,
+    );
+    setState(() {
+      _listKonsultasi.insert(0, message);
+    });
+  }
+
+  Future dataDefaultDokter(var data,var item) async{
+    if(data.role == Storage.ROLEPASIEN){
+      if(item.role == Storage.ROLEDOKTER){
+        KonsultasiMessage message = new KonsultasiMessage(
+          message : "",
+          sender : item.nama,
+          id_sender : item.id_user,
+          id_chat : data.id_user +'-'+ item.id_user,
+          pasien_name: data.nama,
+          dokter_name: item.nama,
+          role : item.role,
+        );
+        setState(() {
+          _listKonsultasi.add(message);
+        });
+      }
+    }
+  }
+
+  Future deleteDuplicate(List<KonsultasiMessage> konsultasi,String Pesan) async{
+    print(Pesan+konsultasi.length.toString());
+    for(var item in konsultasi){
+      int index;
+      setState(() {
+        index = _listKonsultasiHistory.indexWhere((x) => x.id_chat == item.id_chat);
+      });
+      print("DATA Index"+index.toString());
+      if(index <= -1){
+        setState(() {
+          _listKonsultasiHistory.add(item);
+        });
+      }
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -122,15 +142,18 @@ class _PesanState extends State<Pesan> {
       body:
       Container(
         child:  ListView.builder(
-            itemCount: _listKonsultasi.length,
+            itemCount: _listKonsultasiHistory.length,
 //            shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
-                for(var item in _listKonsultasiHistory){
-                  print("Jumlah data :"+_listKonsultasi[index].id_chat.contains(item.id_chat).toString());
-                  print("Jumlah data2 :"+_listKonsultasi[index].id_chat.toString());
-                  print("Jumlah data3 :"+item.id_chat.toString());
-//                  if(item.id_chat.contains(_listKonsultasi[index].id_chat) == false){
-//              if(_listKonsultasi[index].id_chat != _listKonsultasiHistory[index-1].id_chat){
+              var name = "";
+              print("Role Login : "+roleLogin);
+              if(roleLogin == Storage.ROLEPASIEN){
+                name = _listKonsultasiHistory[index].dokter_name;
+                print("Name Dokter: "+name);
+              }else{
+                name = _listKonsultasiHistory[index].pasien_name;
+                print("Name Pasien: "+name);
+              }
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -153,7 +176,7 @@ class _PesanState extends State<Pesan> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => KonselorProfile(nama :_listKonsultasi[index].sender)),
+                                        MaterialPageRoute(builder: (context) => KonselorProfile(nama :name)),
                                       );
                                     },
                                     child: Container(
@@ -173,7 +196,7 @@ class _PesanState extends State<Pesan> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => Chat(id_dokter: _listKonsultasi[index].id_sender,role: _listKonsultasi[index].role)),
+                                        MaterialPageRoute(builder: (context) => Chat(id_dokter: _listKonsultasiHistory[index].id_sender,role: _listKonsultasiHistory[index].role,name :_listKonsultasiHistory[index].sender)),
                                       );
                                     },
                                     child: Row(
@@ -187,7 +210,7 @@ class _PesanState extends State<Pesan> {
                                               width:
                                               MediaQuery.of(context).size.width / 1.6,
                                               child: Text(
-                                                _listKonsultasi[index].sender,
+                                                name,
                                                 style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 18.0,
@@ -197,7 +220,7 @@ class _PesanState extends State<Pesan> {
                                               ),
                                             ),
                                             SizedBox(height: 5.0),
-                                            Text(_listKonsultasi[index].message,
+                                            Text(_listKonsultasiHistory[index].message,
                                                 style: TextStyle(color: Colors.grey[600])),
                                           ],
                                         ),
@@ -225,9 +248,6 @@ class _PesanState extends State<Pesan> {
                         ),
                       ),
                     );
-//                  }
-                }
-//              }
             }
         ),
       )
