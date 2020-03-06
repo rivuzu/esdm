@@ -22,10 +22,11 @@ class KenaikanPangkat extends StatefulWidget{
 
 class _KenaikanPangkatState extends State<KenaikanPangkat>{
 
-  List<KenaikanDesSer> _listPangkat = new List();
+  List<NaikPangkat> _listkenaikanPangkat = new List();
+  List<NaikPangkat> _listPangkat = new List();
   var user = new FuturePreferencesRepository<User>(new UserDesser()); 
   var pangkat = new FuturePreferencesRepository<NaikPangkat>(new KenaikanDesSer()); 
-  
+  String namaUser = "";
   TextEditingController _namaController = TextEditingController();
   TextEditingController _nrpController = TextEditingController();
   TextEditingController _nomorController = TextEditingController();
@@ -37,60 +38,100 @@ class _KenaikanPangkatState extends State<KenaikanPangkat>{
 @override
 void initState(){
   super.initState();
- try{
-    loadDataKenaikanPangkat();
-    }catch (exception) {
-    }
+  loadDataKenaikanPangkat();
+      try{
+      }catch (exception) {
+      }
 }
+
+Future<void> didChangeDependencies() async {
+  super.didChangeDependencies();
+    await loadDataKenaikanPangkat();
+    // await deleteDuplicate(_listPangkat);
+    await loadData();  
+  print('didChangeDependencies');
+}
+
+  loadData() async{
+    try {
+      setState(() { _namaController.text = _listPangkat[_listPangkat.length - 1].Nama;});
+      setState(() { _nrpController.text = _listPangkat[_listPangkat.length - 1].NRP;});
+      setState(() { _nomorController.text = _listPangkat[_listPangkat.length - 1].Nomor;});
+      setState(() { _dateTime = DateTime.parse(_listPangkat[_listPangkat.length - 1].Laporan.toString());});
+      setState(() { _keluhanController.text = _listPangkat[_listPangkat.length - 1].Keluhan;});  
+    } catch (e) {
+    }
+  }
 
 loadDataKenaikanPangkat()async{
   try {
-    pangkat.findAll().then((naik){
+   await user.findAll().then((naik) async {
       if (naik.length > 0) {
-        for(var pangkat in naik){
-          setState(() => _namaController.text = pangkat.Nama);
-          setState(() => _nrpController.text = pangkat.NRP);
-            setState(() => _nomorController.text = pangkat.Nomor);
-            setState(() => _dateTime = DateTime.parse(pangkat.Laporan.toString()));
-            setState(() => _keluhanController.text = pangkat.Keluhan);
-        }
-        pangkat.findOne(naik.length - 1).then((naikPangkat){
+        await user.findOne(naik.length - 1).then((naikPangkat) async {
           if (naikPangkat != null) {
-            setState(() => _namaController.text = naikPangkat.Nama);
-            setState(() => _nrpController.text = naikPangkat.NRP);
-            setState(() => _nomorController.text = naikPangkat.Nomor);
-            setState(() => _dateTime = DateTime.parse(naikPangkat.Laporan.toString()));
-            setState(() => _keluhanController.text = naikPangkat.Keluhan);
+            print("DATA 2");
+           await setState(() { namaUser = naikPangkat.nama;});
           }
         });
       }
-    
-      //   pangkat.findOne(naik.length - 1).then((naikPangkat){
-      //     if (naikPangkat != null) {
-      //       setState(() => _namaController.text = naikPangkat.nama);
-      //       setState(() => _nrpController.text = naikPangkat.pangkat);
-      //       setState(() => _nomorController.text = naikPangkat.no_hp);
-      //     }else pangkat.findAll().then((naik1){
-      //       if (naik1.length > 0) {
-      //         pangkat.findOne(naik1.length - 1).then((naikPangkat1){
-      //           if (naikPangkat1 != null) {
-      //             setState(() => _namaController.text = naikPangkat1.Nama);
-      //             setState(() => _nrpController.text = naikPangkat1.NRP);
-      //             setState(() => _nomorController.text = naikPangkat1.Nomor);
-      //             setState(() => _dateTime = DateTime.parse(naikPangkat1.Laporan.toString()));
-      //             setState(() => _keluhanController.text = naikPangkat1.Keluhan);
-      //           }
-      //         });
-      //       }
-      //     }); 
-      //     print(_namaController.text + _nrpController.text + _nomorController.text);
-      //   });
-      // }
+      });
+      print("namaUser"+namaUser);
+    await pangkat.findAll().then((naik) async {
+      if (naik.length > 0) {
+        for(var pangkat in naik){
+          if(namaUser == pangkat.Nama){
+            var data = _listPangkat.indexWhere((x) => x.Nama == pangkat.Nama);
+            print("DATA : "+data.toString());
+            if(data <= -1){
+              setState(() { 
+                _listPangkat.add(pangkat);
+              });
+            }
+          }else{
+              print("DATA 3:");
+              getDataUserLogin();
+            }
+          }
+          }else{
+            print("Data 3");
+            getDataUserLogin();      
+        }
     });
   } catch (exception) {
 
   }
 }
+
+getDataUserLogin() async {
+    await user.findAll().then((naik) async {
+          if (naik.length > 0) {
+           await user.findOne(naik.length - 1).then((naikPangkat){
+              if (naikPangkat != null) {
+                setState(() => _namaController.text = naikPangkat.nama);
+                setState(() => _nrpController.text = naikPangkat.pangkat);
+                setState(() => _nomorController.text = naikPangkat.no_hp);
+              }
+            });
+          }
+         });
+}
+
+  Future deleteDuplicate(List<NaikPangkat> kenaikan) async{
+    for(var item in kenaikan){
+      int index;
+      setState(() {
+        index = _listkenaikanPangkat.indexWhere((x) => x.Nama == item.Nama);
+      });
+      print("DATA Index"+index.toString());
+      if(index <= -1){
+        setState(() {
+          _listkenaikanPangkat.add(item);
+        });
+      }
+    }
+  }
+
+
 
 Widget build(BuildContext context) {
   return new Scaffold(
@@ -209,6 +250,7 @@ Widget build(BuildContext context) {
                     child: RaisedButton(
                       onPressed: () { 
                         savePangkat();
+
                       },
                       color: Colors.black,
                       child: Text('Submit',style: TextStyle(color: Colors.white)),
@@ -234,17 +276,14 @@ void savePangkat(){
                 child: Text(
                     ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
                 ),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.pop(context, false),
                 color: Colors.black,  
               ),
             ],).show();
+            Navigator.push(context, MaterialPageRoute(builder: (context) => EMC()));
             print(_dateTime.toString() + ',' + _keluhanController.text);
     }
   });
-  Navigator.push(
-           context,
-           MaterialPageRoute(builder: (context) => EMC()),
-         );
 }
 }
 
