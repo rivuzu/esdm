@@ -1,5 +1,6 @@
 import 'package:esdm/src/Config/config_message.dart';
 import 'package:esdm/src/EMC/index.dart';
+import 'package:esdm/src/Helper/add_user.dart';
 import 'package:esdm/src/Home/index.dart';
 import 'package:esdm/src/Model/KenaikanPangkat.dart';
 import 'package:esdm/src/Model/MutasiDesSer.dart';
@@ -20,42 +21,118 @@ class MutasiJabatan extends StatefulWidget{
 
 class _MutasiJabatanState extends State<MutasiJabatan>{
 
-var repo = new FuturePreferencesRepository<NaikPangkat>(new MutasiDesSer()); 
-var user = new FuturePreferencesRepository<User>(new UserDesser());
+  List<NaikPangkat> _listmutasijabatan = new List();
+  List<NaikPangkat> _listmutasi = new List();
+  var mutasi = new FuturePreferencesRepository<NaikPangkat>(new MutasiDesSer()); 
+  var user = new FuturePreferencesRepository<User>(new UserDesser());
 
+  String namaUser = "";
   TextEditingController _namaController = TextEditingController();
   TextEditingController _nrpController = TextEditingController();
   TextEditingController _nomorController = TextEditingController();
   TextEditingController _keluhanController = TextEditingController();
   DateTime _dateTime;
+  AddUser addUser = new AddUser();
 
 @override
 void initState(){
   super.initState();
   try {
-    loadDataMutasiJabatan(Storage.KENAIKANID);
+    loadDataMutasiJabatan();
   } catch (exception) {
     
   }
 }
 
-loadDataMutasiJabatan(String kenaikanid)async{
+Future<void> didChangeDependencies() async {
+  super.didChangeDependencies();
+    await loadDataMutasiJabatan();
+    // await deleteDuplicate(_listPangkat);
+    await loadData();  
+  print('didChangeDependencies');
+}
+
+loadData() async{
+    try {
+      setState(() { _namaController.text = _listmutasi[_listmutasi.length - 1].Nama;});
+      setState(() { _nrpController.text = _listmutasi[_listmutasi.length - 1].NRP;});
+      setState(() { _nomorController.text = _listmutasi[_listmutasi.length - 1].Nomor;});
+      setState(() { _dateTime = DateTime.parse(_listmutasi[_listmutasi.length - 1].Laporan.toString());});
+      setState(() { _keluhanController.text = _listmutasi[_listmutasi.length - 1].Keluhan;});  
+    } catch (e) {
+    }
+  }
+
+  loadDataMutasiJabatan()async{
   try {
-    user.findAll().then((naik){
-      if (naik.length > 0) {
-        user.findOne(naik.length - 1).then((naikPangkat){
-          if (naikPangkat != null) {
-            setState(() => _namaController.text = naikPangkat.nama);
-            setState(() => _nrpController.text = naikPangkat.pangkat);
-            setState(() => _nomorController.text = naikPangkat.no_hp);
+   await user.findAll().then((mutasi) async {
+      if (mutasi.length > 0) {
+        await user.findOne(mutasi.length - 1).then((mutasiJabatan) async {
+          if (mutasiJabatan != null) {
+            print("DATA 2");
+           await setState(() { namaUser = mutasiJabatan.nama;});
           }
         });
       }
+      });
+      print("namaUser"+namaUser);
+    await mutasi.findAll().then((naik) async {
+      if (naik.length > 0) {
+        for(var mutasi in naik){
+          if(namaUser == mutasi.Nama){
+            var data = _listmutasi.indexWhere((x) => x.Nama == mutasi.Nama);
+            print("DATA : "+data.toString());
+            if(data <= -1){
+              setState(() { 
+                _listmutasi.add(mutasi);
+              });
+            }
+          }else{
+              print("DATA 3:");
+              getDataUserLogin();
+            }
+          }
+          }else{
+            print("Data 3");
+            getDataUserLogin();      
+        }
     });
   } catch (exception) {
 
   }
 }
+
+getDataUserLogin() async {
+    await user.findAll().then((mutasi) async {
+          if (mutasi.length > 0) {
+           await user.findOne(mutasi.length - 1).then((mutasiJabatan){
+              if (mutasiJabatan != null) {
+                setState(() => _namaController.text = mutasiJabatan.nama);
+                setState(() => _nrpController.text = mutasiJabatan.pangkat);
+                setState(() => _nomorController.text = mutasiJabatan.no_hp);
+              }
+            });
+          }
+         });
+}
+
+// loadDataMutasiJabatan()async{
+//   try {
+//     user.findAll().then((naik){
+//       if (naik.length > 0) {
+//         user.findOne(naik.length - 1).then((naikPangkat){
+//           if (naikPangkat != null) {
+//             setState(() => _namaController.text = naikPangkat.nama);
+//             setState(() => _nrpController.text = naikPangkat.pangkat);
+//             setState(() => _nomorController.text = naikPangkat.no_hp);
+//           }
+//         });
+//       }
+//     });
+//   } catch (exception) {
+
+//   }
+// }
 
 Widget build(BuildContext context) {
   return new Scaffold(
@@ -188,7 +265,7 @@ void removeAll(){
   user.removeAll();
 }
 void saveMutasi(){
-  repo.save(new NaikPangkat(
+  mutasi.save(new NaikPangkat(
   _namaController.text, 
   _nrpController.text, 
   _nomorController.text,
@@ -201,15 +278,13 @@ void saveMutasi(){
                 child: Text(
                     ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
                 ),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.pop(context, false),
                 color: Colors.black,  
               ),
             ],).show();
+            Navigator.push(context, MaterialPageRoute(builder: (context) => EMC()));
+
     }
   });
-   Navigator.push(
-           context,
-           MaterialPageRoute(builder: (context) => EMC()),
-         );
 }
 }
