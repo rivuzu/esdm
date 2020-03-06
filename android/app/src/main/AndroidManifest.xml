@@ -10,7 +10,8 @@
     <application
         android:name="io.flutter.app.FlutterApplication" 
         android:label="esdm"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        android:usesCleartextTraffic="true">
          <meta-data 
          android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyDLcF2B_SIOZsV0ELU5jgdxT6cBwIy-_q8"/>

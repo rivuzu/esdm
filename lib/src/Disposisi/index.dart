@@ -66,6 +66,35 @@ class _DisposisiState extends State<Disposisi>{
     }
   }
 
+  _loadListView() async {
+    repoIndexDisposisi.removeAll();
+
+    ConfigIndexDisposisi.getData(showIndexDisposisi);
+      for (var data in showIndexDisposisi.ShowData()) {
+      repoIndexDisposisi.save(IndexDisposisi(
+        data.nama,
+        data.tanggal,
+        data.keperluan
+      )).then((data){
+
+      });
+    }
+
+    repoIndexDisposisi.findAll().then((val){
+      for (var item in val) {
+        dataJson.add(item);
+      }
+    });
+  }
+
+  @override
+  Future<void> didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    await _loadListView();
+    print("didChangeDependencies");
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -75,7 +104,7 @@ class _DisposisiState extends State<Disposisi>{
         ),
 
         body: ListView.builder(
-          itemCount: 5,
+          itemCount: dataJson.length,
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) => Container(
             width: MediaQuery.of(context).size.width,
@@ -109,11 +138,11 @@ class _DisposisiState extends State<Disposisi>{
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Dari : "+name[index], style: TextStyle(color: Colors.black,fontSize: 
+                            Text("Dari : "+dataJson[index].nama, style: TextStyle(color: Colors.black,fontSize: 
                             18.0, fontWeight: FontWeight.bold)),
                             SizedBox(height: 5.0),
-                            Text("Tanggal : "+date[index].toString(), style: TextStyle(color: Colors.grey[600])),
-                            Text("Prihal : "+about[index], style: TextStyle(color: Colors.grey[600])),
+                            Text("Tanggal : "+dataJson[index].tanggal.toString(), style: TextStyle(color: Colors.grey[600])),
+                            Text("Prihal : "+dataJson[index].keperluan, style: TextStyle(color: Colors.grey[600])),
                           ],
                         ),
                       ],
