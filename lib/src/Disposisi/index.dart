@@ -11,6 +11,8 @@ import 'package:esdm/src/Config/config_indexdisposisi.dart';
 import 'dart:convert';
 import 'package:esdm/src/Model/user_desser.dart';
 import 'package:esdm/src/Model/user.dart';
+import 'package:esdm/src/Config/storage.dart';
+import 'package:esdm/src/Service/service.dart';
 
 class Disposisi extends StatefulWidget{
   @override 
@@ -34,6 +36,8 @@ class _DisposisiState extends State<Disposisi>{
   // }
   var repoUser = new FuturePreferencesRepository<User>(new UserDesser());
   var repoIndexDisposisi = new FuturePreferencesRepository<IndexDisposisi>(new IndexDisposisiDesser());
+  // Map dataDisposisi ;
+  // List disposisi;
 
   @override 
 
@@ -41,8 +45,9 @@ class _DisposisiState extends State<Disposisi>{
     super.initState();
     try{
 
-    loadDataLogin();
-    print("DATA" + loadDataLogin());
+    // loadDataLogin();
+    // print("DATA" + loadDataLogin());
+    // getDataList("1");
 
     }catch (exception){
 
@@ -86,6 +91,22 @@ class _DisposisiState extends State<Disposisi>{
       }
     });
   }
+
+  // getDataList(String id_jabatan) {
+  //    var url = Storage.LocalBaseUrl + Storage.UrlListDisposisi;
+  //    print(url);
+  //   Service.Get(url).then((response){
+  //     print(response.statusCode);
+  //     if(response.statusCode == 200){
+  //       print("test3");
+  //       dataDisposisi = json.decode(response.body);
+  //       setState(() {
+  //         disposisi = dataDisposisi["data"];
+  //         print("woi" + disposisi.toString());
+  //       });
+  //     }
+  //   });
+  // }
 
   @override
   Future<void> didChangeDependencies() async {
