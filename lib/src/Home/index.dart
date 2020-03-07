@@ -58,6 +58,7 @@ class _HomeState extends State<Home> {
         appBar: new AppBar(
           title: new Text('Dashboard E-SDM'),
           backgroundColor: Colors.black,
+          automaticallyImplyLeading: false,
           actions: <Widget>[
             FlatButton(
               onPressed: (){

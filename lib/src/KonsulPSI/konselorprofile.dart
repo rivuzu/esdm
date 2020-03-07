@@ -19,6 +19,9 @@ class _KonselorProfileState extends State<KonselorProfile> {
             style: TextStyle(fontSize: 18.0),
           ),
           backgroundColor: Colors.green,
+          leading: IconButton(icon:Icon(Icons.arrow_back),
+            onPressed:() => Navigator.pop(context, false),
+          )
         ),
         backgroundColor: Colors.grey[300],
         body: SafeArea(

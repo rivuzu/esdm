@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:esdm/src/Config/config_konsultasi.dart';
 import 'package:esdm/src/Config/storage.dart';
 import 'package:esdm/src/Helper/capital_word.dart';
+import 'package:esdm/src/KonsulPSI/index.dart';
 import 'package:esdm/src/Model/konsultasi.dart';
 import 'package:esdm/src/Model/user.dart';
 import 'package:esdm/src/Model/user_desser.dart';
@@ -24,36 +25,36 @@ final ThemeData androidTheme = new ThemeData(
 );
 
 
-String defaultUserName = "";
-String defaultDokterName = "";
-String defaultPasienName = "";
-String defaultUserId = "";
-String defaultRole = "";
-
-class ChatRoom extends StatefulWidget {
-  @override
-  _ChatRoomState createState() => _ChatRoomState();
-}
-
-class _ChatRoomState extends State<ChatRoom> {
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      debugShowCheckedModeBanner: false,
-      color: Colors.grey,
-      title: "Pesan",
-      theme:
-          defaultTargetPlatform == TargetPlatform.iOS ? iOSTheme : androidTheme,
-      home: new Chat(),
-    );
-  }
-}
+var defaultUserName = "";
+var defaultDokterName = "";
+var defaultPasienName = "";
+var defaultUserId = "";
+var defaultRole = "";
+//
+//class ChatRoom extends StatefulWidget {
+//  @override
+//  _ChatRoomState createState() => _ChatRoomState();
+//}
+//
+//class _ChatRoomState extends State<ChatRoom> {
+//  @override
+//  Widget build(BuildContext context) {
+//    return new MaterialApp(
+//      debugShowCheckedModeBanner: false,
+//      color: Colors.grey,
+//      title: "Pesan",
+//      theme:
+//          defaultTargetPlatform == TargetPlatform.iOS ? iOSTheme : androidTheme,
+//      home: new Chat(),
+//    );
+//  }
+//}
 
 class Chat extends StatefulWidget {
   @override
-  final id_dokter;
-  final role;
-  final name;
+  var id_dokter;
+  var role;
+  var name;
   Chat({this.id_dokter,this.role,this.name});
   State createState() => new ChatWindow();
 }
@@ -69,33 +70,41 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+  }
+
+  @override
+  Future<void> didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    print("didChangeDependencies");
     try{
-      repoUser.findAll().then((val){
+     await repoUser.findAll().then((val) async {
         if(val.length > 0){
-          repoUser.findOne(val.length - 1).then((data) {
+          await repoUser.findOne(val.length - 1).then((data) async {
             if (data != null) {
               if(data.role == Storage.ROLEPASIEN){
-                setState(() {  ConfigKonsultasi.ChannelPasien = data.id_user; });
-                setState(() { defaultPasienName  = data.nama; });
+                await setState(() {  ConfigKonsultasi.ChannelPasien = data.id_user; });
+                await  setState(() { defaultPasienName  = data.nama; });
               }else{
-                setState(() {  ConfigKonsultasi.ChannelDokter = data.id_user; });
-                setState(() { defaultDokterName  = data.nama; });
+                await setState(() {  ConfigKonsultasi.ChannelDokter = data.id_user; });
+                await setState(() { defaultDokterName  = data.nama; });
               }
-              setState(() { defaultUserName = data.nama; });
-              setState(() { defaultUserId = data.id_user; });
-              setState(() { defaultRole = data.role; });
+              await setState(() { defaultUserName = data.nama; });
+              await setState(() { defaultUserId = data.id_user; });
+              await setState(() { defaultRole = data.role; });
             }
           });
         }
       });
       if(widget.role == Storage.ROLEPASIEN){
-        setState(() { ConfigKonsultasi.ChannelPasien = widget.id_dokter; });
-        setState(() { defaultPasienName  = widget.name; });
+        await setState(() { ConfigKonsultasi.ChannelPasien = widget.id_dokter; });
+        await  setState(() { defaultPasienName  = widget.name; });
       }else{
-        setState(() { ConfigKonsultasi.ChannelDokter = widget.id_dokter; });
-        setState(() { defaultDokterName   = widget.name; });
+        await setState(() { ConfigKonsultasi.ChannelDokter = widget.id_dokter; });
+        await setState(() { defaultDokterName   = widget.name; });
       }
-      setState(() {
+     await setState(() {
         ConfigKonsultasi.ChannelChat = ConfigKonsultasi.ChannelPasien + '-' + ConfigKonsultasi.ChannelDokter;
       });
       getChat();
@@ -111,12 +120,20 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
     }catch (exception) {
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
         title: Text('Konsultasi Psikologi'),
         backgroundColor: Colors.green,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator
+                  .of(context)
+                  .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  Pesan()));
+            }),
       ),
       body: new Column(
         children: <Widget>[
@@ -198,8 +215,8 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
           vsync: this, duration: new Duration(milliseconds: 800)),
     );
     _client.publish(([ConfigKonsultasi.ChannelChat]), {'pasien_name':defaultPasienName ,'dokter_name':defaultDokterName,'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
-    _client.publish(([ConfigKonsultasi.ChannelPasien]), {'pasien_name':defaultPasienName ,'dokter_name':defaultDokterName,'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
-    _client.publish(([ConfigKonsultasi.ChannelDokter]), {'pasien_name':defaultPasienName ,'dokter_name':defaultDokterName,'id_chat':ConfigKonsultasi.ChannelChat,'role':defaultRole,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
+    _client.publish(([ConfigKonsultasi.ChannelPasien]), {'pasien_name':defaultPasienName ,'dokter_name':defaultDokterName,'id_chat':ConfigKonsultasi.ChannelDokter,'role':Storage.ROLEDOKTER,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
+    _client.publish(([ConfigKonsultasi.ChannelDokter]), {'pasien_name':defaultPasienName ,'dokter_name':defaultDokterName,'id_chat':ConfigKonsultasi.ChannelPasien,'role':Storage.ROLEPASIEN,'id_sender':defaultUserId,'sender':defaultUserName,'message': txt});
     setState(() {
       _message.insert(0, msg);
     });
@@ -208,6 +225,7 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    print("dispose");
     for (Msg msg in _message) {
       msg.animationController.dispose();
     }
@@ -218,7 +236,7 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
     _client.history(ConfigKonsultasi.ChannelChat, 100).then((items) {
       if (items != null && items.isNotEmpty) {
         for(var data in items){
-          print("LAST ITEM TOKEN : $data");
+//          print("LAST ITEM TOKEN : $data");
           _konsultasi = new Konsultasi.fromJson(json.decode(data));
 
           Msg msg = new Msg(
