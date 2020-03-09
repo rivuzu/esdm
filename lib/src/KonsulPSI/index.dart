@@ -37,10 +37,12 @@ class _PesanState extends State<Pesan> {
     Colors.green
   ];
   String roleLogin = "";
+  String idLogin = "";
   AddUser addUser = new AddUser();
   Konsultasi _konsultasi = new Konsultasi();
   List<KonsultasiMessage> _listKonsultasiHistory = new List();
   List<KonsultasiMessage> _listKonsultasi = new List();
+  KonsultasiMessage _konsultasiChat = new KonsultasiMessage();
   final PubNub _client = PubNub(PubNubConfig(ConfigKonsultasi.PublishKey, ConfigKonsultasi.SubscribeKey));
   var repoUser = new FuturePreferencesRepository<User>(new UserDesser());
 //  List recent = ["Baik, silahkan", "", "", "", ""];
@@ -57,19 +59,28 @@ class _PesanState extends State<Pesan> {
   }
 
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     print("didChangeDependencies");
+
     getListChatAll();
+
   }
 
-  getListChatAll() async{
-    repoUser.findAll().then((val){
+  Future<void> getListChatAll() async{
+    setState(() {
+      _listKonsultasi = new List();
+    });
+    setState(() {
+      _listKonsultasiHistory = new List();
+    });
+    repoUser.findAll().then((val) async {
       if(val.length > 0){
-        repoUser.findOne(val.length - 1).then((data) async {
+          repoUser.findOne(val.length - 1).then((data) async {
             if(data != null){
               setState(() { roleLogin = data.role; });
+              setState(() { idLogin = data.id_user; });
              await _client.history(data.id_user, 100).then((items) async {
                 if (items != null && items.isNotEmpty) {
                      for(var data in items){
@@ -83,12 +94,16 @@ class _PesanState extends State<Pesan> {
               for(var item in addUser.ShowData()){
                 await dataDefaultDokter(data,item);
               }
+              await getSubcribe(data.id_user);
                await deleteDuplicate(_listKonsultasi,"masuk 6");
 
+              print("ID USER"+ idLogin);
             }
         });
       }
     });
+
+
   }
 
   Future dataHistoriKonsultasi(var data) async{
@@ -126,6 +141,20 @@ class _PesanState extends State<Pesan> {
     }
   }
 
+  Future getSubcribe(String login) async{
+    _client.subscribe([idLogin]);
+    _client.onMessageReceived.listen((message) {
+        message.forEach((key,value) async => {
+            if(key == "message"){
+              print('Message3: '+ key),
+
+              print('Message3: '+ value),
+              getListChatAll()
+            }
+      });
+    });
+  }
+
   Future deleteDuplicate(List<KonsultasiMessage> konsultasi,String Pesan) async{
 //    print(Pesan+konsultasi.length.toString());
     for(var item in konsultasi){
@@ -140,6 +169,13 @@ class _PesanState extends State<Pesan> {
         });
       }
     }
+  }
+
+  @override
+  void dispose() {
+    print("dispose");
+//    _client.unsubscribeAll();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -157,116 +193,120 @@ class _PesanState extends State<Pesan> {
       ),
       body:
       Container(
-        child:  ListView.builder(
-            itemCount: _listKonsultasiHistory.length,
+        child:  new RefreshIndicator(
+          child: ListView.builder(
+              itemCount: _listKonsultasiHistory.length,
 //            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              var name = "";
+              itemBuilder: (BuildContext context, int index) {
+                var name = "";
 //              print("Role Login : "+roleLogin);
-              if(roleLogin == Storage.ROLEPASIEN){
-                name = _listKonsultasiHistory[index].dokter_name;
+                if(roleLogin == Storage.ROLEPASIEN){
+                  name = _listKonsultasiHistory[index].dokter_name;
 //                print("Name Dokter: "+name);
-              }else{
-                name = _listKonsultasiHistory[index].pasien_name;
+                }else{
+                  name = _listKonsultasiHistory[index].pasien_name;
 //                print("Name Pasien: "+name);
-              }
-                    return Container(
+                }
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  child: Card(
+                    elevation: 5.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                    ),
+                    child: Container(
                       width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                      child: Card(
-                        elevation: 5.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                                     new  Container(
-                                          child:   InkWell(
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(builder: (context) => KonselorProfile(nama :name)),
-                                              );
-                                            },
-                                            child: Container(
-                                              width: 55.0,
-                                              height: 55.0,
-                                              // color: Colors.green,
-                                              child: CircleAvatar(
-                                                // backgroundColor: Colors.green,
-                                                foregroundColor: Colors.green,
-                                                // backgroundImage: NetworkImage(
-                                                //     "https://img.icons8.com/doodle/48/000000/user.png"),
-                                                child: Icon(Icons.person),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                     new  Expanded(
-                                        flex: 6,
-                                        child: Container(
-                                          child:  InkWell(
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(builder: (context) => Chat(id_dokter: _listKonsultasiHistory[index].id_chat,role: _listKonsultasiHistory[index].role,name :name)),
-                                              );
-                                            },
-                                            child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                SizedBox(width: 10.0),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      name,
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 18.0,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                      textAlign: TextAlign.left,
-                                                    ),
-                                                  SizedBox(height: 5.0),
-                                                  Text(_listKonsultasiHistory[index].message,
-                                                          style: TextStyle(color: Colors.grey[600])),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                     new Container(
-                                          width: 50.0,
-                                          height: 55.0,
-                                          child: Column(
-                                            children: <Widget>[
-                                              Container(
-                                                height: 20.0,
-                                                decoration: new BoxDecoration(
-                                                  color: Colors.green,
-                                                  shape: BoxShape.circle,
-                                                ),
-                                              ),
-                                              SizedBox(height: 5.0),
-                                              Text("Online")
-                                            ],
-                                          ),
-                                        ),
-                            ],
+                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new  Container(
+                            child:   InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => KonselorProfile(nama :name)),
+                                );
+                              },
+                              child: Container(
+                                width: 55.0,
+                                height: 55.0,
+                                // color: Colors.green,
+                                child: CircleAvatar(
+                                  // backgroundColor: Colors.green,
+                                  foregroundColor: Colors.green,
+                                  // backgroundImage: NetworkImage(
+                                  //     "https://img.icons8.com/doodle/48/000000/user.png"),
+                                  child: Icon(Icons.person),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                          new  Expanded(
+                            flex: 6,
+                            child: Container(
+                              child:  InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Chat(id_dokter: _listKonsultasiHistory[index].id_chat,role: _listKonsultasiHistory[index].role,name :name)),
+                                  );
+                                },
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(width: 10.0),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          name,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        SizedBox(height: 5.0),
+                                        Text(_listKonsultasiHistory[index].message,
+                                            style: TextStyle(color: Colors.grey[600])),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          new Container(
+                            width: 50.0,
+                            height: 55.0,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 20.0,
+                                  decoration: new BoxDecoration(
+                                    color: Colors.green,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                                SizedBox(height: 5.0),
+                                Text("Online")
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    );
-            }
+                    ),
+                  ),
+                );
+              }
+          ),
+          onRefresh: getListChatAll,
         ),
+
       )
 
     );

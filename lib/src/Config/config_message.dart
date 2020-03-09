@@ -11,5 +11,8 @@ class ConfigMessage{
   static String DataTextMessageUsernameOrPasswordError = "Username atau Password Salah";
 
 
+  static String DataTextMessageSuccessSendDisposisi= "Berhasil Mengirim Disposisi";
+  static String DataTextMessageSuccessReporting= "Berhasil Melaporkan";
+
   static String DataTextMessageButtonOK = "OK";
 }
