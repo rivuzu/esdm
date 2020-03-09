@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+
 class Catpers{
   String nama;
-  String warna;
+  Color warna;
 
   Catpers(this.nama,this.warna);
 }

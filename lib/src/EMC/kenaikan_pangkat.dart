@@ -262,15 +262,18 @@ Widget build(BuildContext context) {
           ),
   );
 }
+  void removeAll(){
+    pangkat.removeAll();
+  }
 void savePangkat(){
   pangkat.save(new NaikPangkat(
   _namaController.text, 
   _nrpController.text, 
   _nomorController.text,
   _dateTime.toString(),
-  _keluhanController.text)).then((naik){
+  _keluhanController.text)).then((naik) async {
     if(naik != null){
-      Alert(context: context,title: ConfigMessage.DATATITLEMESSAGESUCCSESS,type: AlertType.success, desc: 'Berhasil Di ubah',
+    await Alert(context: context,title: ConfigMessage.DATATITLEMESSAGESUCCSESS,type: AlertType.success, desc: 'Berhasil Di ubah',
             buttons: [
               DialogButton(
                 child: Text(
@@ -280,7 +283,9 @@ void savePangkat(){
                 color: Colors.black,  
               ),
             ],).show();
-            Navigator.push(context, MaterialPageRoute(builder: (context) => EMC()));
+      Navigator
+        .of(context)
+        .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  EMC()));
             print(_dateTime.toString() + ',' + _keluhanController.text);
     }
   });
