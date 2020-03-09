@@ -131,13 +131,11 @@ getDataUserLogin() async {
     }
   }
 
-
-
 Widget build(BuildContext context) {
   return new Scaffold(
     appBar: new AppBar(
           title: new Text('Kenaikan Pangkat'),
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.brown,
         ),
     body: new SafeArea(
           top: false,

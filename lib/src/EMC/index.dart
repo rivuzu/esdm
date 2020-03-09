@@ -32,7 +32,7 @@ class _EMCState extends State<EMC> {
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('E-MC2'),
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.brown,
         ),
         body: new Padding(
             padding: const EdgeInsets.only(top: 12.0),
