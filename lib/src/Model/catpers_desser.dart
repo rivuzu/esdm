@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:pref_dessert/pref_dessert.dart';
 import 'catpers.dart';
 import 'package:esdm/src/Config/config_catpers.dart';
@@ -9,7 +10,7 @@ class CatpersDesser extends DesSer<Catpers>{
     var map = json.decode(s);
     return new Catpers(
         map['nama'] as String,
-        map['warna'] as String,
+        map['warna'] as Color,
     );
   }
 

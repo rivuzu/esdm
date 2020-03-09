@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:esdm/src/Home/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class JenisUKP {
@@ -69,7 +70,8 @@ class KalkulatorPangkat extends StatefulWidget {
 }
 
 class _KalkulatorPangkatState extends State<KalkulatorPangkat> {
-  WebViewController _controller;
+//  WebViewController _controller;
+  Completer<WebViewController> _controller = Completer<WebViewController>();
   // final Completer<WebViewController> _controller = Completer<WebViewController>();
   List<JenisUKP> _jenisUKP = JenisUKP.getJenisUKP();
   List<DropdownMenuItem<JenisUKP>> _dropdownJenisUKP;
@@ -174,157 +176,188 @@ class _KalkulatorPangkatState extends State<KalkulatorPangkat> {
         selectedDate = newDateTime;
       });
   }
-  
+
   @override
   Widget build(BuildContext context) {
-
-     
-
-     return new MaterialApp(
-      
-      debugShowCheckedModeBanner: false,
-      
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Kalkulator Pangkat'),
+    return WebviewScaffold(
+      url: "http://toekangapp.id/knp2/",
+      withJavascript: true,
+      withZoom: false,
+      appBar: AppBar(
+          title: Text("Kalkulator Pangkat"),
+          elevation: 1,
           backgroundColor: Colors.brown,
-        ),
-
-        body: WebView(
-          initialUrl: 'http://toekangapp.id/knp2/',
-          onWebViewCreated: (WebViewController webViewController) {
-            _controller = webViewController;
-          },
-        ),
-        // body: new Container(
-        //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        //   child: Center(
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.center,
-        //       mainAxisAlignment: MainAxisAlignment.start,
-        //       children: <Widget>[
-               
-        //         new Column(
-        //           children: <Widget>[
-        //             new FormField(builder: (FormFieldState state) {
-        //               return InputDecorator(
-        //                 decoration: InputDecoration(
-        //                   labelText: 'Jenis UKP',
-        //                 ),
-        //               child: DropdownButton(
-        //                 value: _selectedJenisUKP,
-        //                 items: _dropdownJenisUKP,
-        //                 onChanged: onChangeJenisUKP,
-        //               ),
-        //               );
-        //             },
-        //             )]
-        //         ),
-
-        //         new Column(
-        //           children: <Widget>[
-        //             new FormField(builder: (FormFieldState state) {
-        //               return InputDecorator(
-        //                 decoration: InputDecoration(
-        //                   labelText: 'Pangkat',
-        //                 ),
-        //               child: DropdownButton(
-        //                   value: _selectedPangkat,
-        //                   items: _dropdownPangkat, 
-        //                   onChanged: onChangePangkat,
-        //                 ),
-        //               );
-        //             },
-        //             )]
-        //         ),
-
-        //         new Column(
-        //           children: <Widget>[
-        //             new FormField(builder: (FormFieldState state) {
-        //               return InputDecorator(
-        //                 decoration: InputDecoration(
-        //                   labelText: 'Dikbang',
-        //                 ),
-        //                 child:  DropdownButton(
-        //                 value: _selectedDikbang,
-        //                 items: _dropdownDikbang, 
-        //                 onChanged: onChangeDikbang,
-        //               ),
-        //               );
-        //             },
-        //             )]
-        //         ),
-
-        //         SizedBox(
-        //           height: 15.0,
-        //         ),
-        //         Text("TMT PANGKAT"),
-        //         SizedBox(
-        //           height: 10.0,
-        //         ),
-        //         new Column(
-        //           children: <Widget>[
-        //             ButtonTheme(
-        //               minWidth: 500.0,
-        //               height: 50.0,
-        //               child: RaisedButton(
-        //                 onPressed: () => _selectDate(context),
-        //                 child: Text('PILIH TANGGAL'),
-        //                 color: Colors.brown,
-        //                 textColor: Colors.white,
-        //               ),
-        //             ),
-        //             ]
-        //         ),
-                
-        //         SizedBox(
-        //           height: 15.0,
-        //         ),
-        //         Text("TMT PERWIRA"),
-        //         SizedBox(
-        //           height: 10.0,
-        //         ),
-        //         new Column(
-        //           children: <Widget>[
-        //             ButtonTheme(
-        //               minWidth: 500.0,
-        //               height: 50.0,
-        //               child: RaisedButton(
-        //                 onPressed: () => _selectDate(context),
-        //                 child: Text('PILIH TANGGAL'),
-        //                 color: Colors.brown,
-        //                 textColor: Colors.white,
-        //               ),
-        //             ),
-        //             ]
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        // bottomNavigationBar: Container(
-        //     height: 50,
-        //     child: Row(
-        //       children: <Widget>[
-        //         Expanded(
-        //           flex: 10,
-        //           child: Container(
-        //             height: 50,
-        //             child:  RaisedButton(
-        //               onPressed: () { Navigator.push(
-        //                 context,
-        //                 MaterialPageRoute(builder: (context) => Home()),
-        //               );
-        //               },
-        //               color: Colors.brown,
-        //               child: Text("Check",style: TextStyle(color: Colors.white)),
-        //             ),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
       ),
     );
   }
+
+//  @override
+//  Widget build(BuildContext context) {
+//
+//
+//return new WebviewScaffold(
+//  url: 'http://toekangapp.id/knp2/',
+//  hidden: true,
+//  withZoom: true,
+//  withLocalStorage: true,
+//  withJavascript: true,
+//  appBar: AppBar(title: Text("Kalkulator Pangkat")),
+//);
+////     return new MaterialApp(
+////      debugShowCheckedModeBanner: false,
+////      home: new Scaffold(
+////        appBar: new AppBar(
+////          title: new Text('Kalkulator Pangkat'),
+////          backgroundColor: Colors.brown,
+////          leading: IconButton(
+////              icon: Icon(Icons.arrow_back),
+////              onPressed: () {
+////                Navigator
+////                    .of(context)
+////                    .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  Home()));
+////              }),
+////        ),
+////
+////        body:
+//
+////        WebView(
+////          initialUrl: 'http://toekangapp.id/knp2/',
+////          debuggingEnabled: true,
+////          javascriptMode: JavascriptMode.unrestricted,
+////          onWebViewCreated: (WebViewController webViewController) {
+////            _controller.complete(webViewController);
+//////            _controller = webViewController;
+////          },
+////        ),
+//        // body: new Container(
+//        //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//        //   child: Center(
+//        //     child: Column(
+//        //       crossAxisAlignment: CrossAxisAlignment.center,
+//        //       mainAxisAlignment: MainAxisAlignment.start,
+//        //       children: <Widget>[
+//
+//        //         new Column(
+//        //           children: <Widget>[
+//        //             new FormField(builder: (FormFieldState state) {
+//        //               return InputDecorator(
+//        //                 decoration: InputDecoration(
+//        //                   labelText: 'Jenis UKP',
+//        //                 ),
+//        //               child: DropdownButton(
+//        //                 value: _selectedJenisUKP,
+//        //                 items: _dropdownJenisUKP,
+//        //                 onChanged: onChangeJenisUKP,
+//        //               ),
+//        //               );
+//        //             },
+//        //             )]
+//        //         ),
+//
+//        //         new Column(
+//        //           children: <Widget>[
+//        //             new FormField(builder: (FormFieldState state) {
+//        //               return InputDecorator(
+//        //                 decoration: InputDecoration(
+//        //                   labelText: 'Pangkat',
+//        //                 ),
+//        //               child: DropdownButton(
+//        //                   value: _selectedPangkat,
+//        //                   items: _dropdownPangkat,
+//        //                   onChanged: onChangePangkat,
+//        //                 ),
+//        //               );
+//        //             },
+//        //             )]
+//        //         ),
+//
+//        //         new Column(
+//        //           children: <Widget>[
+//        //             new FormField(builder: (FormFieldState state) {
+//        //               return InputDecorator(
+//        //                 decoration: InputDecoration(
+//        //                   labelText: 'Dikbang',
+//        //                 ),
+//        //                 child:  DropdownButton(
+//        //                 value: _selectedDikbang,
+//        //                 items: _dropdownDikbang,
+//        //                 onChanged: onChangeDikbang,
+//        //               ),
+//        //               );
+//        //             },
+//        //             )]
+//        //         ),
+//
+//        //         SizedBox(
+//        //           height: 15.0,
+//        //         ),
+//        //         Text("TMT PANGKAT"),
+//        //         SizedBox(
+//        //           height: 10.0,
+//        //         ),
+//        //         new Column(
+//        //           children: <Widget>[
+//        //             ButtonTheme(
+//        //               minWidth: 500.0,
+//        //               height: 50.0,
+//        //               child: RaisedButton(
+//        //                 onPressed: () => _selectDate(context),
+//        //                 child: Text('PILIH TANGGAL'),
+//        //                 color: Colors.brown,
+//        //                 textColor: Colors.white,
+//        //               ),
+//        //             ),
+//        //             ]
+//        //         ),
+//
+//        //         SizedBox(
+//        //           height: 15.0,
+//        //         ),
+//        //         Text("TMT PERWIRA"),
+//        //         SizedBox(
+//        //           height: 10.0,
+//        //         ),
+//        //         new Column(
+//        //           children: <Widget>[
+//        //             ButtonTheme(
+//        //               minWidth: 500.0,
+//        //               height: 50.0,
+//        //               child: RaisedButton(
+//        //                 onPressed: () => _selectDate(context),
+//        //                 child: Text('PILIH TANGGAL'),
+//        //                 color: Colors.brown,
+//        //                 textColor: Colors.white,
+//        //               ),
+//        //             ),
+//        //             ]
+//        //         ),
+//        //       ],
+//        //     ),
+//        //   ),
+//        // ),
+//        // bottomNavigationBar: Container(
+//        //     height: 50,
+//        //     child: Row(
+//        //       children: <Widget>[
+//        //         Expanded(
+//        //           flex: 10,
+//        //           child: Container(
+//        //             height: 50,
+//        //             child:  RaisedButton(
+//        //               onPressed: () { Navigator.push(
+//        //                 context,
+//        //                 MaterialPageRoute(builder: (context) => Home()),
+//        //               );
+//        //               },
+//        //               color: Colors.brown,
+//        //               child: Text("Check",style: TextStyle(color: Colors.white)),
+//        //             ),
+//        //           ),
+//        //         ),
+//        //       ],
+//        //     ),
+//        //   ),
+////      ),
+////    );
+//  }
 }
