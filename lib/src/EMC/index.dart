@@ -1,5 +1,6 @@
 import 'package:esdm/src/EMC/kenaikan_pangkat.dart';
 import 'package:esdm/src/EMC/mutasi_jabatan.dart';
+import 'package:esdm/src/Home/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -33,6 +34,13 @@ class _EMCState extends State<EMC> {
         appBar: new AppBar(
           title: new Text('E-MC2'),
           backgroundColor: Colors.black,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator
+                    .of(context)
+                    .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  Home()));
+              }),
         ),
         body: new Padding(
             padding: const EdgeInsets.only(top: 12.0),
