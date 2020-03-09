@@ -36,6 +36,7 @@ dependencies:
   dropdown_formfield: ^0.1.1
   flutter_webview_plugin: 0.3.0+2
   webview_flutter: ^0.3.19+9
+  dotted_border: ^1.0.5
 
 dev_dependencies:
   flutter_test:
