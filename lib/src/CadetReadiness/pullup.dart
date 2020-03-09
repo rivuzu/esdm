@@ -306,7 +306,7 @@ class _PullUpState extends State<PullUp> {
                   keyboardType: TextInputType.number,
                   controller: _numberInput,
                   decoration: InputDecoration(
-                    hintText: '',
+                    hintText: 'Jumlah',
                     // filled: true,
                     prefixIcon: Icon(
                       Icons.timer,
