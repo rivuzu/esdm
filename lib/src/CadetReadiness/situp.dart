@@ -10,6 +10,9 @@ class SitUp extends StatefulWidget {
 class _SitUpState extends State<SitUp> {
   Timer _timer;
   int _start = 0;
+  bool buttonMulai = true;
+  bool buttonJeda = false;
+  bool rowJeda = false;
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -92,17 +95,125 @@ class _SitUpState extends State<SitUp> {
             ),
           ),
           SizedBox(height: 20.0,),
-          RaisedButton(
-            onPressed: (){
-              startTimer();
-            },
-            color: Colors.blue,
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-              // side: BorderSide(color: Colors.red)
+          Visibility(
+            visible: buttonMulai,
+            child: RaisedButton(
+              onPressed: () {
+                startTimer();
+                setState(() {
+                  buttonMulai = false;
+                });
+                setState(() {
+                  buttonJeda = true;
+                });
+                setState(() {
+                  rowJeda = false;
+                });
+              },
+              color: Colors.blue,
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+                // side: BorderSide(color: Colors.red)
+              ),
+              child: Text(
+                "Mulai",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-            child: Text("Mulai", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),),
-          )
+          ),
+          Visibility(
+            visible: buttonJeda,
+            child: RaisedButton(
+              onPressed: () {
+                setState(() {
+                  buttonMulai = false;
+                });
+                setState(() {
+                  buttonJeda = false;
+                });
+                setState(() {
+                  rowJeda = true;
+                });
+                _timer.cancel();
+              },
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+                // side: BorderSide(color: Colors.red)
+              ),
+              child: Text(
+                "Jeda",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: rowJeda,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                RaisedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonMulai = false;
+                    });
+                    setState(() {
+                      buttonJeda = true;
+                    });
+                    setState(() {
+                      rowJeda = false;
+                    });
+                    startTimer();
+                  },
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(10.0),
+                    // side: BorderSide(color: Colors.red)
+                  ),
+                  child: Text(
+                    "Lanjutkan",
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    setState(() {
+                      buttonMulai = true;
+                    });
+                    setState(() {
+                      buttonJeda = false;
+                    });
+                    setState(() {
+                      rowJeda = false;
+                    });
+                    _start = 0;
+                  },
+                  color: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(10.0),
+                    // side: BorderSide(color: Colors.red)
+                  ),
+                  child: Text(
+                    "Reset",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
