@@ -7,7 +7,6 @@ class TestKesehatan extends StatefulWidget {
 }
 
 var dataPemeriksaan = [
-  {'p': "Pemeriksaan", 'h': "Hasil", 'an': "Angka Normal"},
   {'p': "Kolestrol Total", 'h': "100", 'an': "<195 200mg/dL"},
   {'p': "HDL", 'h': "23", 'an': "<195 200mg/dL"},
   {'p': "LDL", 'h': "560", 'an': "<195 200mg/dL"},
@@ -21,44 +20,130 @@ var dataPemeriksaan = [
 class _TestKesehatanState extends State<TestKesehatan> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: new Table(
-        border: TableBorder.all(),
-        children: dataPemeriksaan.map((item) {
-          return new TableRow(children: [
-            Text(
-              item['p'],
-              style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300),
-              textAlign: TextAlign.center,
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Tes Kesehatan",
+                  style: TextStyle(
+                    color: Colors.blue[900],
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30.0,
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+              ],
             ),
-            Text(item['h'],
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300)),
-            Text(item['an'],
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300)),
-          ]);
-        }).toList(),
-        // children: [
-        //   new TableRow(children: [
-        //     new Text(
-        //       "Pemeriksaan",
-        //       style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600),
-        //       textAlign: TextAlign.center,
-        //     ),
-        //     new Text(
-        //       "Hasil",
-        //       style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600),
-        //       textAlign: TextAlign.center,
-        //     ),
-        //     new Text(
-        //       "Angka Normal",
-        //       style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600),
-        //       textAlign: TextAlign.center,
-        //     ),
-        //   ]),
+            SizedBox(
+              height: 50.0,
+            ),
+            new Table(
+              children: [
+                new TableRow(children: [
+                  Container(
+                    height: 30,
+                    child: new Text(
+                      "Pemeriksaan",
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.blue[300]),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  new Text(
+                    "Hasil",
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.blue[300]),
+                    textAlign: TextAlign.center,
+                  ),
+                  new Text(
+                    "Angka Normal",
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.blue[300]),
+                    textAlign: TextAlign.center,
+                  ),
+                ]),
+              ],
+            ),
+            new Table(
+              // border: TableBorder.all(width: 1.0, color: Colors.blue),
+              border: TableBorder(
+                  top: BorderSide(color: Colors.blue[300], width: 1.0),
+                  verticalInside:
+                      BorderSide(color: Colors.blue[300], width: 1.0)),
+              children: dataPemeriksaan.map((item) {
+                return new TableRow(children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    height: 30,
+                    child: Text(
+                      item['p'],
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[600]),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    height: 30,
+                    child: Text(
+                      item['h'],
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[600]),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    height: 30,
+                    child: Text(
+                      item['an'],
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[600]),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ]);
+              }).toList(),
+              // children: [
+              //   new TableRow(children: [
+              //     new Text(
+              //       "Pemeriksaan",
+              //       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+              //       textAlign: TextAlign.center,
+              //     ),
+              //     new Text(
+              //       "Hasil",
+              //       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+              //       textAlign: TextAlign.center,
+              //     ),
+              //     new Text(
+              //       "Angka Normal",
+              //       style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+              //       textAlign: TextAlign.center,
+              //     ),
+              //   ]),
 
-        // ],
+              // ],
+            ),
+          ],
+        ),
       ),
     );
   }

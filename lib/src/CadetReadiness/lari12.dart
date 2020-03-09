@@ -114,7 +114,7 @@ class _Lari12State extends State<Lari12> {
     //                       });
     //                     },
     //                     textColor: Colors.white,
-    //                     color: Colors.blue,
+    //                     color: Colors.blue[900],
     //                     padding: const EdgeInsets.all(8.0),
     //                     child: new Text(
     //                       "Reset",
@@ -136,222 +136,225 @@ class _Lari12State extends State<Lari12> {
     //         ))
     //   ],
     // );
-    return Stack(
-      children: <Widget>[
-        new Container(
-          child: new Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 30.0,
-              ),
-              Icon(
-                Icons.person,
-                size: 150,
-                color: Colors.blue,
-              ),
-              DottedBorder(
-                borderType: BorderType.RRect,
-                radius: Radius.circular(12),
-                padding: EdgeInsets.all(8.0),
-                strokeWidth: 2,
-                dashPattern: [5, 8],
-                color: Colors.blue,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.transparent,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          "$_minute",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 60.0,
-                            fontFamily: 'Roboto',
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Stack(
+        children: <Widget>[
+          new Container(
+            child: new Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 30.0,
+                ),
+                Icon(
+                  Icons.person,
+                  size: 150,
+                  color: Colors.blue[900],
+                ),
+                DottedBorder(
+                  borderType: BorderType.RRect,
+                  radius: Radius.circular(12),
+                  padding: EdgeInsets.all(8.0),
+                  strokeWidth: 2,
+                  dashPattern: [5, 8],
+                  color: Colors.blue[900],
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.transparent,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                            "$_minute",
+                            style: TextStyle(
+                              color: Colors.blue[900],
+                              fontWeight: FontWeight.w900,
+                              fontSize: 60.0,
+                              fontFamily: 'Roboto',
+                            ),
                           ),
+                          Text(
+                            "Min",
+                            style: TextStyle(
+                              color: Colors.blue[900],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 45.0,
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
+                          Text(
+                            "$_zero$_seconds",
+                            style: TextStyle(
+                              color: Colors.blue[900],
+                              fontWeight: FontWeight.w900,
+                              fontSize: 60.0,
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
+                          Text(
+                            "Sec",
+                            style: TextStyle(
+                              color: Colors.blue[900],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 45.0,
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Visibility(
+                  visible: buttonMulai,
+                  child: RaisedButton(
+                    onPressed: () {
+                      startTimer();
+                      _timeRunning = true;
+                      setState(() {
+                        buttonMulai = false;
+                      });
+                      setState(() {
+                        buttonJeda = true;
+                      });
+                      setState(() {
+                        rowJeda = false;
+                      });
+                    },
+                    color: Colors.blue[900],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0),
+                      // side: BorderSide(color: Colors.red)
+                    ),
+                    child: Text(
+                      "Mulai",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: buttonJeda,
+                  child: RaisedButton(
+                    onPressed: () {
+                      setState(() {
+                        buttonMulai = false;
+                      });
+                      setState(() {
+                        buttonJeda = false;
+                      });
+                      setState(() {
+                        rowJeda = true;
+                      });
+                      _timer.cancel();
+                      _timeRunning = false;
+                    },
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0),
+                      // side: BorderSide(color: Colors.red)
+                    ),
+                    child: Text(
+                      "Jeda",
+                      style: TextStyle(
+                        color: Colors.blue[900],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: rowJeda,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      RaisedButton(
+                        onPressed: () {
+                          setState(() {
+                            buttonMulai = false;
+                          });
+                          setState(() {
+                            buttonJeda = true;
+                          });
+                          setState(() {
+                            rowJeda = false;
+                          });
+                          startTimer();
+                        },
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0),
+                          // side: BorderSide(color: Colors.red)
                         ),
-                        Text(
-                          "Min",
+                        child: Text(
+                          "Lanjutkan",
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.blue[900],
                             fontWeight: FontWeight.bold,
-                            fontSize: 45.0,
-                            fontFamily: 'Roboto',
                           ),
                         ),
-                        Text(
-                          "$_zero$_seconds",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 60.0,
-                            fontFamily: 'Roboto',
-                          ),
+                      ),
+                      RaisedButton(
+                        onPressed: () {
+                          setState(() {
+                            buttonMulai = true;
+                          });
+                          setState(() {
+                            buttonJeda = false;
+                          });
+                          setState(() {
+                            rowJeda = false;
+                          });
+                          setState(() {
+                            _zero = "0";
+                            _minute = 12;
+                            _seconds = 00;
+                            _timeRunning = false;
+                          });
+                        },
+                        color: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0),
+                          // side: BorderSide(color: Colors.red)
                         ),
-                        Text(
-                          "Sec",
+                        child: Text(
+                          "Reset",
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 45.0,
-                            fontFamily: 'Roboto',
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Visibility(
-                visible: buttonMulai,
-                child: RaisedButton(
-                  onPressed: () {
-                    startTimer();
-                    _timeRunning = true;
-                    setState(() {
-                      buttonMulai = false;
-                    });
-                    setState(() {
-                      buttonJeda = true;
-                    });
-                    setState(() {
-                      rowJeda = false;
-                    });
-                  },
-                  color: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(10.0),
-                    // side: BorderSide(color: Colors.red)
-                  ),
-                  child: Text(
-                    "Mulai",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: buttonJeda,
-                child: RaisedButton(
-                  onPressed: () {
-                    setState(() {
-                      buttonMulai = false;
-                    });
-                    setState(() {
-                      buttonJeda = false;
-                    });
-                    setState(() {
-                      rowJeda = true;
-                    });
-                    _timer.cancel();
-                    _timeRunning = false;
-                  },
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(10.0),
-                    // side: BorderSide(color: Colors.red)
-                  ),
-                  child: Text(
-                    "Jeda",
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: rowJeda,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    RaisedButton(
-                      onPressed: () {
-                        setState(() {
-                          buttonMulai = false;
-                        });
-                        setState(() {
-                          buttonJeda = true;
-                        });
-                        setState(() {
-                          rowJeda = false;
-                        });
-                        startTimer();
-                      },
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0),
-                        // side: BorderSide(color: Colors.red)
-                      ),
-                      child: Text(
-                        "Lanjutkan",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    RaisedButton(
-                      onPressed: () {
-                        setState(() {
-                          buttonMulai = true;
-                        });
-                        setState(() {
-                          buttonJeda = false;
-                        });
-                        setState(() {
-                          rowJeda = false;
-                        });
-                        setState(() {
-                          _zero = "0";
-                          _minute = 12;
-                          _seconds = 00;
-                          _timeRunning = false;
-                        });
-                      },
-                      color: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0),
-                        // side: BorderSide(color: Colors.red)
-                      ),
-                      child: Text(
-                        "Reset",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        new Container(
-          margin: EdgeInsets.only(top: 350),
-          height: MediaQuery.of(context).size.height / 4,
-          width: MediaQuery.of(context).size.width,
-          child: new GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: _kGooglePlex,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
+          new Container(
+            margin: EdgeInsets.only(top: 350),
+            height: MediaQuery.of(context).size.height / 4,
+            width: MediaQuery.of(context).size.width,
+            child: new GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: _kGooglePlex,
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -362,7 +365,7 @@ class _Lari12State extends State<Lari12> {
         _timeRunning = true;
       },
       textColor: Colors.white,
-      color: Colors.blue,
+      color: Colors.blue[900],
       padding: const EdgeInsets.all(8.0),
       child: new Text(
         "Start",
