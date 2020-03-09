@@ -35,6 +35,7 @@ dependencies:
   flutter_pubnub: ^0.2.0
   dropdown_formfield: ^0.1.1
   webview_flutter:
+  dotted_border: ^1.0.5
 
 dev_dependencies:
   flutter_test:
