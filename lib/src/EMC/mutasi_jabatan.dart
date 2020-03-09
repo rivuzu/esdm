@@ -235,7 +235,7 @@ Widget build(BuildContext context) {
                     height: 50,
                     child:  RaisedButton(
                       onPressed: () { 
-                        removeAll();
+//                        removeAll();
                       },
                       color: Colors.grey,
                       child: Text("Reset",style: TextStyle(color: Colors.black)),
@@ -261,18 +261,18 @@ Widget build(BuildContext context) {
   );
 }
 
-void removeAll(){
-  user.removeAll();
-}
+//void removeAll(){
+//  mutasi.removeAll();
+//}
 void saveMutasi(){
   mutasi.save(new NaikPangkat(
   _namaController.text, 
   _nrpController.text, 
   _nomorController.text,
   _dateTime.toString(),
-  _keluhanController.text)).then((mutasi){
+  _keluhanController.text)).then((mutasi) async {
     if(mutasi != null){
-      Alert(context: context,title: ConfigMessage.DATATITLEMESSAGESUCCSESS,type: AlertType.success, desc: 'Berhasil Di ubah',
+    await  Alert(context: context,title: ConfigMessage.DATATITLEMESSAGESUCCSESS,type: AlertType.success, desc: 'Berhasil Di ubah',
             buttons: [
               DialogButton(
                 child: Text(
@@ -282,7 +282,10 @@ void saveMutasi(){
                 color: Colors.black,  
               ),
             ],).show();
-            Navigator.push(context, MaterialPageRoute(builder: (context) => EMC()));
+      Navigator
+          .of(context)
+          .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  EMC()));
+      print(_dateTime.toString() + ',' + _keluhanController.text);
 
     }
   });

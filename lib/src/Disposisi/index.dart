@@ -1,6 +1,9 @@
+import 'dart:wasm';
+
 import 'package:esdm/src/Disposisi/detail.dart';
 import 'package:esdm/src/Disposisi/disposisi.dart';
 import 'package:esdm/src/Helper/show_indexdisposisi.dart';
+import 'package:esdm/src/Home/index.dart';
 import 'package:flutter/material.dart';
 import 'package:pref_dessert/pref_dessert.dart';
 import 'detail.dart';
@@ -11,6 +14,12 @@ import 'package:esdm/src/Config/config_indexdisposisi.dart';
 import 'dart:convert';
 import 'package:esdm/src/Model/user_desser.dart';
 import 'package:esdm/src/Model/user.dart';
+import 'package:esdm/src/Config/storage.dart';
+import 'package:esdm/src/Service/service.dart';
+
+int idJabatan = 0 ;
+var namaLogin = "";
+var idUser = "";
 
 class Disposisi extends StatefulWidget{
   @override 
@@ -25,6 +34,7 @@ class _DisposisiState extends State<Disposisi>{
   List date = ["25-02-2020","25-02-2020","25-02-2020","25-02-2020","25-02-2020"];
   List about = ["Pengaduan","Pemberitahuan","Saran","Kritik","Motivasi"];
   List<IndexDisposisi> dataJson = new List();
+//  List<IndexDisposisi> dataJson2 = new List();
   ShowIndexDisposisi showIndexDisposisi = new ShowIndexDisposisi();
 
   // void pilihTujuan(String value){
@@ -34,6 +44,9 @@ class _DisposisiState extends State<Disposisi>{
   // }
   var repoUser = new FuturePreferencesRepository<User>(new UserDesser());
   var repoIndexDisposisi = new FuturePreferencesRepository<IndexDisposisi>(new IndexDisposisiDesser());
+  
+  // Map dataDisposisi ;
+  // List disposisi;
 
   @override 
 
@@ -41,23 +54,23 @@ class _DisposisiState extends State<Disposisi>{
     super.initState();
     try{
 
-    loadDataLogin();
-    print("DATA" + loadDataLogin());
+    // print("DATA" + loadDataLogin());
+    // getDataList("1");
 
     }catch (exception){
 
     }
   }
 
-  loadDataLogin() async{
+  Future<void>  loadDataLogin() async{
     try{
-      repoUser.findAll().then((val){
+      await repoUser.findAll().then((val) async {
         if (val.length > 0) {
-          repoUser.findOne(val.length - 1).then((data){
-            setState(() => data.nama);
-            setState(() => data.jabatan_id);
-            setState(() => data.jabatan_parent_id);
-            setState(() => data.jabatan_child_ids);
+          await repoUser.findOne(val.length - 1).then((data) async {
+            await setState(() { namaLogin  = data.nama; });
+            await setState(() { idJabatan  = data.jabatan_id; });
+            await setState(() { idUser  = data.id_user; });
+            // print(id_user);
           });
         }
       });
@@ -65,33 +78,128 @@ class _DisposisiState extends State<Disposisi>{
 
     }
   }
+  Future<void>  _loadListView() async {
+    await repoIndexDisposisi.findAll().then((val) async {
+//      print("LENGHT "+val.length.toString());
+      if(val.length <= 0){
+//        print("MASUK 3");
+        await _loadListViewFirst();
+//        print("MASUK 4");
+      }else{
+        await repoIndexDisposisi.findAll().then((val) async {
 
-  _loadListView() async {
+//          print("MASUK 1 ");
+          await setState(() {
+            dataJson = new List();
+          });
+         await val.asMap().forEach((index,item) async {
+//            print('index=$index, value=$item');
+            print("item 1" + item.status.toString());
+            print("item 2 " + item.nama);
+            if (item.id_user == idUser && item.status != true) {
+              await setState(() {
+                dataJson.add(item);
+              });
+//              print('index=$index, value=$item');
+            }
+//            if(item.from_jabatan != null){
+//              await setState(() {
+//                dataJson2.add(item);
+//              });
+//            }
+          });
+        });
+      }
+
+    });
+  }
+
+  Future<void> removeData(List<IndexDisposisi> dataJson,List<IndexDisposisi> dataJson2) async{
+    for(var item in dataJson){
+//      int index;
+//      setState(() {
+//        index = dataJson2.indexWhere((x) =>x.nama == item.nama);
+//      });
+//      print("DATA Index"+index.toString());
+//      if(index <= -1){
+//        setState(() {
+//          dataJson2.add(item);
+//        });
+//      }
+        for(var item2 in dataJson2){
+//          print("ITEM 1"+ item2.from_jabatan.toString());
+          print("ITEM 2"+ item.id_jabatan.toString());
+
+
+          print("ITEM 1"+ item2.nama);
+          print("ITEM 2"+ item.nama);
+          if(item.id_user == idUser){
+//            await dataJson.removeWhere((x) =>   item2.from_jabatan != x.id_jabatan && item2.nama == x.nama);
+          }
+
+        }
+
+      print("MASUK 2");
+    }
+  }
+
+  Future<void>  _loadListViewFirst() async {
     repoIndexDisposisi.removeAll();
 
     ConfigIndexDisposisi.getData(showIndexDisposisi);
       for (var data in showIndexDisposisi.ShowData()) {
-      repoIndexDisposisi.save(IndexDisposisi(
+      await repoIndexDisposisi.save(IndexDisposisi(
         data.nama,
         data.tanggal,
-        data.keperluan
+        data.keperluan,
+        data.id_jabatan,
+        data.id_user,
+        null
       )).then((data){
 
       });
     }
 
-    repoIndexDisposisi.findAll().then((val){
+    await repoIndexDisposisi.findAll().then((val) async {
+      dataJson = new List();
       for (var item in val) {
-        dataJson.add(item);
+        print("heio");
+        print("iduser" + idUser);
+        print("item" + item.id_user.toString());
+        if (item.id_user == idUser) {
+          print("hei");
+          await setState(() {
+           dataJson.add(item); 
+          });
+        }
       }
     });
   }
+
+  // getDataList(String id_jabatan) {
+  //    var url = Storage.LocalBaseUrl + Storage.UrlListDisposisi;
+  //    print(url);
+  //   Service.Get(url).then((response){
+  //     print(response.statusCode);
+  //     if(response.statusCode == 200){
+  //       print("test3");
+  //       dataDisposisi = json.decode(response.body);
+  //       setState(() {
+  //         disposisi = dataDisposisi["data"];
+  //         print("woi" + disposisi.toString());
+  //       });
+  //     }
+  //   });
+  // }
 
   @override
   Future<void> didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+
+    await loadDataLogin();
     await _loadListView();
+//    await removeData(dataJson,dataJson2);
     print("didChangeDependencies");
   }
 
@@ -101,6 +209,13 @@ class _DisposisiState extends State<Disposisi>{
         appBar: new AppBar(
           title: new Text('List Disposisi'),
           backgroundColor: Colors.deepOrange,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator
+                    .of(context)
+                    .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  Home()));
+              }),
         ),
 
         body: ListView.builder(
@@ -138,8 +253,11 @@ class _DisposisiState extends State<Disposisi>{
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Dari : "+dataJson[index].nama, style: TextStyle(color: Colors.black,fontSize: 
-                            18.0, fontWeight: FontWeight.bold)),
+                            Container(
+                              width: 185.0,
+                              child: Text("Dari : "+dataJson[index].nama, textAlign: TextAlign.left, style: TextStyle(color: Colors.black,fontSize:
+                              18.0, fontWeight: FontWeight.bold)),
+                            ),
                             SizedBox(height: 5.0),
                             Text("Tanggal : "+dataJson[index].tanggal.toString(), style: TextStyle(color: Colors.grey[600])),
                             Text("Prihal : "+dataJson[index].keperluan, style: TextStyle(color: Colors.grey[600])),
@@ -166,7 +284,14 @@ class _DisposisiState extends State<Disposisi>{
                           FlatButton(
                             onPressed: (){
                               Navigator.push(context, 
-                              MaterialPageRoute(builder: (context)=>TujuanDisposisi()),
+                              MaterialPageRoute(builder: (context)=>TujuanDisposisi(
+                                idJabatan: dataJson[index].id_jabatan,
+                                idUser: dataJson[index].id_user,
+                                nama: dataJson[index].nama,
+                                perihal: dataJson[index].keperluan,
+                                tanggal: dataJson[index].tanggal ,
+
+                              )),
                               );
                             },
                             color: Colors.deepOrange,

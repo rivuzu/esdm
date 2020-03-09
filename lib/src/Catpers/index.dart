@@ -1,5 +1,6 @@
 import 'package:esdm/src/Catpers/listnama.dart';
 import 'package:esdm/src/Catpers/listsubmit.dart';
+import 'package:esdm/src/Catpers/submitpelanggaran.dart';
 import 'package:flutter/material.dart';
 
 class Catpers extends StatefulWidget {
@@ -123,7 +124,7 @@ class _CatpersState extends State<Catpers> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => ListSubmit()),
+                            MaterialPageRoute(builder: (context) => FormPelanggaran()),
                           );
                         },
                         child: Container(

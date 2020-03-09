@@ -11,7 +11,10 @@ class IndexDisposisiDesser extends DesSer<IndexDisposisi>{
     return new IndexDisposisi(
         map['nama'] as String,
         map['tanggal'] as String,
-        map['keperluan'] as String
+        map['keperluan'] as String,
+        map['id_jabatan'] as int,
+        map['id_user'] as String,
+        map['status'] as bool
     );
   }
 
@@ -20,7 +23,10 @@ class IndexDisposisiDesser extends DesSer<IndexDisposisi>{
     var map = {
       'nama': indexDisposisi.nama,
       'tanggal': indexDisposisi.tanggal,
-      'keperluan': indexDisposisi.keperluan
+      'keperluan': indexDisposisi.keperluan,
+      'owner': indexDisposisi.id_jabatan,
+      'id_user': indexDisposisi.id_user,
+      'status': indexDisposisi.status,
     };
     return json.encode(map);
   }
