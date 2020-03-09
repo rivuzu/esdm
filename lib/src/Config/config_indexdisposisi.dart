@@ -8,11 +8,12 @@ class ConfigIndexDisposisi{
   
   static getData(ShowIndexDisposisi showIndexDisposisi){
     showIndexDisposisi
-      .addItem(IndexDisposisi("Gusti", "2020-03-03" ,"Pengaduan"))
-      .addItem(IndexDisposisi("Agung", "2020-03-03" ,"Pemberitahuan"))
-      .addItem(IndexDisposisi("Pratama", "2020-03-03" ,"Saran"))
-      .addItem(IndexDisposisi("Juan", "2020-03-03" ,"Kritik"))
-      .addItem(IndexDisposisi("Ali", "2020-03-03" ,"Motivasi"));
+      .addItem(IndexDisposisi("Departemen agama", "2020-03-01" ,"Pengaduan", "1", "111"))
+      .addItem(IndexDisposisi("Departemen dalam negeri", "2020-03-02" ,"Pemberitahuan", "1", "111"))
+      .addItem(IndexDisposisi("Departemen kesehatan", "2020-03-03" ,"Saran", "1", "111"))
+      .addItem(IndexDisposisi("Departemen keuangan", "2020-03-04" ,"Kritik", "1", "111"))
+      .addItem(IndexDisposisi("Departemen luar negri", "2020-03-05" ,"Motivasi", "1", "111"))
+      .addItem(IndexDisposisi("Departemen pendidikan", "2020-03-06" ,"Motivasi", "1", "111"));
   }
   static String indexDisposisi = "indexDisposisi";
 }

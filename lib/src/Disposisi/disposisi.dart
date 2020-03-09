@@ -1,39 +1,49 @@
+import 'package:esdm/src/Disposisi/index.dart';
+import 'package:esdm/src/Helper/add_jabatan.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
+import 'package:esdm/src/Config/config_jabatan.dart';
 
 class TujuanDisposisi extends StatefulWidget{
   @override 
+  var idJabatan;
+  var idUser;
+  TujuanDisposisi({this.idJabatan,this.idUser});
   State createState() => _TujuanDisposisiState();
 }
 
 class _TujuanDisposisiState extends State<TujuanDisposisi>{
   // List <String> tujuan = ["Pilih Tujuan","SUBBAG RENMIN","BAG DALPRES","BAG BINKAR","BAG WATPERS","BAG PSI"];
   // String _tujuan = "Pilih Tujuan";
-  String _tujuan;
+  int _tujuan;
   final formKey = new GlobalKey<FormState>();
+  
+  
+  AddJabatan addJabatan = new AddJabatan();
+  List valueTujuan = [];
 
-  List valueTujuan = [
-    {
-      "display": "SUBBAG RENMIN",
-      "value": "SUBBAG RENMIN",
-    },
-    {
-      "display": "BAG DALPRES",
-      "value": "BAG DALPRES",
-    },
-    {
-      "display": "BAG BINKAR",
-      "value": "BAG BINKAR",
-    },
-    {
-      "display": "BAG WATPERS",
-      "value": "BAG WATPERS",
-    },
-    {
-      "display": "BAG PSI",
-      "value": "BAG PSI",
-    }
-  ];
+  // List valueTujuan = [
+  //   {
+  //     "display": "SUBBAG RENMIN",
+  //     "value": "SUBBAG RENMIN",
+  //   },
+  //   {
+  //     "display": "BAG DALPRES",
+  //     "value": "BAG DALPRES",
+  //   },
+  //   {
+  //     "display": "BAG BINKAR",
+  //     "value": "BAG BINKAR",
+  //   },
+  //   {
+  //     "display": "BAG WATPERS",
+  //     "value": "BAG WATPERS",
+  //   },
+  //   {
+  //     "display": "BAG PSI",
+  //     "value": "BAG PSI",
+  //   }
+  // ];
 
   // void pilihTujuan(String value){
   //   setState(() {
@@ -46,14 +56,33 @@ class _TujuanDisposisiState extends State<TujuanDisposisi>{
   void initState(){
     super.initState();
     try {
-
+      ConfigJabatan.getData(addJabatan);
+      print("idJab" + idJabatan.toString());
     }catch (exception){
 
     }
   }
   
+  dataJabatan() async{
+     for(var item in addJabatan.ShowData()){  
+        valueTujuan.add(
+            {
+              "display": item.nama,
+              "value": item.id,
+            }
+        ) ; 
+    }
+  }
+  
   simpanTujuan() async {
     Navigator.pop(context, false);
+  }
+
+  @override
+  Future<void> didChangeDependencies() async {
+    super.didChangeDependencies();
+    await dataJabatan();
+    print("didChangeDependencies");
   }
 
   @override

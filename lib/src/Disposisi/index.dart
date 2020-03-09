@@ -1,3 +1,5 @@
+import 'dart:wasm';
+
 import 'package:esdm/src/Disposisi/detail.dart';
 import 'package:esdm/src/Disposisi/disposisi.dart';
 import 'package:esdm/src/Helper/show_indexdisposisi.dart';
@@ -13,6 +15,10 @@ import 'package:esdm/src/Model/user_desser.dart';
 import 'package:esdm/src/Model/user.dart';
 import 'package:esdm/src/Config/storage.dart';
 import 'package:esdm/src/Service/service.dart';
+
+var idJabatan = 0 ;
+var namaLogin = "";
+var idUser = "";
 
 class Disposisi extends StatefulWidget{
   @override 
@@ -36,6 +42,7 @@ class _DisposisiState extends State<Disposisi>{
   // }
   var repoUser = new FuturePreferencesRepository<User>(new UserDesser());
   var repoIndexDisposisi = new FuturePreferencesRepository<IndexDisposisi>(new IndexDisposisiDesser());
+  
   // Map dataDisposisi ;
   // List disposisi;
 
@@ -45,7 +52,7 @@ class _DisposisiState extends State<Disposisi>{
     super.initState();
     try{
 
-    // loadDataLogin();
+    loadDataLogin();
     // print("DATA" + loadDataLogin());
     // getDataList("1");
 
@@ -56,13 +63,13 @@ class _DisposisiState extends State<Disposisi>{
 
   loadDataLogin() async{
     try{
-      repoUser.findAll().then((val){
+      await repoUser.findAll().then((val){
         if (val.length > 0) {
-          repoUser.findOne(val.length - 1).then((data){
-            setState(() => data.nama);
-            setState(() => data.jabatan_id);
-            setState(() => data.jabatan_parent_id);
-            setState(() => data.jabatan_child_ids);
+          repoUser.findOne(val.length - 1).then((data) async {
+            await setState(() { namaLogin  = data.nama; });
+            await setState(() { idJabatan  = data.jabatan_id; });
+            await setState(() { idUser  = data.id_user; });
+            // print(id_user);
           });
         }
       });
@@ -71,23 +78,34 @@ class _DisposisiState extends State<Disposisi>{
     }
   }
 
-  _loadListView() async {
+  Future<void>  _loadListView() async {
     repoIndexDisposisi.removeAll();
 
     ConfigIndexDisposisi.getData(showIndexDisposisi);
       for (var data in showIndexDisposisi.ShowData()) {
-      repoIndexDisposisi.save(IndexDisposisi(
+      await repoIndexDisposisi.save(IndexDisposisi(
         data.nama,
         data.tanggal,
-        data.keperluan
+        data.keperluan,
+        data.id_jabatan,
+        data.id_user
       )).then((data){
 
       });
     }
 
-    repoIndexDisposisi.findAll().then((val){
+    await repoIndexDisposisi.findAll().then((val) async {
+      dataJson = new List();
       for (var item in val) {
-        dataJson.add(item);
+        print("heio");
+        print("iduser" + idUser);
+        print("item" + item.id_user.toString());
+        if (item.id_user == idUser) {
+          print("hei");
+          await setState(() {
+           dataJson.add(item); 
+          });
+        }
       }
     });
   }
@@ -159,8 +177,11 @@ class _DisposisiState extends State<Disposisi>{
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Dari : "+dataJson[index].nama, style: TextStyle(color: Colors.black,fontSize: 
-                            18.0, fontWeight: FontWeight.bold)),
+                            Container(
+                              width: 185.0,
+                              child: Text("Dari : "+dataJson[index].nama, textAlign: TextAlign.left, style: TextStyle(color: Colors.black,fontSize: 
+                              18.0, fontWeight: FontWeight.bold)),
+                            ),
                             SizedBox(height: 5.0),
                             Text("Tanggal : "+dataJson[index].tanggal.toString(), style: TextStyle(color: Colors.grey[600])),
                             Text("Prihal : "+dataJson[index].keperluan, style: TextStyle(color: Colors.grey[600])),
@@ -187,7 +208,7 @@ class _DisposisiState extends State<Disposisi>{
                           FlatButton(
                             onPressed: (){
                               Navigator.push(context, 
-                              MaterialPageRoute(builder: (context)=>TujuanDisposisi()),
+                              MaterialPageRoute(builder: (context)=>TujuanDisposisi(idJabatan: idJabatan)),
                               );
                             },
                             color: Colors.deepOrange,
