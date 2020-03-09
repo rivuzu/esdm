@@ -18,11 +18,11 @@ List<StaggeredTile> _staggeredTiles = const <StaggeredTile>[
 
 List<Widget> _tiles = const <Widget>[
   const _KenaikanPangkat(
-      Colors.black,
+      Colors.brown,
       Text('Kenaikan Pangkat',style: TextStyle(color: Colors.white, fontSize: 25),
       )),
   const _MutasiJabatan(
-      Colors.black,
+      Colors.brown,
       Text('Mutasi Jabatan',style: TextStyle(color: Colors.white, fontSize: 25),
       )),
 ];
@@ -33,7 +33,7 @@ class _EMCState extends State<EMC> {
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('E-MC2'),
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.brown,
           leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
@@ -43,12 +43,12 @@ class _EMCState extends State<EMC> {
               }),
         ),
         body: new Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 25.0),
             child: new StaggeredGridView.count(
               crossAxisCount: 2,
               staggeredTiles: _staggeredTiles,
               children: _tiles,
-              mainAxisSpacing: 4.0,
+              mainAxisSpacing: 25.0,
               crossAxisSpacing: 4.0,
               padding: const EdgeInsets.all(4.0),
             )));

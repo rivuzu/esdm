@@ -131,13 +131,11 @@ getDataUserLogin() async {
     }
   }
 
-
-
 Widget build(BuildContext context) {
   return new Scaffold(
     appBar: new AppBar(
           title: new Text('Kenaikan Pangkat'),
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.brown,
         ),
     body: new SafeArea(
           top: false,
@@ -145,7 +143,7 @@ Widget build(BuildContext context) {
           child: new Form(
               autovalidate: true,
               child: new ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 25.0),
                 children: <Widget>[
                 SizedBox(
                   height: 150.0,
@@ -192,12 +190,12 @@ Widget build(BuildContext context) {
 
                        new Theme(
                         data: Theme.of(context).copyWith(
-                          accentColor: Colors.black,
-                          primaryColor: Colors.black
+                          accentColor: Colors.brown,
+                          primaryColor: Colors.brown
                         ),
                         child: new Builder(
                           builder: (context) => new FloatingActionButton(
-                            backgroundColor: Colors.black,
+                            backgroundColor: Colors.brown,
                             child: new Icon(Icons.date_range),
                             onPressed: () {
                                 showDatePicker(
@@ -238,7 +236,7 @@ Widget build(BuildContext context) {
                         MaterialPageRoute(builder: (context) => Home()),
                       );
                       },
-                      color: Colors.grey,
+                      color: Colors.grey[200],
                       child: Text("Reset",style: TextStyle(color: Colors.black)),
                     ),
                   ),
@@ -252,7 +250,7 @@ Widget build(BuildContext context) {
                         savePangkat();
 
                       },
-                      color: Colors.black,
+                      color: Colors.brown,
                       child: Text('Submit',style: TextStyle(color: Colors.white)),
                     ),
                   ),
