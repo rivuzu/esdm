@@ -106,9 +106,17 @@ class _ListNamaState extends State<ListNama> {
   }
 
   cariData(String nama) async {
-    for(var item in addUser.ShowData()){
-      print("NAMA 1: "+ nama);
-      print("NAMA 2: "+ item.nama);
+    await  setState(() {
+      _listResultUser = new List();
+    });
+    await  setState(() {
+      _listCatpers  = new List();
+    });
+    await getDataCatpers();
+    if(nama.isNotEmpty){
+      for(var item in addUser.ShowData()){
+        print("NAMA 1: "+ nama);
+        print("NAMA 2: "+ item.nama);
 //      if(nama.isNotEmpty){
         if(item.nama.toLowerCase().contains(nama.toLowerCase())){
           print(nama);
@@ -119,6 +127,7 @@ class _ListNamaState extends State<ListNama> {
         }
         await deleteDuplicate(_listCatpers);
 //      }
+      }
     }
   }
 
