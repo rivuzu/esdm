@@ -156,8 +156,8 @@ class _PullUpState extends State<PullUp> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        height: 300.0,
-                        width: 300.0,
+                        height: 200.0,
+                        width: 200.0,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle, color: Colors.transparent),
                         child: Center(
