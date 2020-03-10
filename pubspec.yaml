@@ -37,6 +37,7 @@ dependencies:
   flutter_webview_plugin: 0.3.0+2
   webview_flutter: ^0.3.19+9
   dotted_border: ^1.0.5
+  flutter_svg: ^0.13.0
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,13 @@ flutter:
     - lib/assets/img/cadet.png
     - lib/assets/img/konsultasi.png
     - lib/assets/file/sample.pdf
+    - lib/assets/fonts/sit-up.svg
+    - lib/assets/fonts/push-up.svg
+    - lib/assets/fonts/swimming-pool.svg
+    - lib/assets/fonts/training.svg
+    - lib/assets/fonts/tracking.svg
+    - lib/assets/fonts/track.svg
+    - lib/assets/fonts/hospital.svg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
