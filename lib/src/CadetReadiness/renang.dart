@@ -2,6 +2,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 class Renang extends StatefulWidget {
   @override
   _RenangState createState() => _RenangState();
@@ -156,11 +158,13 @@ class _RenangState extends State<Renang> {
             SizedBox(
               height: 50.0,
             ),
-            Icon(
-              Icons.person,
-              size: 150,
-              color: Colors.blue[900],
-            ),
+            // Icon(
+            //   Icons.person,
+            //   size: 150,
+            //   color: Colors.blue[900],
+            // ),
+            SvgPicture.asset("lib/assets/fonts/swimming-pool.svg", color: Colors.blue[900], height: 120,),
+            SizedBox(height: 20,),
             DottedBorder(
               borderType: BorderType.RRect,
               radius: Radius.circular(12),

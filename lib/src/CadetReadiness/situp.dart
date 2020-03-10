@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SitUp extends StatefulWidget {
   @override
@@ -57,11 +58,12 @@ class _SitUpState extends State<SitUp> {
                 ),
               ],
             ),
-            Icon(
-              Icons.person,
-              size: 170,
-              color: Colors.blue[900],
-            ),
+            // Icon(
+            //   Icons.person,
+            //   size: 170,
+            //   color: Colors.blue[900],
+            // ),
+            SvgPicture.asset("lib/assets/fonts/sit-up.svg", color: Colors.blue[900], height: 170,),
             DottedBorder(
               borderType: BorderType.Circle,
               dashPattern: [3, 10],

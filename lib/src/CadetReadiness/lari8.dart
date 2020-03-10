@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -120,11 +121,13 @@ class _Lari8State extends State<Lari8> {
             SizedBox(
               height: 50.0,
             ),
-            Icon(
-              Icons.person,
-              size: 150,
-              color: Colors.blue[900],
-            ),
+            // Icon(
+            //   Icons.person,
+            //   size: 150,
+            //   color: Colors.blue[900],
+            // ),
+            SvgPicture.asset("lib/assets/fonts/tracking.svg", color: Colors.blue[900], height: 120,),
+            SizedBox(height: 20,),
             DottedBorder(
               borderType: BorderType.RRect,
               radius: Radius.circular(12),

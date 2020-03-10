@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 class TestKesehatan extends StatefulWidget {
   @override
   _TestKesehatanState createState() => _TestKesehatanState();
@@ -33,15 +35,30 @@ class _TestKesehatanState extends State<TestKesehatan> {
                   style: TextStyle(
                     color: Colors.blue[900],
                     fontWeight: FontWeight.bold,
-                    fontSize: 30.0,
+                    fontSize: 25.0,
                     fontFamily: 'Roboto',
                   ),
                 ),
               ],
             ),
-            SizedBox(
-              height: 50.0,
-            ),
+            Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  // Icon(
+                  //   Icons.person,
+                  //   size: 50,
+                  //   color: Colors.blue[900],
+                  // ),
+                  SvgPicture.asset(
+                    "lib/assets/fonts/hospital.svg",
+                    color: Colors.blue[900],
+                    height: 50,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
             new Table(
               children: [
                 new TableRow(children: [
@@ -50,7 +67,7 @@ class _TestKesehatanState extends State<TestKesehatan> {
                     child: new Text(
                       "Pemeriksaan",
                       style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 15.0,
                           fontWeight: FontWeight.w600,
                           color: Colors.blue[300]),
                       textAlign: TextAlign.center,
@@ -59,7 +76,7 @@ class _TestKesehatanState extends State<TestKesehatan> {
                   new Text(
                     "Hasil",
                     style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 15.0,
                         fontWeight: FontWeight.w600,
                         color: Colors.blue[300]),
                     textAlign: TextAlign.center,
@@ -67,7 +84,7 @@ class _TestKesehatanState extends State<TestKesehatan> {
                   new Text(
                     "Angka Normal",
                     style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 15.0,
                         fontWeight: FontWeight.w600,
                         color: Colors.blue[300]),
                     textAlign: TextAlign.center,
@@ -89,7 +106,7 @@ class _TestKesehatanState extends State<TestKesehatan> {
                     child: Text(
                       item['p'],
                       style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 13.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue[600]),
                       textAlign: TextAlign.center,
@@ -101,7 +118,7 @@ class _TestKesehatanState extends State<TestKesehatan> {
                     child: Text(
                       item['h'],
                       style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 13.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue[600]),
                       textAlign: TextAlign.center,
@@ -113,7 +130,7 @@ class _TestKesehatanState extends State<TestKesehatan> {
                     child: Text(
                       item['an'],
                       style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 13.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue[600]),
                       textAlign: TextAlign.center,

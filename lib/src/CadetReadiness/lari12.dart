@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -144,14 +145,30 @@ class _Lari12State extends State<Lari12> {
             child: new Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Lari 12 Menit",
+                  style: TextStyle(
+                    color: Colors.blue[900],
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30.0,
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+              ],
+            ),
                 SizedBox(
-                  height: 30.0,
+                  height: 10.0,
                 ),
-                Icon(
-                  Icons.person,
-                  size: 150,
-                  color: Colors.blue[900],
-                ),
+                // Icon(
+                //   Icons.person,
+                //   size: 150,
+                //   color: Colors.blue[900],
+                // ),
+                SvgPicture.asset("lib/assets/fonts/track.svg", color: Colors.blue[900], height: 120,),
+            SizedBox(height: 20,),
                 DottedBorder(
                   borderType: BorderType.RRect,
                   radius: Radius.circular(12),

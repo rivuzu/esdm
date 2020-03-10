@@ -2,6 +2,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 class PullUp extends StatefulWidget {
   @override
   _PullUpState createState() => _PullUpState();
@@ -107,7 +109,7 @@ class _PullUpState extends State<PullUp> {
     //   ),
     // );
     return new Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       body: Container(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -131,10 +133,15 @@ class _PullUpState extends State<PullUp> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Icon(
-                    Icons.person,
-                    size: 50,
+                  // Icon(
+                  //   Icons.person,
+                  //   size: 50,
+                  //   color: Colors.blue[900],
+                  // ),
+                  SvgPicture.asset(
+                    "lib/assets/fonts/training.svg",
                     color: Colors.blue[900],
+                    height: 50,
                   ),
                 ],
               ),
@@ -306,21 +313,22 @@ class _PullUpState extends State<PullUp> {
                   keyboardType: TextInputType.number,
                   controller: _numberInput,
                   decoration: InputDecoration(
-                    hintText: 'Jumlah',
-                    // filled: true,
-                    prefixIcon: Icon(
-                      Icons.timer,
-                      size: 28.0,
-                    ),
-                    suffixIcon: RaisedButton(
-                      color: Colors.blue,
-                      child: Text("OK", style: TextStyle(color: Colors.white),),
-                      onPressed: (){
-                        onOkeButton();
-                        FocusScope.of(context).unfocus();
-                      }
-                    )
-                  ),
+                      hintText: 'Jumlah',
+                      // filled: true,
+                      prefixIcon: Icon(
+                        Icons.timer,
+                        size: 28.0,
+                      ),
+                      suffixIcon: RaisedButton(
+                          color: Colors.blue,
+                          child: Text(
+                            "OK",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            onOkeButton();
+                            FocusScope.of(context).unfocus();
+                          })),
                 ),
               ),
             ],
