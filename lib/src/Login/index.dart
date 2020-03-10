@@ -157,9 +157,19 @@ class _LoginState extends State<Login> {
 
   List<Widget> buildInputs() {
     return [
-      SizedBox(
-        height: 120.0,
-        child: Image.asset("lib/assets/img/sdmpolri.jpeg", fit: BoxFit.contain),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center ,
+        crossAxisAlignment: CrossAxisAlignment.center ,
+        children: <Widget>[
+          SizedBox(
+            height: 130.0,
+            child: Image.asset("lib/assets/img/pmj.png", fit: BoxFit.contain),
+          ),
+          SizedBox(
+            height: 120.0,
+            child: Image.asset("lib/assets/img/sdmpolri.jpeg", fit: BoxFit.contain),
+          ),
+        ],
       ),
       SizedBox(
         height: 45.0,
