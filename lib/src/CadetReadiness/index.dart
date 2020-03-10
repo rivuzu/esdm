@@ -16,6 +16,8 @@ import 'testkesehatan.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 
 class CadetReadiness extends StatefulWidget {
   @override
@@ -102,13 +104,13 @@ class _CadetReadinessState extends State<CadetReadiness> {
   Widget build(BuildContext context) {
 
     final _bottomNavBarItems = <BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: Icon(Icons.home),title: Text('Sit Up'),),
-      BottomNavigationBarItem(icon: Icon(Icons.chat), title: Text('Push Up')),
-      BottomNavigationBarItem(icon: Icon(Icons.money_off), title: Text('Renang')),
-      BottomNavigationBarItem(icon: Icon(Icons.healing), title: Text('Pull Up')),
-      BottomNavigationBarItem(icon: Icon(Icons.home),title: Text('Lari 8'),),
-      BottomNavigationBarItem(icon: Icon(Icons.chat), title: Text('Lari 12')),
-      BottomNavigationBarItem(icon: Icon(Icons.money_off), title: Text('Tes Sehat')),
+      BottomNavigationBarItem(icon: SvgPicture.asset("lib/assets/fonts/sit-up.svg",height: 35,color: Colors.blue[900],),title: Text('Sit Up'),),
+      BottomNavigationBarItem(icon: SvgPicture.asset("lib/assets/fonts/push-up.svg",height: 35,color: Colors.blue[900]), title: Text('Push Up')),
+      BottomNavigationBarItem(icon: SvgPicture.asset("lib/assets/fonts/swimming-pool.svg",height: 35,color: Colors.blue[900]), title: Text('Renang')),
+      BottomNavigationBarItem(icon: SvgPicture.asset("lib/assets/fonts/training.svg",height: 35,color: Colors.blue[900]), title: Text('Pull Up')),
+      BottomNavigationBarItem(icon: SvgPicture.asset("lib/assets/fonts/tracking.svg",height: 35,color: Colors.blue[900]),title: Text('Lari 8'),),
+      BottomNavigationBarItem(icon: SvgPicture.asset("lib/assets/fonts/track.svg",height: 35,color: Colors.blue[900]), title: Text('Lari 12')),
+      BottomNavigationBarItem(icon: SvgPicture.asset("lib/assets/fonts/hospital.svg",height: 35,color: Colors.blue[900]), title: Text('Tes Sehat')),
     ];
 
     final _bottomNavBar = BottomNavigationBar(
@@ -191,7 +193,7 @@ class _CadetReadinessState extends State<CadetReadiness> {
           Lari12(),
           TestKesehatan()
       ].elementAt(_selectedTabIndex),
-      bottomNavigationBar: SizedBox(
+      bottomNavigationBar: SafeArea(
         child: _bottomNavBar,
       ),     
       
