@@ -258,26 +258,30 @@ class _FormPelanggaranState extends State<FormPelanggaran> {
                             ),
 
                             Container(
-                              padding: EdgeInsets.all(16),
-                              child: DropDownFormField(
-                                titleText: 'Nama',
-                                hintText: 'Please choose one',
-                                value: _id_user_combobox,
-                                onSaved: (value) {
-                                  setState(() {
-                                    _id_user_combobox = value;
-                                  });
-                                },
-                                onChanged: (value) {
-                                  getDataUserByNama(value);
-                                  setState(() {
-                                    _id_user_combobox = value;
-                                  });
-                                },
-                                dataSource: valueDropdown,
-                                textField: 'display',
-                                valueField: 'value',
-                              ),
+                              child:
+                              Wrap(
+                                children: <Widget>[
+                                  DropDownFormField(
+                                    titleText: 'Nama',
+                                    hintText: 'Please choose one',
+                                    value: _id_user_combobox,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        _id_user_combobox = value;
+                                      });
+                                    },
+                                    onChanged: (value) {
+                                      getDataUserByNama(value);
+                                      setState(() {
+                                        _id_user_combobox = value;
+                                      });
+                                    },
+                                    dataSource: valueDropdown,
+                                    textField: 'display',
+                                    valueField: 'value',
+                                  ),
+                                ],
+                              )
                             ),
 
                             Column(
@@ -287,6 +291,7 @@ class _FormPelanggaranState extends State<FormPelanggaran> {
                                 Container(
                                   padding: EdgeInsets.only(left:16,right: 16),
                                   child: TextField(
+                                    enabled: false,
                                     // maxLines: 8,
                                     controller: _pangkatController,
                                     decoration: InputDecoration(
@@ -304,6 +309,7 @@ class _FormPelanggaranState extends State<FormPelanggaran> {
                                 Container(
                                   padding: EdgeInsets.only(left:16,right: 16),
                                   child: TextField(
+                                    enabled: false,
                                     // maxLines: 8,
                                     controller: _nrpController,
                                     decoration: InputDecoration(
@@ -321,6 +327,7 @@ class _FormPelanggaranState extends State<FormPelanggaran> {
                                 Container(
                                   padding: EdgeInsets.only(left:16,right: 16),
                                   child: TextField(
+                                    enabled: false,
                                     // maxLines: 8,
                                     controller: _jabatanController,
                                     decoration: InputDecoration(

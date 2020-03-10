@@ -199,6 +199,8 @@ class _PesanState extends State<Pesan> {
 //            shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 var name = "";
+                var statusAktif = "Online";
+                Color statusWarna = Colors.green;
 //              print("Role Login : "+roleLogin);
                 if(roleLogin == Storage.ROLEPASIEN){
                   name = _listKonsultasiHistory[index].dokter_name;
@@ -206,6 +208,12 @@ class _PesanState extends State<Pesan> {
                 }else{
                   name = _listKonsultasiHistory[index].pasien_name;
 //                print("Name Pasien: "+name);
+                }
+
+                var idUser  = _listKonsultasiHistory[index].id_sender;
+                if(idUser == "ABCD" || idUser == "DCAB" || idUser == "CABD" ||idUser == "BCDA"){
+                  statusAktif = "Offline";
+                  statusWarna = Colors.red;
                 }
                 return Container(
                   width: MediaQuery.of(context).size.width,
@@ -246,39 +254,46 @@ class _PesanState extends State<Pesan> {
                           ),
                           new  Expanded(
                             flex: 6,
-                            child: Container(
-                              child:  InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => Chat(id_dokter: _listKonsultasiHistory[index].id_chat,role: _listKonsultasiHistory[index].role,name :name)),
-                                  );
-                                },
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                            child:
+                                Wrap(
+                                  direction: Axis.vertical,
                                   children: <Widget>[
-                                    SizedBox(width: 10.0),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          name,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.left,
+                                    Container(
+                                      child:  InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => Chat(id_dokter: _listKonsultasiHistory[index].id_chat,role: _listKonsultasiHistory[index].role,name :name)),
+                                          );
+                                        },
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            SizedBox(width: 10.0),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  name,
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 18.0,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                                SizedBox(height: 5.0),
+                                                Text(_listKonsultasiHistory[index].message,
+                                                    style: TextStyle(color: Colors.grey[600])),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                        SizedBox(height: 5.0),
-                                        Text(_listKonsultasiHistory[index].message,
-                                            style: TextStyle(color: Colors.grey[600])),
-                                      ],
+                                      ),
                                     ),
                                   ],
-                                ),
-                              ),
-                            ),
+                                )
+
                           ),
                           new Container(
                             width: 50.0,
@@ -288,12 +303,12 @@ class _PesanState extends State<Pesan> {
                                 Container(
                                   height: 20.0,
                                   decoration: new BoxDecoration(
-                                    color: Colors.green,
+                                    color: statusWarna,
                                     shape: BoxShape.circle,
                                   ),
                                 ),
                                 SizedBox(height: 5.0),
-                                Text("Online")
+                                Text(statusAktif)
                               ],
                             ),
                           ),

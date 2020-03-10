@@ -205,6 +205,43 @@ class _DisposisiState extends State<Disposisi>{
 
   @override
   Widget build(BuildContext context) {
+    if(dataJson.length <= 0){
+      return new Scaffold(
+        appBar: new AppBar(
+          title: new Text('List Disposisi'),
+          backgroundColor: Colors.deepOrange,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator
+                    .of(context)
+                    .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  Home()));
+              }),
+        ),
+
+        body:  Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text("Tidak terdapat data disposisi",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+            ),
+
+          ],
+        )
+
+
+        // floatingActionButton: FloatingActionButton(
+        //   child: Icon(Icons.add),
+        //   backgroundColor: Colors.deepOrange,
+        //   onPressed: (){
+
+        //   },
+        // ),
+
+      );
+    }
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('List Disposisi'),
@@ -236,42 +273,56 @@ class _DisposisiState extends State<Disposisi>{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          width: 55.0,
-                          height: 55.0,
-                          // color: Colors.green,
-                          child: CircleAvatar(
-                            // backgroundColor: Colors.green,
-                            foregroundColor: Colors.green,
-                            backgroundImage: NetworkImage("https://img.icons8.com/doodle/48/000000/user.png"),
-                          ),
-                        ),
-                        SizedBox(width: 10.0),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    new  Flexible(
+                      flex: 8,
+                      child:
+                      Wrap(
+                          direction: Axis.vertical,
                           children: <Widget>[
-                            Container(
-                              width: 185.0,
-                              child: Text("Dari : "+dataJson[index].nama, textAlign: TextAlign.left, style: TextStyle(color: Colors.black,fontSize:
-                              18.0, fontWeight: FontWeight.bold)),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  width: 55.0,
+                                  height: 55.0,
+                                  // color: Colors.green,
+                                  child: CircleAvatar(
+                                    // backgroundColor: Colors.green,
+                                    foregroundColor: Colors.green,
+                                    backgroundImage: NetworkImage("https://img.icons8.com/doodle/48/000000/user.png"),
+                                  ),
+                                ),
+                                SizedBox(width: 10.0),
+                                Wrap(
+                                  direction: Axis.vertical,
+//                                  mainAxisAlignment: MainAxisAlignment.start,
+//                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      width: 180.0,
+                                      child:
+                                          Text("Dari : "+dataJson[index].nama, textAlign: TextAlign.left, style: TextStyle(color: Colors.black,fontSize:
+                                          18.0, fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,maxLines: 10,),
+                                    ),
+                                    SizedBox(height: 5.0),
+                                    Text("Tanggal : "+dataJson[index].tanggal.toString(), style: TextStyle(color: Colors.grey[600])),
+                                    Text("Prihal : "+dataJson[index].keperluan, style: TextStyle(color: Colors.grey[600])),
+                                  ],
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 5.0),
-                            Text("Tanggal : "+dataJson[index].tanggal.toString(), style: TextStyle(color: Colors.grey[600])),
-                            Text("Prihal : "+dataJson[index].keperluan, style: TextStyle(color: Colors.grey[600])),
                           ],
-                        ),
-                      ],
+                      ),
                     ),
 
+
                     Container(
+                      width: 90,
                       child: Column(
                         children: <Widget>[
                           FlatButton(
                             onPressed: (){
-                              Navigator.push(context, 
+                              Navigator.push(context,
                               MaterialPageRoute(builder: (context)=>Detail()),
                               );
                             },
@@ -283,7 +334,7 @@ class _DisposisiState extends State<Disposisi>{
                           ),
                           FlatButton(
                             onPressed: (){
-                              Navigator.push(context, 
+                              Navigator.push(context,
                               MaterialPageRoute(builder: (context)=>TujuanDisposisi(
                                 idJabatan: dataJson[index].id_jabatan,
                                 idUser: dataJson[index].id_user,
