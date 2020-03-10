@@ -9,11 +9,13 @@ class MutasiDesSer extends DesSer<NaikPangkat>{
   NaikPangkat deserialize(String s) {
       var map = json.decode(s);
       return new NaikPangkat(
+        map['Id'] as String,
         map['Nama'] as String,
         map['NRP'] as String,
         map['Nomor'] as String,
         map['Laporan'] as String,
         map['Keluhan'] as String,
+        map['Type'] as String,
         );
   }
 
@@ -21,11 +23,13 @@ class MutasiDesSer extends DesSer<NaikPangkat>{
   @override
   String serialize(NaikPangkat instance) {
       var map = {
+        'Id': instance.Id,
         'Nama': instance.Nama,
         'NRP': instance.NRP,
         'Nomor': instance.Nomor,
         'Laporan': instance.Laporan,
         'Keluhan': instance.Keluhan,
+        'Type': instance.Type,
       };
       return json.encode(map);
     }
