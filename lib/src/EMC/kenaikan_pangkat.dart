@@ -25,8 +25,9 @@ class _KenaikanPangkatState extends State<KenaikanPangkat>{
   List<NaikPangkat> _listkenaikanPangkat = new List();
   List<NaikPangkat> _listPangkat = new List();
   var user = new FuturePreferencesRepository<User>(new UserDesser()); 
-  var pangkat = new FuturePreferencesRepository<NaikPangkat>(new KenaikanDesSer()); 
+  var pangkat = new FuturePreferencesRepository<NaikPangkat>(new KenaikanDesSer());
   String namaUser = "";
+  String idUser = "";
   TextEditingController _namaController = TextEditingController();
   TextEditingController _nrpController = TextEditingController();
   TextEditingController _nomorController = TextEditingController();
@@ -38,98 +39,196 @@ class _KenaikanPangkatState extends State<KenaikanPangkat>{
 @override
 void initState(){
   super.initState();
-  loadDataKenaikanPangkat();
-      try{
-      }catch (exception) {
-      }
+//  loadDataKenaikanPangkat();
+      ConfigUser.getData(addUser);
+      getDataUserLogin();
 }
 
 Future<void> didChangeDependencies() async {
   super.didChangeDependencies();
-    await loadDataKenaikanPangkat();
+//    await loadDataKenaikanPangkat();
     // await deleteDuplicate(_listPangkat);
-    await loadData();  
+//    await loadData();
+  await saveDefauldData();
+  await getDataKenaikan();
   print('didChangeDependencies');
 }
 
-  loadData() async{
+  Future<void> loadData
+      (
+        String nama,
+        String nrp,
+        String nomor,
+        String laporan,
+        String keluhan
+      ) async{
     try {
-      setState(() { _namaController.text = _listPangkat[_listPangkat.length - 1].Nama;});
-      setState(() { _nrpController.text = _listPangkat[_listPangkat.length - 1].NRP;});
-      setState(() { _nomorController.text = _listPangkat[_listPangkat.length - 1].Nomor;});
-      setState(() { _dateTime = DateTime.parse(_listPangkat[_listPangkat.length - 1].Laporan.toString());});
-      setState(() { _keluhanController.text = _listPangkat[_listPangkat.length - 1].Keluhan;});  
+      print("MASUK LOAD DATA");
+      setState(() { _namaController.text = nama;});
+      setState(() { _nrpController.text = nrp;});
+      setState(() { _nomorController.text = nomor;});
+      setState(() { _dateTime = DateTime.parse(laporan);});
+      setState(() { _keluhanController.text = keluhan;});
     } catch (e) {
     }
   }
 
-loadDataKenaikanPangkat()async{
-  try {
-   await user.findAll().then((naik) async {
-      if (naik.length > 0) {
-        await user.findOne(naik.length - 1).then((naikPangkat) async {
-          if (naikPangkat != null) {
-            print("DATA 2");
-           await setState(() { namaUser = naikPangkat.nama;});
-          }
-        });
-      }
-      });
-      print("namaUser"+namaUser);
-    await pangkat.findAll().then((naik) async {
-      if (naik.length > 0) {
-        for(var pangkat in naik){
-          if(namaUser == pangkat.Nama){
-            var data = _listPangkat.indexWhere((x) => x.Nama == pangkat.Nama);
-            print("DATA : "+data.toString());
-            if(data <= -1){
-              setState(() { 
-                _listPangkat.add(pangkat);
-              });
-            }
-          }else{
-              print("DATA 3:");
-              getDataUserLogin();
-            }
-          }
-          }else{
-            print("Data 3");
-            getDataUserLogin();      
+  Future<void> getDataKenaikan() async {
+   await pangkat.findAll().then((data){
+     print("JUMLAH KENAIKAN : "+data.length.toString());
+      for(var item in data){
+        print("DATA USER 1 :"+idUser);
+        print("DATA USER 2 :"+item.Id);
+        if(item.Id == idUser){
+          print("MASUK GET KENAIKAN :"+idUser);
+          loadData
+            (
+              item.Nama,
+              item.NRP,
+              item.Nomor,
+              item.Laporan,
+              item.Keluhan
+          );
         }
+      }
     });
-  } catch (exception) {
-
   }
-}
 
+  Future<void> saveDefauldData() async {
+//    await pangkat.removeAll();
+     await pangkat.findAll().then((data) async {
+       print("JUMLAH DATA" + data.length.toString());
+       if(data.length <= 0){
+         print("SAVE DATA");
+         for(var item in addUser.ShowData()){
+           print("SAVE 1");
+           await pangkat.save(new NaikPangkat(
+             item.id_user,
+             item.nama,
+             item.pangkat,
+             item.no_hp,
+             "",
+             "",
+             Storage.TypeKenaikanMC2,
+           ));
+           print("SAVE 2");
+         }
+       }
+      });
+  }
+
+//loadDataKenaikanPangkat()async{
+//  try {
+//   await user.findAll().then((naik) async {
+//      if (naik.length > 0) {
+//        await user.findOne(naik.length - 1).then((naikPangkat) async {
+//          if (naikPangkat != null) {
+//            print("DATA 2");
+//            await setState(() { idUser = naikPangkat.id_user;});
+//           await setState(() { namaUser = naikPangkat.nama;});
+//            await loadData
+//              (
+//                naikPangkat.nama,
+//                naikPangkat.pangkat,
+//                naikPangkat.no_hp,
+//                "",
+//                ""
+//            );
+//          }
+//        });
+//      }
+//      });
+//      print("namaUser"+namaUser);
+//    await pangkat.findAll().then((naik) async {
+//      if (naik.length > 0) {
+//        if(naik != null){
+//          await pangkat.findAllWhere((x) => x.Nama == namaUser).then((data) async {
+//            print("MASUK "+namaUser);
+//            if(data != null){
+//              await pangkat.findOne(data.length - 1).then((naikPangkat) async {
+//                print("MASUK 2"+namaUser);
+//                await loadData
+//                  (
+//                    naikPangkat.Nama,
+//                    naikPangkat.NRP,
+//                    naikPangkat.Nomor,
+//                    naikPangkat.Laporan,
+//                    naikPangkat.Keluhan
+//                );
+//              });
+//            }else{
+//              print("MASUK 3"+namaUser);
+//              getDataUserLogin();
+//            }
+//
+//            });
+//        }else{
+//          print("MASUK 4"+namaUser);
+//          getDataUserLogin();
+//        }
+//        for(var pangkat in naik){
+//          if(namaUser == pangkat.Nama){
+//            var data = _listPangkat.indexWhere((x) => x.Nama == pangkat.Nama);
+//            print("DATA : "+data.toString());
+//            if(data <= -1){
+////              await loadData
+////                (
+////                  pangkat.Nama,
+////                  pangkat.NRP,
+////                  pangkat.Nomor,
+////                  pangkat.Laporan,
+////                  pangkat.Keluhan
+////              );
+//              setState(() {
+//                _listPangkat.add(pangkat);
+//              });
+//            }
+//          }else{
+//              print("DATA 3:");
+//              getDataUserLogin();
+//            }
+//          }
+//          }else{
+//            print("Data 3");
+//            getDataUserLogin();
+//        }
+//    });
+//  } catch (exception) {
+//
+//  }
+//}
+//
 getDataUserLogin() async {
     await user.findAll().then((naik) async {
           if (naik.length > 0) {
-           await user.findOne(naik.length - 1).then((naikPangkat){
+           await user.findOne(naik.length - 1).then((naikPangkat) async {
               if (naikPangkat != null) {
-                setState(() => _namaController.text = naikPangkat.nama);
-                setState(() => _nrpController.text = naikPangkat.pangkat);
-                setState(() => _nomorController.text = naikPangkat.no_hp);
+                print("MASUK GET USER");
+                await setState(() { idUser = naikPangkat.id_user;});
+                await setState(() { namaUser = naikPangkat.nama;});
+//                setState(() => _namaController.text = naikPangkat.nama);
+//                setState(() => _nrpController.text = naikPangkat.pangkat);
+//                setState(() => _nomorController.text = naikPangkat.no_hp);
               }
             });
           }
          });
 }
-
-  Future deleteDuplicate(List<NaikPangkat> kenaikan) async{
-    for(var item in kenaikan){
-      int index;
-      setState(() {
-        index = _listkenaikanPangkat.indexWhere((x) => x.Nama == item.Nama);
-      });
-      print("DATA Index"+index.toString());
-      if(index <= -1){
-        setState(() {
-          _listkenaikanPangkat.add(item);
-        });
-      }
-    }
-  }
+//
+//  Future deleteDuplicate(List<NaikPangkat> kenaikan) async{
+//    for(var item in kenaikan){
+//      int index;
+//      setState(() {
+//        index = _listkenaikanPangkat.indexWhere((x) => x.Nama == item.Nama);
+//      });
+//      print("DATA Index"+index.toString());
+//      if(index <= -1){
+//        setState(() {
+//          _listkenaikanPangkat.add(item);
+//        });
+//      }
+//    }
+//  }
 
 Widget build(BuildContext context) {
   return new Scaffold(
@@ -231,10 +330,8 @@ Widget build(BuildContext context) {
                   child: Container(
                     height: 50,
                     child:  RaisedButton(
-                      onPressed: () { Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      );
+                      onPressed: () {
+                        removeAll();
                       },
                       color: Colors.grey[200],
                       child: Text("Reset",style: TextStyle(color: Colors.black)),
@@ -260,33 +357,154 @@ Widget build(BuildContext context) {
           ),
   );
 }
-  void removeAll(){
-    pangkat.removeAll();
-  }
-void savePangkat(){
-  pangkat.save(new NaikPangkat(
-  _namaController.text, 
-  _nrpController.text, 
-  _nomorController.text,
-  _dateTime.toString(),
-  _keluhanController.text)).then((naik) async {
+  Future<void> save(
+      String id,
+      String nama,
+      String nrp,
+      String nomor,
+      String date,
+      String keluhan
+    ) async {
+  await pangkat.save(new NaikPangkat(
+      id,
+      nama,
+      nrp,
+      nomor,
+      date,
+      keluhan,
+      "Kenaikan"
+  )).then((naik) async {
     if(naik != null){
-    await Alert(context: context,title: ConfigMessage.DATATITLEMESSAGESUCCSESS,type: AlertType.success, desc: 'Berhasil Di ubah',
-            buttons: [
-              DialogButton(
-                child: Text(
-                    ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
-                ),
-                onPressed: () => Navigator.pop(context, false),
-                color: Colors.black,  
-              ),
-            ],).show();
+      await Alert(context: context,title: ConfigMessage.DATATITLEMESSAGESUCCSESS,type: AlertType.success, desc: 'Berhasil Di ubah',
+        buttons: [
+          DialogButton(
+            child: Text(
+                ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
+            ),
+            onPressed: () => Navigator.pop(context, false),
+            color: Colors.black,
+          ),
+        ],).show();
       Navigator
-        .of(context)
-        .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  EMC()));
-            print(_dateTime.toString() + ',' + _keluhanController.text);
+          .of(context)
+          .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  EMC()));
+      print(_dateTime.toString() + ',' + _keluhanController.text);
     }
   });
 }
+
+  Future<void> update(
+        String id,
+        String nama,
+        String nrp,
+        String nomor,
+        String date,
+        String keluhan
+    ) async {
+          await pangkat.updateWhere((x) => x.Id == idUser && x.Type == Storage.TypeKenaikanMC2,new NaikPangkat(
+              id,
+              nama,
+              nrp,
+              nomor,
+              date,
+              keluhan,
+              Storage.TypeKenaikanMC2
+          ));
+          await Alert(context: context,title: ConfigMessage.DATATITLEMESSAGESUCCSESS,type: AlertType.success, desc: 'Berhasil Di ubah',
+              buttons: [
+              DialogButton(
+              child: Text(
+              ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
+          ),
+          onPressed: () => Navigator.pop(context, false),
+          color: Colors.black,
+          ),
+          ],).show();
+          Navigator
+              .of(context)
+              .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  EMC()));
+}
+
+  Future<void> removeAll() async {
+    await update(
+      idUser,
+      _namaController.text,
+      _nrpController.text,
+      _nomorController.text,
+      "",
+      "",
+    );
+//    await pangkat.updateWhere((x) => x.Id == idUser && x.Type == "Kenaikan",new NaikPangkat(
+//        idUser,
+//        _namaController.text,
+//        _nrpController.text,
+//        _nomorController.text,
+//        "",
+//        "",
+//        "Kenaikan"
+//    ));
+//    await Alert(context: context,title: ConfigMessage.DATATITLEMESSAGESUCCSESS,type: AlertType.success, desc: 'Berhasil Di ubah',
+//      buttons: [
+//        DialogButton(
+//          child: Text(
+//              ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
+//          ),
+//          onPressed: () => Navigator.pop(context, false),
+//          color: Colors.black,
+//        ),
+//      ],).show();
+//    Navigator
+//        .of(context)
+//        .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  EMC()));
+  }
+Future<void> savePangkat() async {
+//  await pangkat.findAll().then((val) async {
+//      if(val.length < 0){
+//        await save(
+//          idUser,
+//          _namaController.text,
+//          _nrpController.text,
+//          _nomorController.text,
+//          _dateTime.toString(),
+//          _keluhanController.text,
+//        );
+//      }else{
+       await update(
+          idUser,
+          _namaController.text,
+          _nrpController.text,
+          _nomorController.text,
+          _dateTime.toString(),
+          _keluhanController.text,
+        );
+//      }
+//  });
+//      await pangkat.save(new NaikPangkat(
+//          idUser,
+//          _namaController.text,
+//          _nrpController.text,
+//          _nomorController.text,
+//          _dateTime.toString(),
+//          _keluhanController.text,
+//          "Kenaikan"
+//      )).then((naik) async {
+//        if(naik != null){
+//          await Alert(context: context,title: ConfigMessage.DATATITLEMESSAGESUCCSESS,type: AlertType.success, desc: 'Berhasil Di ubah',
+//            buttons: [
+//              DialogButton(
+//                child: Text(
+//                    ConfigMessage.DataTextMessageButtonOK,style: TextStyle(color: Colors.white,fontSize: 20)
+//                ),
+//                onPressed: () => Navigator.pop(context, false),
+//                color: Colors.black,
+//              ),
+//            ],).show();
+//          Navigator
+//              .of(context)
+//              .pushReplacement(new MaterialPageRoute(builder: (BuildContext context) =>  EMC()));
+//          print(_dateTime.toString() + ',' + _keluhanController.text);
+//        }
+//      });
+    }
 }
 
