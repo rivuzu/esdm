@@ -115,8 +115,7 @@ class ChatWindow extends State<Chat> with TickerProviderStateMixin {
      _client.onMessageReceived.listen((message) {
        message.forEach((key,value) => {
          if(key == "message"){
-         print('Message3: '+ key),
-
+            print('Message3: '+ key),
             print('Message3: '+ value),
             _konsultasiChat = new KonsultasiMessage.fromJson(json.decode(value)),
             addMessage(_konsultasiChat.id_sender,_konsultasiChat.sender,_konsultasiChat.message,"Saat Listen")

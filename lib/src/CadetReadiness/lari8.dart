@@ -48,7 +48,7 @@ class _Lari8State extends State<Lari8> {
 
   @override
   Widget build(BuildContext context) {
-    Completer<GoogleMapController> _controller = Completer();
+    //Completer<GoogleMapController> _controller = Completer();
     // return new Stack(
     //   children: <Widget>[
     //     new Column(
